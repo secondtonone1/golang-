@@ -73,4 +73,43 @@ func main(){
     oldslice := []int{1,2,3,4,5}
     newslice := oldslice[:3]
     fmt.Println("newslice is :", newslice)
+
+    slice1 := []int{1,2,3,4,5}
+    slice2 := []int{5,4,3}
+    copy(slice2,slice1)
+    copy(slice1,slice2)
+
+    type PersonInfo struct{
+        ID string
+        Name string
+        Address string
+    }
+
+    var personDB map[string] PersonInfo
+    personDB = make(map[string] PersonInfo)
+    personDB["12345"] = PersonInfo{"12345","Tom","Room 203"}
+    personDB["1"] = PersonInfo{"1","Jack","Room 102"}
+    //从这个map查找键为"1234"
+    person, ok := personDB["1234"]
+    if ok{
+        fmt.Println("Found person", person.Name, "with ID 1234")
+    } else{
+        fmt.Println("Did not find person with ID 1234")
+    }
+
+    //map 声明
+    var myMap map[string] PersonInfo
+    //创建
+    //myMap = make(map[string] PersonInfo)
+    //创建初始存储能力为100的map
+    //myMap = make(map[string] PersonInfo,100)
+    //创建并初始化map的代码如下:
+    myMap = map[string] PersonInfo{
+        "1234": PersonInfo{"1","Jack","Room 101"},
+    }
+
+    fmt.Println("PersonInfo map is", myMap)
+    delete(myMap, "1234")
+    fmt.Println("PersonInfo map is", myMap)
+    
 }
