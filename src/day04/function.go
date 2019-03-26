@@ -24,6 +24,44 @@ func Add(a int, b int) (ret int, err error){
     }
 }
 
+//不定参数
+func myfuncv(args ...int) {
+    for _, arg := range args{
+        fmt.Println(arg)
+    }
+}
+
+//不定参数2
+func myfuncv2(args []int){
+    for _, arg := range args{
+        fmt.Println(arg)
+    }
+}
+
+func myfuncv3(args ...int){
+    //按原样传递
+    myfuncv(args...)
+    //按切片传递
+    myfuncv(args[1:]...)
+}
+
+func MyPrintf(args ...interface{}){
+    for _, arg := range args{
+        //interface 任意类型，
+        //arg.(type)只能用于switch结构
+        switch arg.(type){
+        case int:
+            fmt.Println(arg,"is an int value.")
+        case string:
+            fmt.Println(arg,"is a string value.")
+        case int64:
+            fmt.Println(arg,"is an int64 value")
+        default:
+            fmt.Println(arg,"is an unknown type")
+        }
+    }
+}
+
 func main(){
     //控制语句
     var a int = 5
@@ -78,5 +116,26 @@ func main(){
 
    addres, errres := mymaths.Add(1,2)
    fmt.Println("addres: ",addres, "errres: ", errres)
+   
+   myfuncv(2,3,5,6) 
+   myfuncv2([]int{1,3,7,12})
+   myfuncv3(21,32,15);
 
+   var va1 int = 1
+   var va2 int64 = 123
+   var va3 string = "hello"
+   var va4 float32 = 1.345
+   MyPrintf(va1, va2, va3, va4)
+
+   var cvar int = 5
+   cfunc := func()(func()){
+        return func(){
+            fmt.Printf("cvar*2 : %d\n",cvar*2)
+        }
+   }()
+
+   cfunc()
+   cvar *= 2
+   cfunc()
+   
 }
