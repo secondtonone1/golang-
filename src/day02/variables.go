@@ -24,6 +24,8 @@ func GetName()(firstName, lastName, nickName string){
 func main(){
     //变量赋值
     v1 = 10
+    v2 := "hello"
+    fmt.Println("v2:",v2)
     //变量初始化
     v11  := "day02"
     fmt.Println("v11:",v11)
