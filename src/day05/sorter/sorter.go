@@ -5,7 +5,9 @@ import "os"
 import "bufio"
 import "io"
 import "strconv"
-
+import "time"
+import "day05/sorter/algorithms/bubblesort"
+import "day05/sorter/algorithms/qsort"
 //./sorter –I in.dat –o out.dat –a qsort
 var infile * string = flag.String("i","unsorted.dat",
 "File contains values for sorting")
@@ -81,8 +83,22 @@ func main(){
     
     values, err := readValues(*infile)
     if err == nil{
-        fmt.Println("Read values:", values)
+        t1 := time.Now()
+        switch *algorithm {
+        case "qsort":
+            qsort.QuickSort(values)
+        case "bubblesort":
+            bubblesort.BubbleSort(values)
+        default:
+            fmt.Println("Sorting algorithm", *algorithm, "is either unknown or unsupported.")
+        }
+        t2 := time.Now()
+        fmt.Println("The sorting process costs", t2.Sub(t1), "to complete.")
+        writeValues(values, *outfile)
     }else{
         fmt.Println(err)
     }
+
+    valuesq := []int{5, 4, 3, 2, 1}
+	qsort.QuickSort(valuesq)
 }

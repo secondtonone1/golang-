@@ -1,6 +1,6 @@
 package bubblesort
 
-func bubblesort(values []int){
+func BubbleSort(values []int){
 	flag := true 
 	for i := 0; i <len(values)-1; i++{
 		flag = true
@@ -12,7 +12,7 @@ func bubblesort(values []int){
 		} //end for j
 
 		if flag == true {
-			
+			break
 		}
 	}
 }
@@ -37,13 +37,3 @@ func bubblesort(values []int){
 
 
 
-
-
-
-
-
-				[]
-			}
-		}
-	}
-}
