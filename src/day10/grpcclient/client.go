@@ -61,9 +61,41 @@ func main() {
 		Name:  "Li Lei",
 		Email: "Li@163.com",
 		Addresses: []*pb.Address{
-			&pb.Address{},
-			&pb.Address{},
+			&pb.Address{
+				Street:            "1 Mission Street",
+				City:              "San Francisco",
+				State:             "CA",
+				Zip:               "94105",
+				IsShippingAddress: false,
+			},
+			&pb.Address{
+				Street:            "Greenfield",
+				City:              "Kochi",
+				State:             "KL",
+				Zip:               "68356",
+				IsShippingAddress: true,
+			},
 		},
 	}
 	createCustomer(client, customer)
+	customer = &pb.CustomerRequest{
+		Id:    102,
+		Name:  "Han Meimei",
+		Email: "HanMei@163.com",
+		Addresses: []*pb.Address{
+			&pb.Address{
+				Street:            "1 Mission Street",
+				City:              "San Francisco",
+				State:             "CA",
+				Zip:               "94105",
+				IsShippingAddress: true,
+			},
+		},
+	}
+
+	// Create a new customer
+	createCustomer(client, customer)
+	// Filter with an empty Keyword
+	filter := &pb.CustomerFilter{Keyword: "Li Lei"}
+	getCustomer(client, filter)
 }
