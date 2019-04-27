@@ -1,3 +1,5 @@
 .vscode/
 *.a
 *debug*
+src/golang.org/
+src/google.golang.org/
