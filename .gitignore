@@ -3,3 +3,9 @@
 *debug*
 src/golang.org/
 src/google.golang.org/
+src/git.cochain.io
+src/github.com
+src/go.uber.org
+src/golang.org
+src/google.golang.org
+src/gopkg.in
