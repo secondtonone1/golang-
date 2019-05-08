@@ -9,9 +9,11 @@ func gongzhen(n float64) float64 {
 }
 
 func main() {
+	var sum float64 = 0
 	for i := 1; i <= 100; i++ {
 		res := gongzhen(float64(i))
-		fmt.Println(res)
+		sum += res
+		fmt.Println(res, "  ", sum)
 	}
 
 }
