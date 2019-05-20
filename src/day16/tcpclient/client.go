@@ -18,7 +18,6 @@ func sender(conn net.Conn) {
 	buffer := make([]byte, 2048)
 	var index int = 1
 	for {
-
 		n, err := conn.Read(buffer)
 		if err != nil {
 			Log(conn.RemoteAddr().String(), "waiting server back msg error: ", err)
