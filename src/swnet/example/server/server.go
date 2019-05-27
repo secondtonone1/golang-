@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"net"
+	"swnet"
 
-	"github.com/eahydra/swnet"
-	"github.com/eahydra/swnet/example/protocol"
+	"swnet/example/protocol"
 )
 
 func onKeepalive(session *swnet.Session, packet protocol.Packet) {

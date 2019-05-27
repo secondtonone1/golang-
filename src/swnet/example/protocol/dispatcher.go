@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/eahydra/swnet"
+	"swnet"
 )
 
 type PacketHandler func(session *swnet.Session, packet Packet)

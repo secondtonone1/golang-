@@ -5,8 +5,9 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/eahydra/swnet"
-	"github.com/eahydra/swnet/example/protocol"
+	"swnet"
+
+	"swnet/example/protocol"
 )
 
 func onKeepaliveAck(session *swnet.Session, packet protocol.Packet) {
