@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -42,4 +43,13 @@ func main() {
 	strslice3 := []string{"Hello", "World", "!"}
 	str9 := strings.Join(strslice3, " ")
 	fmt.Printf("str9 is : %s\n", str9)
+	num1, err := strconv.Atoi("156")
+	if err != nil {
+		fmt.Println("strconv.Atoi error")
+	} else {
+		fmt.Printf("num is %d\n", num1)
+	}
+
+	str10 := strconv.Itoa(100)
+	fmt.Printf("str10 is %s\n", str10)
 }
