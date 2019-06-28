@@ -5,7 +5,9 @@ import "fmt"
 type HeapSort struct {
 }
 
-//调整index为根的子树
+//调整index为根的子树，此时index的左右子树都是大根树
+//比较index和其左右节点，将index根节点设置为最大的元素
+//可能会引起子树失效，所以会循环处理修改的子树
 func (hs *HeapSort) adjustHeap(array []int, index, length int) {
 	//index 的左右子节点
 	leftchild := index*2 + 1
