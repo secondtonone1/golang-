@@ -24,11 +24,13 @@ func (hs *HeapSort) adjustHeap(array []int, index, length int) {
 		if rightchild <= length-1 && array[rightchild] > array[maxchild] {
 			maxchild = rightchild
 		}
+		//index 元素比最大子节点大，则不需要交换，退出
+		if array[index] > array[maxchild] {
+			break
+		}
 
 		//比较自己元素和最大节点的元素，做交换
-		if array[index] < array[maxchild] {
-			hs.swap(array, index, maxchild)
-		}
+		hs.swap(array, index, maxchild)
 		index = maxchild
 		leftchild = index*2 + 1
 		rightchild = leftchild + 1
