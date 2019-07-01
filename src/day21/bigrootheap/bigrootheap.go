@@ -7,6 +7,7 @@ type BigRootHeap struct {
 }
 
 func (bh *BigRootHeap) swap(array []int, i, j int) {
+	
 	if i >= len(array) || j >= len(array) {
 		return
 	}
@@ -65,11 +66,37 @@ func (bh *BigRootHeap) popBigRoot() (bool, int) {
 		return false, 0
 	}
 	temp := bh.m_array[0]
-	bh.swap(bh.m_array, 0, bh.m_array[length-1])
+	bh.swap(bh.m_array, 0, length-1)
 	bh.m_array = append(bh.m_array[0:length-1], bh.m_array[length:]...)
-
 	bh.adjustDown(bh.m_array, 0, len(bh.m_array))
 	return true, temp
+}
+
+func (bh* BigRootHeap) adjustUp(array []int, index, length int){
+	
+	parent := (index+1)/2-1
+	for{
+		if index <= 0{
+			break
+		}
+
+		if(bh.m_array[index] <= bh.m_array[parent]){
+			break
+		}
+
+		bh.swap(bh.m_array,index,parent)
+		index = parent
+		parent = (index+1)/2-1
+
+	}
+}
+
+func (bh* BigRootHeap) insertNode(node int){
+	bh.m_array = append(bh.m_array,node)
+	length:=len(bh.m_array)
+	index := length-1
+	bh.adjustUp(bh.m_array,index,length)
+
 }
 
 func main() {
@@ -78,5 +105,22 @@ func main() {
 	array := []int{7, 1, 0, 5, 2, 9, 6}
 	bh := new(BigRootHeap)
 	bh.initHeap(array)
-	fmt.Println(bh.popBigRoot())
+	for{
+		res,num:=bh.popBigRoot()
+		if(!res){
+			break
+		}
+		fmt.Println(num)
+	}
+	fmt.Println("")
+	bh.initHeap(array)
+	bh.insertNode(10)
+	bh.insertNode(3)
+	for{
+		res,num:=bh.popBigRoot()
+		if(!res){
+			break
+		}
+		fmt.Println(num)
+	}
 }
