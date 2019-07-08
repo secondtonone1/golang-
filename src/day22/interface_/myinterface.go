@@ -31,7 +31,20 @@ type Shark interface {
 }
 
 func AttackFunc(sk Shark) {
-	sk.Attack
+	sk.Attack()
+}
+
+type TigerShark struct {
+}
+
+func (ts *TigerShark) Attack() {
+	fmt.Println("TigerShark can attack by its tooth and tail")
+}
+
+func (ts *TigerShark) Swim() string {
+	str := "TigerShark can swim very quickly"
+	fmt.Println(str)
+	return str
 }
 
 func main() {
@@ -46,4 +59,6 @@ func main() {
 		SwimFunc(tiddler2)
 	*/
 
+	tigersrk := &TigerShark{}
+	AttackFunc(tigersrk)
 }
