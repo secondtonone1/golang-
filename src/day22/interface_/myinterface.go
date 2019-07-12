@@ -25,6 +25,8 @@ func SwimFunc(fs Fish) {
 }
 
 //接口也可以继承
+//Interface类型可以定义一组方法，但是这些不需要实现。并且interface不能包含任何变量。
+
 type Shark interface {
 	Fish
 	Attack()
@@ -32,6 +34,13 @@ type Shark interface {
 
 func AttackFunc(sk Shark) {
 	sk.Attack()
+	vartype, err := sk.(*TigerShark)
+	if !err {
+		fmt.Println("sk is not *TigerShark type")
+	} else {
+		fmt.Println("sk is type of ", vartype)
+	}
+
 }
 
 type TigerShark struct {
@@ -61,4 +70,5 @@ func main() {
 
 	tigersrk := &TigerShark{}
 	AttackFunc(tigersrk)
+
 }
