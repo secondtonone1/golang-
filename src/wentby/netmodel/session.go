@@ -3,19 +3,22 @@ package netmodel
 import (
 	"net"
 	"sync/atomic"
+	"wentby/protocol"
 )
 
 type Session struct {
 	conn       net.Conn
 	closed     int32
 	stopedChan chan<- struct{}
+	protocol   protocol.ProtocolInter
 }
 
-func NewSession(connt net.Conn, stopchan chan<- struct{}) *Session {
+func NewSession(connt net.Conn, stopchan chan<- struct{}, pl protocol.ProtocolInter) *Session {
 	sess := &Session{
 		conn:       connt,
 		closed:     -1,
 		stopedChan: stopchan,
+		protocol:   pl,
 	}
 	tcpConn := sess.conn.(*net.TCPConn)
 	tcpConn.SetNoDelay(true)
@@ -45,8 +48,19 @@ func (se *Session) Close() error {
 
 func (se *Session) sendLoop() {
 	defer se.Close()
+
 }
 
 func (se *Session) recvLoop() {
 	defer se.Close()
+	var packet interface{}
+	var err error
+	for {
+		packet, err := se.pl.ReadPacket(se.conn)
+		if packet == nil or err == nil{
+			return
+		}
+
+		//handle msg packet
+	}
 }

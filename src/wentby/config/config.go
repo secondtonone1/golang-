@@ -1,6 +1,8 @@
 package config
 
-import "errors"
+import (
+	"errors"
+)
 
 const (
 	SERVER_IP   = "127.0.0.1"
@@ -9,6 +11,12 @@ const (
 )
 
 var (
-	ErrListenFailed = errors.New("Listen Failed Error")
-	ErrAcceptFailed = errors.New("Accept Failed Error")
+	ErrListenFailed  = errors.New("Listen Failed Error")
+	ErrAcceptFailed  = errors.New("Accept Failed Error")
+	ErrBuffOverflow  = errors.New("Buff Overflow Error")
+	ErrBuffLenLess   = errors.New("Buff Length is not enough")
+	ErrParaseMsgHead = errors.New("Parase Msg Head Failed")
+	ErrTypeAssertain = errors.New("Type Assertain failed")
+	ErrMsgLenLarge   = errors.New("Msg Length is too large")
+	ErrReadAtLeast   = errors.New("Read at least error!")
 )

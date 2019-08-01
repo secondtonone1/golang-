@@ -5,6 +5,7 @@ import (
 	"net"
 	"strconv"
 	"wentby/config"
+	"wentby/protocol"
 )
 
 func NewServer() (*WtServer, error) {
@@ -38,7 +39,7 @@ func (wt *WtServer) AcceptLoop() {
 			fmt.Println("Accept error!")
 			continue
 		}
-		newsess := NewSession(tcpConn, wt.stopedChan)
+		newsess := NewSession(tcpConn, wt.stopedChan, new(protocol.ProtocolImpl))
 		newsess.Start()
 		fmt.Println("A client connected :" + tcpConn.RemoteAddr().String())
 	}
