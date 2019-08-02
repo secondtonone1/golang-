@@ -5,9 +5,10 @@ import (
 )
 
 const (
-	SERVER_IP   = "127.0.0.1"
-	SERVER_PORT = 10006
-	SERVER_TYPE = "tcp"
+	SERVER_IP     = "127.0.0.1"
+	SERVER_PORT   = 10006
+	SERVER_TYPE   = "tcp"
+	SENDCHAN_SIZE = 1024
 )
 
 var (
@@ -19,4 +20,6 @@ var (
 	ErrTypeAssertain = errors.New("Type Assertain failed")
 	ErrMsgLenLarge   = errors.New("Msg Length is too large")
 	ErrReadAtLeast   = errors.New("Read at least error!")
+	ErrMsgHandlerReg = errors.New("Msg Handler function not reg")
+	ErrParamCallBack = errors.New("Param is not call back")
 )

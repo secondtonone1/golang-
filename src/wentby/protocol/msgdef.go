@@ -1,13 +1,22 @@
 package protocol
 
+/*
+-----------------------------------------------
+               msgpacket
+-----------------------------------------------
+      msghead     |  msgbody
+-----------------------------------------------
+id      |   len   |   data
+-----------------------------------------------
+*/
 type MsgHead struct {
-	id  uint16
-	len uint16
+	Id  uint16
+	Len uint16
 }
 type MsgBody struct {
-	data []byte
+	Data []byte
 }
 type MsgPacket struct {
-	head MsgHead
-	body MsgBody
+	Head MsgHead
+	Body MsgBody
 }

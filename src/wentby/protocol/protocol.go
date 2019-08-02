@@ -10,12 +10,12 @@ import (
 // PacketReader is used to unmarshal a complete packet from buff
 type ReaderInter interface {
 	// Read data from conn and build a complete packet.
-	ReadPacket(conn net.Conn, buff []byte) (interface{}, []byte, error)
+	ReadPacket(conn net.Conn) (interface{}, error)
 }
 
 // PacketWriter is used to marshal packet into buff
 type WriterInter interface {
-	WritePacket(conn net.Conn, buff []byte) error
+	WritePacket(net.Conn, interface{}) error
 }
 
 // PacketProtocol just a composite interface
@@ -38,11 +38,11 @@ func (pi *ProtocolImpl) ParaseHead(packet interface{}, buff []byte) (interface{}
 	}
 	stream := NewBigEndianStream(buff)
 	var err error
-	if msgpacket.head.id, err = stream.ReadUint16(); err != nil {
+	if msgpacket.Head.Id, err = stream.ReadUint16(); err != nil {
 		return nil, config.ErrParaseMsgHead
 	}
 
-	if msgpacket.head.len, err = stream.ReadUint16(); err != nil {
+	if msgpacket.Head.Len, err = stream.ReadUint16(); err != nil {
 		return nil, config.ErrParaseMsgHead
 	}
 
@@ -66,13 +66,17 @@ func (pi *ProtocolImpl) ReadPacket(conn net.Conn) (interface{}, error) {
 		return nil, config.ErrTypeAssertain
 	}
 
-	if uint16(len(buff[16:])) < msgpacket.head.len {
+	if uint16(len(buff[16:])) < msgpacket.Head.Len {
 		return nil, config.ErrMsgLenLarge
 	}
 
-	if _, err = io.ReadFull(conn, buff[16:msgpacket.head.len+16]); err != nil {
+	if _, err = io.ReadFull(conn, buff[16:msgpacket.Head.Len+16]); err != nil {
 		return nil, config.ErrReadAtLeast
 	}
 
 	return msgpacket, nil
+}
+
+func (pi *ProtocolImpl) WritePacket(conn net.Conn, packet interface{}) error {
+	return nil
 }
