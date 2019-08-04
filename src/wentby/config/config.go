@@ -22,4 +22,6 @@ var (
 	ErrReadAtLeast   = errors.New("Read at least error!")
 	ErrMsgHandlerReg = errors.New("Msg Handler function not reg")
 	ErrParamCallBack = errors.New("Param is not call back")
+	ErrAsyncSendStop = errors.New("async send chan is stopped")
+	ErrSessChanStoped = errors.New(" session chan is stopped")
 )

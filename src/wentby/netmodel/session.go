@@ -69,7 +69,8 @@ func (se *Session) sendLoop() {
 			return
 		default:
 			{
-
+				//packet:=<-se.sendChan
+				
 			}
 		}
 	}
@@ -107,5 +108,14 @@ func (se *Session) recvLoop() {
 	}
 }
 
-func (se *Session) asyncSend(sendchan chan interface{}, asyncstop chan struct{}) {
+func (se *Session) asyncSend(packet interface{}) error{
+	select {
+	case <- se.asyncStop:
+		return config.ErrAsyncSendStop
+	case <- se.stopedChan:
+		return config.ErrAsyncSendStop
+	default:
+		se.sendChan <- packet
+		return nil
+	}
 }
