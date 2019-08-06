@@ -10,6 +10,7 @@ const (
 	SERVER_TYPE    = "tcp"
 	SENDCHAN_SIZE  = 1024
 	MAXMESSAGE_LEN = 1024
+	WEBSERVER_PORT = 9998
 )
 
 var (
