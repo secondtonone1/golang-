@@ -1,7 +1,7 @@
 package main
 
 import (
-	"time"
+	"fmt"
 	"wentby/netmodel"
 	"wentby/protocol"
 )
@@ -17,7 +17,14 @@ func main() {
 	packet.Head.Len = 5
 	packet.Body.Data = []byte("Hello")
 	cs.Send(packet)
-	for {
-		time.Sleep(time.Second * time.Duration(1))
+	packetrsp, err := cs.Recv()
+	if err != nil {
+		fmt.Println("receive error")
+		return
 	}
+
+	datarsp := packetrsp.(*protocol.MsgPacket)
+	fmt.Println("packet id is", datarsp.Head.Id)
+	fmt.Println("packet len is", datarsp.Head.Len)
+	fmt.Println("packet data is", string(datarsp.Body.Data))
 }

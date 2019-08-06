@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	logic.RegHandlers()
+	logic.RegServerHandlers()
 	wt, err := netmodel.NewServer()
 	if err != nil {
 		return

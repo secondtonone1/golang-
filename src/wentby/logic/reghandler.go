@@ -1,5 +1,5 @@
 package logic
 
-func RegHandlers() {
-	RegHelloWorld()
+func RegServerHandlers() {
+	RegHelloWorldReq()
 }
