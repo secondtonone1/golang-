@@ -3,9 +3,12 @@ package netmodel
 import (
 	"fmt"
 	"net"
+	"os"
+	"os/signal"
 	"strconv"
+	"sync"
+	"syscall"
 	"wentby/config"
-	"wentby/protocol"
 )
 
 func NewServer() (*WtServer, error) {
@@ -16,32 +19,55 @@ func NewServer() (*WtServer, error) {
 		return nil, config.ErrListenFailed
 	}
 
-	return &WtServer{listener: listenert, stopedChan: make(chan struct{})}, nil
+	return &WtServer{listener: listenert, stopedChan: make(chan struct{}), once: &sync.Once{}}, nil
 }
 
 type WtServer struct {
 	listener   net.Listener
 	stopedChan chan struct{}
+	once       *sync.Once
 }
 
 func (wt *WtServer) Close() {
-	if wt.listener != nil {
-		defer wt.listener.Close()
+	wt.once.Do(func() {
+		if wt.listener != nil {
+			defer wt.listener.Close()
+		}
+		//send signal to all session
+		close(wt.stopedChan)
+	})
+
+}
+
+func (wt *WtServer) acceptLoop() error {
+	tcpConn, err := wt.listener.Accept()
+	if err != nil {
+		fmt.Println("Accept error!")
+		return config.ErrAcceptFailed
 	}
-	//send signal to all session
-	close(wt.stopedChan)
+
+	newsess := NewSession(tcpConn, wt.stopedChan)
+	newsess.Start()
+	fmt.Println("A client connected :" + tcpConn.RemoteAddr().String())
+	return nil
 }
 
 func (wt *WtServer) AcceptLoop() {
+
+	stopsignal := make(chan os.Signal) // 接收系统中断信号
+	var shutdownSignals = []os.Signal{os.Interrupt, syscall.SIGTERM, syscall.SIGINT}
+	signal.Notify(stopsignal, shutdownSignals...)
+
 	for {
-		tcpConn, err := wt.listener.Accept()
-		if err != nil {
-			fmt.Println("Accept error!")
-			continue
+		select {
+		case <-stopsignal:
+			fmt.Println("server stop by signal")
+			wt.Close()
+			return
+		default:
+			wt.acceptLoop()
 		}
 
-		newsess := NewSession(tcpConn, wt.stopedChan, new(protocol.ProtocolImpl))
-		newsess.Start()
-		fmt.Println("A client connected :" + tcpConn.RemoteAddr().String())
 	}
+
 }

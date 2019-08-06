@@ -1,6 +1,7 @@
 package netmodel
 
 import (
+	"fmt"
 	"net"
 	"sync/atomic"
 	"wentby/config"
@@ -16,12 +17,12 @@ type Session struct {
 	sendChan   chan interface{}
 }
 
-func NewSession(connt net.Conn, stopchan <-chan struct{}, pl protocol.ProtocolInter) *Session {
+func NewSession(connt net.Conn, stopchan <-chan struct{}) *Session {
 	sess := &Session{
 		conn:       connt,
 		closed:     -1,
 		stopedChan: stopchan,
-		protocol:   pl,
+		protocol:   new(protocol.ProtocolImpl),
 		sendChan:   make(chan interface{}, config.SENDCHAN_SIZE),
 		asyncStop:  make(chan struct{}),
 	}
@@ -47,39 +48,42 @@ func (se *Session) Start() {
 func (se *Session) Close() error {
 	if atomic.CompareAndSwapInt32(&se.closed, 0, 1) {
 		se.conn.Close()
-		select {
-		case <-se.asyncStop:
-			return nil
-		default:
-			close(se.asyncStop)
-			close(se.sendChan)
-		}
+		close(se.asyncStop)
+		close(se.sendChan)
 	}
 	return nil
 }
 
 func (se *Session) sendLoop() {
 	defer se.Close()
-
+	defer func() {
+		fmt.Println("send goroutine exit!")
+	}()
 	for {
 		select {
 		case <-se.stopedChan:
 			return
 		case <-se.asyncStop:
 			return
-		default:
+		case packet, ok := <-se.sendChan:
 			{
-				//packet:=<-se.sendChan
-				
+				if !ok {
+					return
+				}
+				err := se.protocol.WritePacket(se.conn, packet)
+				if err != nil {
+					return
+				}
 			}
 		}
 	}
-
 }
 
 func (se *Session) recvLoop() {
 	defer se.Close()
-
+	defer func() {
+		fmt.Println("recv goroutine exit!")
+	}()
 	var packet interface{}
 	var err error
 	for {
@@ -99,6 +103,7 @@ func (se *Session) recvLoop() {
 				//handle msg packet
 				hdres := MsgHandler.HandleMsgPacket(packet, se)
 				if hdres != nil {
+					fmt.Println(hdres.Error())
 					return
 				}
 			}
@@ -108,11 +113,11 @@ func (se *Session) recvLoop() {
 	}
 }
 
-func (se *Session) asyncSend(packet interface{}) error{
+func (se *Session) AsyncSend(packet interface{}) error {
 	select {
-	case <- se.asyncStop:
+	case <-se.asyncStop:
 		return config.ErrAsyncSendStop
-	case <- se.stopedChan:
+	case <-se.stopedChan:
 		return config.ErrAsyncSendStop
 	default:
 		se.sendChan <- packet

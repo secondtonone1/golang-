@@ -28,7 +28,7 @@ type ProtocolImpl struct {
 }
 
 func (pi *ProtocolImpl) ParaseHead(packet interface{}, buff []byte) (interface{}, error) {
-	if len(buff) < 16 {
+	if len(buff) < 4 {
 		return nil, config.ErrBuffLenLess
 	}
 	msgpacket, ok := packet.(*MsgPacket)
@@ -50,15 +50,15 @@ func (pi *ProtocolImpl) ParaseHead(packet interface{}, buff []byte) (interface{}
 }
 
 func (pi *ProtocolImpl) ReadPacket(conn net.Conn) (interface{}, error) {
-	buff := make([]byte, 1024)
-	_, err := io.ReadAtLeast(conn, buff[:16], 16)
+	buff := make([]byte, 4)
+	_, err := io.ReadAtLeast(conn, buff[:4], 4)
 	if err != nil {
+		fmt.Println(err.Error())
 		return nil, config.ErrReadAtLeast
 	}
 
-	var value interface{}
 	var msgpacket *MsgPacket = new(MsgPacket)
-	value, err = pi.ParaseHead(msgpacket, buff[:16])
+	value, err := pi.ParaseHead(msgpacket, buff[:4])
 
 	msgpacket, ok := value.(*MsgPacket)
 	if !ok {
@@ -66,11 +66,16 @@ func (pi *ProtocolImpl) ReadPacket(conn net.Conn) (interface{}, error) {
 		return nil, config.ErrTypeAssertain
 	}
 
-	if uint16(len(buff[16:])) < msgpacket.Head.Len {
+	if config.MAXMESSAGE_LEN < msgpacket.Head.Len {
 		return nil, config.ErrMsgLenLarge
 	}
 
-	if _, err = io.ReadFull(conn, buff[16:msgpacket.Head.Len+16]); err != nil {
+	if uint16(len(msgpacket.Body.Data)) < msgpacket.Head.Len {
+		msgpacket.Body.Data = make([]byte, msgpacket.Head.Len)
+	}
+
+	if _, err = io.ReadFull(conn, msgpacket.Body.Data[:msgpacket.Head.Len]); err != nil {
+		fmt.Println("err is ", err.Error())
 		return nil, config.ErrReadAtLeast
 	}
 
@@ -78,5 +83,28 @@ func (pi *ProtocolImpl) ReadPacket(conn net.Conn) (interface{}, error) {
 }
 
 func (pi *ProtocolImpl) WritePacket(conn net.Conn, packet interface{}) error {
+	var msgpacket *MsgPacket = packet.(*MsgPacket)
+	if msgpacket == nil {
+		return config.ErrPacketEmpty
+	}
+	msglen := 4 + msgpacket.Head.Len
+	buff := make([]byte, msglen)
+	stream := NewBigEndianStream(buff[:])
+	if err := stream.WriteUint16(msgpacket.Head.Id); err != nil {
+		return config.ErrWritePacketFailed
+	}
+
+	if err := stream.WriteUint16(msgpacket.Head.Len); err != nil {
+		return config.ErrWritePacketFailed
+	}
+
+	if err := stream.WriteBuff(msgpacket.Body.Data); err != nil {
+		return config.ErrWritePacketFailed
+	}
+	wn, err := conn.Write(buff)
+	if err != nil {
+		return config.ErrConnWriteFailed
+	}
+	fmt.Println("write bytes ", wn)
 	return nil
 }
