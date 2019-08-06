@@ -1,29 +1,12 @@
-package netmodel
+package wtwebsocket
 
 import (
-	"fmt"
 	"net/http"
-	"os"
 	"strconv"
 	"wentby/config"
 
 	"golang.org/x/net/websocket"
 )
-
-//错误处理函数
-func checkErr(err error, extra string) bool {
-	if err != nil {
-		formatStr := " Err : %s\n"
-		if extra != "" {
-			formatStr = extra + formatStr
-		}
-
-		fmt.Fprintf(os.Stderr, formatStr, err.Error())
-		return true
-	}
-
-	return false
-}
 
 type WtWebServer struct {
 }
