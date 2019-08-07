@@ -3,7 +3,9 @@ package netmodel
 import (
 	"fmt"
 	"net"
+	"sync"
 	"sync/atomic"
+	"time"
 	"wentby/config"
 	"wentby/protocol"
 )
@@ -15,6 +17,7 @@ type Session struct {
 	protocol   protocol.ProtocolInter
 	asyncStop  chan struct{}
 	sendChan   chan interface{}
+	lock       sync.Mutex
 }
 
 func NewSession(connt net.Conn, stopchan <-chan struct{}) *Session {
@@ -52,6 +55,14 @@ func (se *Session) Close() error {
 		close(se.sendChan)
 	}
 	return nil
+}
+
+//set read time out
+//if u don't need to set read deadline, please not use it
+func (se *Session) SetReadDeadline(delt time.Duration) {
+	se.lock.Lock()
+	se.conn.SetReadDeadline(time.Now().Add(delt)) // timeout
+	defer se.lock.Unlock()
 }
 
 func (se *Session) sendLoop() {
@@ -95,8 +106,11 @@ func (se *Session) recvLoop() {
 			return
 		default:
 			{
+				//set read time out
+				//se.SetReadDeadline(time.Minute)
 				packet, err = se.protocol.ReadPacket(se.conn)
 				if packet == nil || err != nil {
+					fmt.Println("Read packet error ", err.Error())
 					return
 				}
 
