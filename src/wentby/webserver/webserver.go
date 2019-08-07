@@ -1,10 +1,11 @@
-package wtwebsocket
+package webserver
 
 import (
 	"fmt"
 	"net/http"
 	"strconv"
 	"wentby/config"
+	"wentby/httplogic"
 	"wentby/weblogic"
 )
 
@@ -13,6 +14,7 @@ type WtWebServer struct {
 
 func (wb *WtWebServer) RegWebHandler() {
 	weblogic.RegWebServerHandlers()
+	httplogic.RegHttpServerHandlers()
 }
 
 func (wb *WtWebServer) ListenAndServe() error {
