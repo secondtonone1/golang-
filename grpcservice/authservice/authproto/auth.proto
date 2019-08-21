@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package authproto; 
+//protoc --go_out=plugins=grpc:. ./*.proto 
+service AuthService {  
+  rpc Auth(AuthReq) returns (AuthRsp) {}
+}
+
+message AuthReq {  
+  string name = 1;
+}
+
+message AuthRsp{
+    int32 errorid = 1; 
+    string name = 2;
+    int32  userid = 3;
+}
