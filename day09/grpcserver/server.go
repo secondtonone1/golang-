@@ -26,6 +26,7 @@ func main() {
 	if err != nil {
 		log.Fatal("failed to listen: %v", err)
 	}
+	defer lis.Close()
 	s := grpc.NewServer()
 	pb.RegisterGreeterServer(s, &server{})
 	s.Serve(lis)

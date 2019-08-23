@@ -3,8 +3,8 @@ package loginservice
 import (
 
 	// 导入生成的 protobuf 代码
-	authpb "golang-/grpcservice/authservice/authproto"
-	loginpb "golang-/grpcservice/loginservice/loginproto"
+	authpb "golang-/grpcservice/auth/authproto"
+	loginpb "golang-/grpcservice/login/loginproto"
 	config "golang-/grpcservice/serviceconfig"
 	"log"
 
@@ -29,7 +29,19 @@ type LoginServiceImpl struct {
 }
 
 func (ls *LoginServiceImpl) Login(ctx context.Context, req *loginpb.LoginReq) (*loginpb.LoginRsp, error) {
-	return nil, nil
+	loginame := req.GetName()
+
+	authrsp, err := ls.authclient.Auth(ctx, &authpb.AuthReq{Name: loginame})
+	if err != nil {
+		return nil, err
+	}
+
+	return &loginpb.LoginRsp{
+		Errorid: authrsp.Errorid,
+		Name:    loginame,
+		Userid:  authrsp.Userid,
+	}, nil
+
 }
 
 func (ls *LoginServiceImpl) Closervice() {

@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package dbrproto; 
+
+service DBService {  
+  rpc LoadUsrData(DBUsrDataReq) returns (DBUsrDataRsp) {}
+  rpc SaveData(DBSaveReq) returns (DBSaveRsp){}
+}
+
+message DBUsrDataReq {  
+ 
+}
+
+message DBSaveReq{
+    string key = 1;
+    string value = 2;
+}
+
+message DBSaveRsp{
+    int32 errorid = 1;
+    string key = 2;
+    string value = 3;
+}
+
+message DBUsrData{
+    string name = 1;
+    int32 userid = 2;
+}
+
+message DBGenuid{
+    int32 genuid = 1;
+}
+
+message DBUsrDataRsp{
+    int32 errorid = 1; 
+    int32 accountid = 2;
+    repeated DBUsrData usrdatas = 3;
+}

@@ -4,6 +4,7 @@ package authproto;
 //protoc --go_out=plugins=grpc:. ./*.proto 
 service AuthService {  
   rpc Auth(AuthReq) returns (AuthRsp) {}
+  rpc AuthAdd(AuthReq) returns(AuthRsp) {}
 }
 
 message AuthReq {  

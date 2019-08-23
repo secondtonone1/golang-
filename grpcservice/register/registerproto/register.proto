@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package registerproto; 
+
+service RegisterService {  
+  rpc Register(RegisterReq) returns (RegisterRsp) {}
+}
+
+message RegisterReq {  
+  string name = 1;
+}
+
+message RegisterRsp{
+    int32 errorid = 1; 
+    string name = 2;
+    int32  userid = 3;
+}
