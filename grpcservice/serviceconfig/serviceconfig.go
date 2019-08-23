@@ -34,4 +34,5 @@ var (
 	ErrDBPutValue           = errors.New("ErrDBPutValue Failed")
 	ErrAllSaveRoutinesClose = errors.New("All save routines are closed")
 	ErrDBServerInit         = errors.New("DBServer init failed")
+	ErrLogInit              = errors.New("Log init failed")
 )

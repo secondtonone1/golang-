@@ -33,11 +33,10 @@ type DBServiceImpl struct {
 
 func (db *DBServiceImpl) StartSaveGoroutine() {
 	for i := 0; i < config.SAVEGOROUTINE_NUM; i++ {
-		go func(dbchan <-chan *MsgPacket, ip int32) {
+		go func(dbchan <-chan *MsgPacket, ip int32, savechan chan<- int32) {
 			defer func(it int32) {
-				fmt.Println("before savegoroutine exited ,id is: ", it, " !")
-				db.Savechan <- it
 				fmt.Println("savegoroutine exited ,id is: ", it, " !")
+
 			}(ip)
 			fmt.Println("savegoroutine begined ,id is: ", ip, " !")
 			for {
@@ -50,12 +49,13 @@ func (db *DBServiceImpl) StartSaveGoroutine() {
 					}
 					saverr := GetDBManagerIns().PutData(msg.key, msg.value)
 					if saverr != nil {
+						savechan <- ip
 						return
 					}
 				}
 			}
 
-		}(db.DBchan, int32(i))
+		}(db.DBchan, int32(i), db.Savechan)
 	}
 }
 
@@ -71,7 +71,9 @@ func (db *DBServiceImpl) PostMsgtoSave(msg *MsgPacket) error {
 func (db *DBServiceImpl) Closervice() {
 	db.Once.Do(func() {
 		close(db.DBchan)
-
+		if len(db.Savechan) >= config.SAVEGOROUTINE_NUM {
+			close(db.Savechan)
+		}
 	})
 }
 

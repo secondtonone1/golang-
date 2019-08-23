@@ -4,3 +4,13 @@
 17:22:52.929306 version@stat F·[] S·0B[] Sc·[]
 17:22:52.980306 db@janitor F·2 G·0
 17:22:52.980306 db@open done T·51ms
+=============== Aug 23, 2019 (CST) ===============
+17:53:53.419306 log@legend F·NumFile S·FileSize N·Entry C·BadEntry B·BadBlock Ke·KeyError D·DroppedEntry L·Level Q·SeqNum T·TimeElapsed
+17:53:53.464306 version@stat F·[] S·0B[] Sc·[]
+17:53:53.464306 db@open opening
+17:53:53.464306 journal@recovery F·1
+17:53:53.465306 journal@recovery recovering @1
+17:53:53.912306 memdb@flush created L0@2 N·2 S·150B "acc..ack,v1":"genuid_,v2"
+17:53:53.912306 version@stat F·[1] S·150B[150B] Sc·[0.25]
+17:53:53.968306 db@janitor F·3 G·0
+17:53:53.968306 db@open done T·504ms
