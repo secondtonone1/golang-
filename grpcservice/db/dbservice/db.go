@@ -11,6 +11,7 @@ import (
 
 	"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
+	dblog "golang-/grpcservice/log"
 )
 
 func NewDBServiceImpl() dbpb.DBServiceServer {
@@ -36,9 +37,10 @@ func (db *DBServiceImpl) StartSaveGoroutine() {
 		go func(dbchan <-chan *MsgPacket, ip int32, savechan chan<- int32) {
 			defer func(it int32) {
 				fmt.Println("savegoroutine exited ,id is: ", it, " !")
-
+				dblog.GetLogManagerIns().Println("savegoroutine exited ,id is: ", it, " !")	
 			}(ip)
 			fmt.Println("savegoroutine begined ,id is: ", ip, " !")
+			dblog.GetLogManagerIns().Println("savegoroutine exited ,id is: ", ip, " !")	
 			for {
 				select {
 				case msg, ok := <-dbchan:
@@ -70,8 +72,10 @@ func (db *DBServiceImpl) PostMsgtoSave(msg *MsgPacket) error {
 
 func (db *DBServiceImpl) Closervice() {
 	db.Once.Do(func() {
+		fmt.Println("dbmgr main routine exit!")
 		close(db.DBchan)
 		if len(db.Savechan) >= config.SAVEGOROUTINE_NUM {
+			fmt.Println("all save goroutines exit!")
 			close(db.Savechan)
 		}
 	})
