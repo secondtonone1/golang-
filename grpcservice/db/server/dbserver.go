@@ -6,13 +6,14 @@ import (
 	"net"
 
 	config "golang-/grpcservice/serviceconfig"
-
+	
     dbpb "golang-/grpcservice/db/dbproto"
 	dbservice "golang-/grpcservice/db/dbservice"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	dblog "golang-/grpcservice/log"
+	
 )
 
 func main() {
@@ -23,6 +24,7 @@ func main() {
 		fmt.Println(" ")
 	}
 	defer lis.Close()
+	
 	s := grpc.NewServer()
 
 	logmgr :=dblog.InitLog("./dblog.log")
@@ -57,9 +59,6 @@ func main() {
 	}
 
 	defer dbmgr.CloseDB()
-	
-	
-	
 	// 注册服务到 gRPC 服务器，会把已定义的 protobuf 与自动生成的代码接口进行绑定。
 	
 	dbpb.RegisterDBServiceServer(s, dbserver)

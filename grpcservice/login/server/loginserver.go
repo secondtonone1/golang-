@@ -2,16 +2,17 @@ package main
 
 import (
 	"fmt"
-	"log"
+	//"log"
 	"net"
 
 	config "golang-/grpcservice/serviceconfig"
-
+	
 	loginpb "golang-/grpcservice/login/loginproto"
 	loginservice "golang-/grpcservice/login/loginservice"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	
 )
 
 func main() {
@@ -37,6 +38,8 @@ func main() {
 	// 在 gRPC 服务器上注册 reflection 服务。
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		//log.Fatalf("failed to serve: %v", err)
+		fmt.Printf("failed to serve: %v", err)
 	}
+	
 }

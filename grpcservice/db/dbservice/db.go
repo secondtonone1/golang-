@@ -36,11 +36,10 @@ func (db *DBServiceImpl) StartSaveGoroutine() {
 	for i := 0; i < config.SAVEGOROUTINE_NUM; i++ {
 		go func(dbchan <-chan *MsgPacket, ip int32, savechan chan<- int32) {
 			defer func(it int32) {
-				fmt.Println("savegoroutine exited ,id is: ", it, " !")
-				dblog.GetLogManagerIns().Println("savegoroutine exited ,id is: ", it, " !")	
+				fmt.Println("savegoroutine exited ,id is: ", it, " !")	
 			}(ip)
 			fmt.Println("savegoroutine begined ,id is: ", ip, " !")
-			dblog.GetLogManagerIns().Println("savegoroutine exited ,id is: ", ip, " !")	
+			dblog.GetLogManagerIns().Println("savegoroutine begined ,id is: ", ip, " !")	
 			for {
 				select {
 				case msg, ok := <-dbchan:
@@ -52,6 +51,7 @@ func (db *DBServiceImpl) StartSaveGoroutine() {
 					saverr := GetDBManagerIns().PutData(msg.key, msg.value)
 					if saverr != nil {
 						savechan <- ip
+						dblog.GetLogManagerIns().Println("savegoroutine exited ,id is: ", ip, " !")	
 						return
 					}
 				}

@@ -61,6 +61,8 @@ func GetLogManagerIns() *LogManager {
 	once.Do(func() {
 		var err error
 		logmgr, err = NewLogManager()
+		fmt.Printf("Log init , path is %s", logpath)
+		fmt.Println("")
 		if err != nil{
 			fmt.Println("Log init failed ", err.Error())
 		}	
