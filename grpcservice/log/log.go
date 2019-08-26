@@ -4,15 +4,15 @@ import (
 
 	// 导入生成的 protobuf 代码
 
+	"fmt"
 	config "golang-/grpcservice/serviceconfig"
 	"log"
 	"os"
 	"sync"
-	"fmt"
 )
 
 type LogManager struct {
-	File   *os.File
+	File *os.File
 	*log.Logger
 }
 
@@ -33,25 +33,23 @@ func NewLogManager() (*LogManager, error) {
 	return lm, nil
 }
 
-func InitLog(path string)*LogManager{
-	if path != ""{
+func InitLog(path string) *LogManager {
+	if path != "" {
 		logpath = path
 	}
 	return GetLogManagerIns()
 }
 
-
-func (lm *LogManager) CloseLogMgr(){
-	if lm.File == nil{
+func (lm *LogManager) CloseLogMgr() {
+	if lm.File == nil {
 		return
 	}
 	lm.File.Close()
-	if lm.Logger == nil{
+	if lm.Logger == nil {
 		return
 	}
-	
-}
 
+}
 
 var logmgr *LogManager = nil
 var once sync.Once
@@ -63,9 +61,9 @@ func GetLogManagerIns() *LogManager {
 		logmgr, err = NewLogManager()
 		fmt.Printf("Log init , path is %s", logpath)
 		fmt.Println("")
-		if err != nil{
+		if err != nil {
 			fmt.Println("Log init failed ", err.Error())
-		}	
+		}
 	})
 	return logmgr
 }
