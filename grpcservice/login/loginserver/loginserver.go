@@ -1,4 +1,4 @@
-package main
+package loginserver
 
 import (
 	"fmt"
@@ -6,16 +6,15 @@ import (
 	"net"
 
 	config "golang-/grpcservice/serviceconfig"
-	
+
 	loginpb "golang-/grpcservice/login/loginproto"
 	loginservice "golang-/grpcservice/login/loginservice"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	
 )
 
-func main() {
+func LoginStart() {
 	// 启动 gRPC 服务器。
 	lis, err := net.Listen("tcp", config.Loginaddress)
 	if err != nil {
@@ -41,5 +40,4 @@ func main() {
 		//log.Fatalf("failed to serve: %v", err)
 		fmt.Printf("failed to serve: %v", err)
 	}
-	
 }

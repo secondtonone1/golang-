@@ -16,13 +16,14 @@ package cmd
 
 import (
 	"fmt"
+	"golang-/grpcservice/register/registerserver"
 
 	"github.com/spf13/cobra"
 )
 
-// testCmd represents the test command
-var testCmd = &cobra.Command{
-	Use:   "test",
+// registercmdCmd represents the registercmd command
+var registercmdCmd = &cobra.Command{
+	Use:   "registercmd",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -31,27 +32,21 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("test called")
-		fmt.Println(cmd.Flags().GetString("foo"))
-		fmt.Println(cmd.Flags().GetBool("toggle"))
+		fmt.Println("registercmd called")
+		registerserver.RegisterStart()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(testCmd)
+	rootCmd.AddCommand(registercmdCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// testCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// registercmdCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// testCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
-	testCmd.PersistentFlags().String("foo", "", "A help for foo")
-	testCmd.Flags().BoolP("toggle","t", false,"Help message for toggle")
-
-
+	// registercmdCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

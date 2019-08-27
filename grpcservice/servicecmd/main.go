@@ -14,7 +14,7 @@
 
 package main
 
-import "cobrademo/cmd"
+import "golang-/grpcservice/servicecmd/cmd"
 
 func main() {
 	cmd.Execute()

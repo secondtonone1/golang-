@@ -1,4 +1,4 @@
-package main
+package authserver
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-func main() {
+func AuthStart() {
 	// 启动 gRPC 服务器。
 	lis, err := net.Listen("tcp", config.Authaddress)
 	if err != nil {

@@ -1,4 +1,4 @@
-package main
+package dbserver
 
 import (
 	"fmt"
@@ -6,17 +6,17 @@ import (
 	"net"
 
 	config "golang-/grpcservice/serviceconfig"
-	
-    dbpb "golang-/grpcservice/db/dbproto"
+
+	dbpb "golang-/grpcservice/db/dbproto"
 	dbservice "golang-/grpcservice/db/dbservice"
+
+	dblog "golang-/grpcservice/log"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	dblog "golang-/grpcservice/log"
-	
 )
 
-func main() {
+func DBStart() {
 	// 启动 gRPC 服务器。
 	lis, err := net.Listen("tcp", config.DBaddress)
 	if err != nil {
@@ -24,11 +24,11 @@ func main() {
 		fmt.Println(" ")
 	}
 	defer lis.Close()
-	
+
 	s := grpc.NewServer()
 
-	logmgr :=dblog.InitLog("./dblog.log")
-	if logmgr == nil{
+	logmgr := dblog.InitLog("./dblog.log")
+	if logmgr == nil {
 		fmt.Println("log manager init failed")
 		return
 	}
@@ -40,8 +40,8 @@ func main() {
 	if dbserver == nil {
 		fmt.Println("db server create failed")
 		return
-	}	
-	
+	}
+
 	dbserver.(*dbservice.DBServiceImpl).StartSaveGoroutine()
 
 	defer dbserver.(*dbservice.DBServiceImpl).Closervice()
@@ -60,7 +60,7 @@ func main() {
 
 	defer dbmgr.CloseDB()
 	// 注册服务到 gRPC 服务器，会把已定义的 protobuf 与自动生成的代码接口进行绑定。
-	
+
 	dbpb.RegisterDBServiceServer(s, dbserver)
 
 	// 在 gRPC 服务器上注册 reflection 服务。
@@ -70,5 +70,4 @@ func main() {
 		fmt.Printf("failed to server: %v", err)
 		return
 	}
-	
 }
