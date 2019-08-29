@@ -4,3 +4,5 @@
 2019/08/27 17:39:46 db.go:42: savegoroutine begined ,id is:  1  !
 2019/08/27 18:02:03 db.go:42: savegoroutine begined ,id is:  0  !
 2019/08/27 18:02:03 db.go:42: savegoroutine begined ,id is:  1  !
+2019/08/29 15:51:49 db.go:42: savegoroutine begined ,id is:  0  !
+2019/08/29 15:51:49 db.go:42: savegoroutine begined ,id is:  1  !
