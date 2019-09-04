@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package rpcapi;
+import  "common.proto";
+
+//protoc --proto_path=../model  --proto_path=.  --micro_out=. ./rpcapi.proto
+
+// 服务接口
+service Say {
+    rpc Hello(model.SayParam) returns (model.SayResponse) {}
+
+}
