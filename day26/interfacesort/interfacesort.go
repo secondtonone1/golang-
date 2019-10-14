@@ -71,6 +71,19 @@ func (hl HeroList) Swap(i, j int) {
 
 }
 
+func JudgeType(itf interface{}) {
+	switch itf.(type) {
+	case string:
+		fmt.Println("type is string")
+	case int:
+		fmt.Println("type is int")
+	case HeroList:
+		fmt.Println("type is HeroList")
+	default:
+		fmt.Println("unknown type ")
+	}
+}
+
 func main() {
 	arrayint := []int{6, 1, 0, 5, 2, 7}
 	sort.Ints(arrayint)
@@ -97,4 +110,13 @@ func main() {
 	for _, value := range herolists {
 		fmt.Print(value.Name, " ", value.Attack, " ", value.Defence, " ", value.GenTime, "\n")
 	}
+
+	var ife interface{}
+	ife = herolists
+	val, ok := ife.(HeroList)
+	if !ok {
+		fmt.Println("ife can't transfer to HeroList!")
+		return
+	}
+	fmt.Println("herolist's len is ", val.Len())
 }
