@@ -88,6 +88,7 @@ func ReflectStructMethod(itf interface{}) {
 func ReflectStructPtrMethod(itf interface{}) {
 	rvalue := reflect.ValueOf(itf)
 	rtype := reflect.TypeOf(itf)
+	fmt.Println("Hero pointer struct method list......................")
 	for i := 0; i < rvalue.NumMethod(); i++ {
 		methodvalue := rvalue.Method(i)
 		fmt.Println("method ", i, " value is ", methodvalue)
@@ -105,6 +106,7 @@ func ReflectStructPtrMethod(itf interface{}) {
 	//修改了，生效
 	fmt.Println(rvalue.Method(0).Call(nil))
 
+	fmt.Println("Hero Struct method list......................")
 	for i := 0; i < rvalue.Elem().NumMethod(); i++ {
 		methodvalue := rvalue.Elem().Method(i)
 		fmt.Println("method ", i, " value is ", methodvalue)
@@ -145,12 +147,22 @@ func main() {
 	fmt.Println("reflect  value type is", rvalue.Type())
 
 	rptrvalue := reflect.ValueOf(&num)
-	rptrvalue.Elem().SetFloat(131.4)
+	fmt.Println("reflect value is ", rptrvalue)
+	fmt.Println("reflect  value kind is", rptrvalue.Kind())
+	fmt.Println("reflect type kind is", rptrvalue.Kind())
+	fmt.Println("reflect  value type is", rptrvalue.Type())
+	if rptrvalue.Elem().CanSet() {
+		rptrvalue.Elem().SetFloat(131.4)
+	}
+
 	fmt.Println(num)
 	//rvalue 为reflect包的Value类型
 	//可通过Interface()转化为interface{}类型，进而转化为原始类型
 	rawvalue := rvalue.Interface().(float64)
 	fmt.Println("rawvalue is ", rawvalue)
+
+	rawptrvalue := rptrvalue.Interface().(*float64)
+	fmt.Println("rawptrvalue is ", *rawptrvalue)
 	ReflectTypeValue(Hero{name: "zack", id: 1})
 	ReflectTypeValue(&Hero{name: "zack", id: 1})
 	ReflectStructElem(Hero{name: "zack fair", id: 2})
