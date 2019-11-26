@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"bufio"
-	"os"
+	"fmt"
 	"github.com/Shopify/sarama"
+	"os"
 )
 
 func main() {
@@ -30,27 +30,27 @@ func main() {
 		Partition: int32(10),                   //
 		Key:       sarama.StringEncoder("key"), //
 	}
-
-	
-
 	inputReader := bufio.NewReader(os.Stdin)
-	for{
-		value, _ , err := inputReader.ReadLine()
-    	if err != nil {
-        	fmt.Printf("error:", err.Error())
-        	return
-    	}
-		msgType , _, err  := inputReader.ReadLine()
-		msg.Topic = string(msgType)
-		fmt.Println("topic is : ",msg.Topic)
-		fmt.Println("value is : ",string(value))
-		msg.Value = sarama.ByteEncoder(value)
-        partition, offset, err := producer.SendMessage(msg)
+	for {
+		value, _, err := inputReader.ReadLine()
+		if err != nil {
+			fmt.Printf("error:", err.Error())
+			return
+		}
+		valuecp := make([]byte, len(value), cap(value))
+		copy(valuecp, value)
+		msgType, _, err := inputReader.ReadLine()
+		topic_str := string(msgType)
+		msg.Topic = topic_str
+		fmt.Println("topic is : ", msg.Topic)
+		fmt.Println("value is : ", string(valuecp))
+		msg.Value = sarama.ByteEncoder(valuecp)
+		partition, offset, err := producer.SendMessage(msg)
 
-        if err != nil {
+		if err != nil {
 			fmt.Println("Send message Fail")
 			fmt.Println(err.Error())
-        }
-        fmt.Printf("Partition = %d, offset=%d\n", partition, offset)
+		}
+		fmt.Printf("Partition = %d, offset=%d\n", partition, offset)
 	}
 }
