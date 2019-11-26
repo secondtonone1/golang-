@@ -3,4 +3,6 @@
 测试共振
 创建共振账号
 ./cleos.sh system newaccount eosio resonance EOS74cP7zVdMUbU3RQxtsYU77ufQwLv66RUL1oFwrjkCzJuanxYpV EOS74cP7zVdMUbU3RQxtsYU77ufQwLv66RUL1oFwrjkCzJuanxYpV --stake-net "1000.0000 EOS" --stake-cpu "    10000.0000 EOS" --buy-ram-kbytes  9999 -p  eosio
+test
+good
 

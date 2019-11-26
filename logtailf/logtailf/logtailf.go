@@ -21,7 +21,7 @@ func main() {
 		//实时跟踪
 		Follow: true,
 		//如果程序出现异常，保存上次读取的位置，避免重新读取
-		//Location: &tail.SeekInfo{Offset: 0, Whence: 2},
+		Location: &tail.SeekInfo{Offset: 0, Whence: 2},
 		//支持文件不存在
 		MustExist: false,
 		Poll:      true,
