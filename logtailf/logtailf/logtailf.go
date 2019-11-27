@@ -39,6 +39,8 @@ func main() {
 			time.Sleep(100 * time.Millisecond)
 			continue
 		}
-		fmt.Println("msg:", msg)
+		//fmt.Println("msg:", msg)
+		//只打印text
+		fmt.Println("msg:", msg.Text)
 	}
 }
