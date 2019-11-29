@@ -34,7 +34,7 @@ func writeLog(datapath string) {
 }
 
 func main() {
-	logrelative := `../logdir/log.txt`
+	logrelative := `../logdir1/log.txt`
 	_, filename, _, _ := runtime.Caller(0)
 	fmt.Println(filename)
 	datapath := path.Join(path.Dir(filename), logrelative)
