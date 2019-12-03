@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"golang-/logcatchsys/logconfig"
+	"golang-/logcatchsys/logtailf"
 	"sync"
 
 	"github.com/spf13/viper"
@@ -18,9 +19,11 @@ func ConstructMgr(configPaths interface{}) {
 		configData := new(logconfig.ConfigData)
 		configData.ConfigKey = conkey
 		configData.ConfigValue = confval.(string)
-		_, cancel := context.WithCancel(context.Background())
+		ctx, cancel := context.WithCancel(context.Background())
 		configData.ConfigCancel = cancel
 		configMgr[conkey] = configData
+		go logtailf.WatchLogFile(configData.ConfigValue,
+			ctx)
 	}
 }
 
@@ -51,8 +54,8 @@ func main() {
 			if !ok {
 				return
 			}
-			fmt.Println("main goroutine receive pathData")
-			fmt.Println(pathData)
+			//fmt.Println("main goroutine receive pathData")
+			//fmt.Println(pathData)
 			pathDataNew := pathData.(map[string]interface{})
 
 			for oldkey, oldval := range configMgr {
@@ -70,26 +73,31 @@ func main() {
 					configData := new(logconfig.ConfigData)
 					configData.ConfigKey = conkey
 					configData.ConfigValue = conval.(string)
-					_, cancel := context.WithCancel(context.Background())
+					ctx, cancel := context.WithCancel(context.Background())
 					configData.ConfigCancel = cancel
 					configMgr[conkey] = configData
+					fmt.Println(conval.(string))
+					go logtailf.WatchLogFile(configData.ConfigValue,
+						ctx)
 					continue
 				}
 
 				if oldval.ConfigValue != conval.(string) {
 					oldval.ConfigValue = conval.(string)
 					oldval.ConfigCancel()
-					_, cancel := context.WithCancel(context.Background())
+					ctx, cancel := context.WithCancel(context.Background())
 					oldval.ConfigCancel = cancel
+					go logtailf.WatchLogFile(conval.(string),
+						ctx)
 					continue
 				}
 
 			}
-
-			for mgrkey, mgrval := range configMgr {
-				fmt.Println(mgrkey)
-				fmt.Println(mgrval)
-			}
+			/*
+				for mgrkey, mgrval := range configMgr {
+					fmt.Println(mgrkey)
+					fmt.Println(mgrval)
+				}*/
 		}
 	}
 }

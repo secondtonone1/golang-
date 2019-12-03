@@ -1,7 +1,6 @@
 configpath: 
-  logdir1: "../logdir1/log.txt"
-  logdir2: "../logdir2/log.txt"
-  logdir3: "../logdir3/log.txt"
-  logdir5: "../logdir3/log.txt"
+  logdir1: "D:/golangwork/src/golang-/logcatchsys/logdir1/log.txt"
+  logdir2: "D:/golangwork/src/golang-/logcatchsys/logdir2/log.txt"
+  logdir4: "D:/golangwork/src/golang-/logcatchsys/logdir4/log.txt"
 
   

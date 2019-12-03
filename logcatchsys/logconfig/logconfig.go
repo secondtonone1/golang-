@@ -24,8 +24,8 @@ func ReadConfig(v *viper.Viper) (interface{}, bool) {
 	v.SetConfigName("config")
 	//添加读取的配置文件路径
 	_, filename, _, _ := runtime.Caller(0)
-	fmt.Println(filename)
-	fmt.Println(path.Dir(filename))
+	//fmt.Println(filename)
+	//fmt.Println(path.Dir(filename))
 	v.AddConfigPath(path.Dir(filename))
 	//设置配置文件类型
 	v.SetConfigType("yaml")
