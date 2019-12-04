@@ -8,8 +8,8 @@ import (
 	"github.com/hpcloud/tail"
 )
 
-func WatchLogFile(datapath string, ctx context.Context) {
-	fmt.Println("begin goroutine watch log file ", datapath)
+func WatchLogFile(pathkey string, datapath string, ctx context.Context, keychan chan<- string) {
+	fmt.Println("begin goroutine watch log file ", pathkey)
 	tailFile, err := tail.TailFile(datapath, tail.Config{
 		//文件被移除或被打包，需要重新打开
 		ReOpen: true,
@@ -27,6 +27,19 @@ func WatchLogFile(datapath string, ctx context.Context) {
 		return
 	}
 
+	defer func() {
+		if errcover := recover(); errcover != nil {
+			fmt.Println("goroutine watch ", pathkey, " panic")
+			fmt.Println(errcover)
+			keychan <- pathkey
+		}
+	}()
+
+	//模拟崩溃
+	if pathkey == "logdir3" {
+		panic("test panic ")
+	}
+
 	for true {
 		select {
 		case msg, ok := <-tailFile.Lines:
@@ -40,7 +53,7 @@ func WatchLogFile(datapath string, ctx context.Context) {
 			fmt.Println("msg:", msg.Text)
 		case <-ctx.Done():
 			fmt.Println("receive main gouroutine exit msg")
-			fmt.Println("watch log file ", datapath, " goroutine exited")
+			fmt.Println("watch log file ", pathkey, " goroutine exited")
 			return
 		}
 

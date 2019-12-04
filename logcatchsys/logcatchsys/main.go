@@ -13,7 +13,9 @@ import (
 var mainOnce sync.Once
 var configMgr map[string]*logconfig.ConfigData
 
-func ConstructMgr(configPaths interface{}) {
+const KEYCHANSIZE = 20
+
+func ConstructMgr(configPaths interface{}, keyChan chan string) {
 	configDatas := configPaths.(map[string]interface{})
 	for conkey, confval := range configDatas {
 		configData := new(logconfig.ConfigData)
@@ -22,8 +24,8 @@ func ConstructMgr(configPaths interface{}) {
 		ctx, cancel := context.WithCancel(context.Background())
 		configData.ConfigCancel = cancel
 		configMgr[conkey] = configData
-		go logtailf.WatchLogFile(configData.ConfigValue,
-			ctx)
+		go logtailf.WatchLogFile(configData.ConfigKey, configData.ConfigValue,
+			ctx, keyChan)
 	}
 }
 
@@ -35,7 +37,8 @@ func main() {
 		return
 	}
 	configMgr = make(map[string]*logconfig.ConfigData)
-	ConstructMgr(configPaths)
+	keyChan := make(chan string, KEYCHANSIZE)
+	ConstructMgr(configPaths, keyChan)
 	ctx, cancel := context.WithCancel(context.Background())
 	pathChan := make(chan interface{})
 	go logconfig.WatchConfig(ctx, v, pathChan)
@@ -45,6 +48,10 @@ func main() {
 				fmt.Println("main goroutine panic ", err) // 这里的err其实就是panic传入的内容
 			}
 			cancel()
+			for _, oldval := range configMgr {
+				oldval.ConfigCancel()
+			}
+			configMgr = nil
 		})
 	}()
 
@@ -77,8 +84,8 @@ func main() {
 					configData.ConfigCancel = cancel
 					configMgr[conkey] = configData
 					fmt.Println(conval.(string))
-					go logtailf.WatchLogFile(configData.ConfigValue,
-						ctx)
+					go logtailf.WatchLogFile(configData.ConfigKey, configData.ConfigValue,
+						ctx, keyChan)
 					continue
 				}
 
@@ -87,8 +94,8 @@ func main() {
 					oldval.ConfigCancel()
 					ctx, cancel := context.WithCancel(context.Background())
 					oldval.ConfigCancel = cancel
-					go logtailf.WatchLogFile(conval.(string),
-						ctx)
+					go logtailf.WatchLogFile(conkey, conval.(string),
+						ctx, keyChan)
 					continue
 				}
 
@@ -98,6 +105,16 @@ func main() {
 					fmt.Println(mgrkey)
 					fmt.Println(mgrval)
 				}*/
+		case keystr := <-keyChan:
+			val, ok := configMgr[keystr]
+			if !ok {
+				continue
+			}
+			fmt.Println("recover goroutine watch ", keystr)
+			var ctxcover context.Context
+			ctxcover, val.ConfigCancel = context.WithCancel(context.Background())
+			go logtailf.WatchLogFile(keystr, val.ConfigValue,
+				ctxcover, keyChan)
 		}
 	}
 }

@@ -13,14 +13,15 @@ import (
 )
 
 func writeLog(datapath string, wg *sync.WaitGroup) {
+	defer func() {
+		wg.Done()
+	}()
 	filew, err := os.OpenFile(datapath, os.O_APPEND|os.O_CREATE|os.O_RDWR, 0644)
 	if err != nil {
 		fmt.Println("open file error ", err.Error())
 		return
 	}
-	defer func() {
-		wg.Done()
-	}()
+
 	w := bufio.NewWriter(filew)
 	for i := 0; i < 20; i++ {
 		timeStr := time.Now().Format("2006-01-02 15:04:05")
