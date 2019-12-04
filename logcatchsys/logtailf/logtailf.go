@@ -36,9 +36,9 @@ func WatchLogFile(pathkey string, datapath string, ctx context.Context, keychan 
 	}()
 
 	//模拟崩溃
-	if pathkey == "logdir3" {
+	/*if pathkey == "logdir3" {
 		panic("test panic ")
-	}
+	}*/
 
 	for true {
 		select {
