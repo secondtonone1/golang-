@@ -62,7 +62,7 @@ func main() {
 				oldval.ConfigCancel()
 			}
 			configMgr = nil
-			//producer.Close()
+			kafkaProducer.Producer.Close()
 		})
 	}()
 
