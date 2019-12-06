@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	kafkaqueue "golang-/logcatchsys/kafka"
 	"golang-/logcatchsys/logconfig"
 	"golang-/logcatchsys/logtailf"
 	"sync"
@@ -15,7 +16,7 @@ var configMgr map[string]*logconfig.ConfigData
 
 const KEYCHANSIZE = 20
 
-func ConstructMgr(configPaths interface{}, keyChan chan string) {
+func ConstructMgr(configPaths interface{}, keyChan chan string, kafkaProducer *kafkaqueue.ProducerKaf) {
 	configDatas := configPaths.(map[string]interface{})
 	for conkey, confval := range configDatas {
 		configData := new(logconfig.ConfigData)
@@ -25,7 +26,7 @@ func ConstructMgr(configPaths interface{}, keyChan chan string) {
 		configData.ConfigCancel = cancel
 		configMgr[conkey] = configData
 		go logtailf.WatchLogFile(configData.ConfigKey, configData.ConfigValue,
-			ctx, keyChan)
+			ctx, keyChan, kafkaProducer)
 	}
 }
 
@@ -36,9 +37,18 @@ func main() {
 		fmt.Println("read config failed")
 		return
 	}
+
+	producer, err := kafkaqueue.CreateKafkaProducer()
+	if err != nil {
+		fmt.Println("create producer failed ")
+		return
+	}
+
+	kafkaProducer := &kafkaqueue.ProducerKaf{Producer: producer}
+
 	configMgr = make(map[string]*logconfig.ConfigData)
 	keyChan := make(chan string, KEYCHANSIZE)
-	ConstructMgr(configPaths, keyChan)
+	ConstructMgr(configPaths, keyChan, kafkaProducer)
 	ctx, cancel := context.WithCancel(context.Background())
 	pathChan := make(chan interface{})
 	go logconfig.WatchConfig(ctx, v, pathChan)
@@ -52,6 +62,7 @@ func main() {
 				oldval.ConfigCancel()
 			}
 			configMgr = nil
+			//producer.Close()
 		})
 	}()
 
@@ -85,7 +96,7 @@ func main() {
 					configMgr[conkey] = configData
 					fmt.Println(conval.(string))
 					go logtailf.WatchLogFile(configData.ConfigKey, configData.ConfigValue,
-						ctx, keyChan)
+						ctx, keyChan, kafkaProducer)
 					continue
 				}
 
@@ -95,7 +106,7 @@ func main() {
 					ctx, cancel := context.WithCancel(context.Background())
 					oldval.ConfigCancel = cancel
 					go logtailf.WatchLogFile(conkey, conval.(string),
-						ctx, keyChan)
+						ctx, keyChan, kafkaProducer)
 					continue
 				}
 
@@ -114,7 +125,7 @@ func main() {
 			var ctxcover context.Context
 			ctxcover, val.ConfigCancel = context.WithCancel(context.Background())
 			go logtailf.WatchLogFile(keystr, val.ConfigValue,
-				ctxcover, keyChan)
+				ctxcover, keyChan, kafkaProducer)
 		}
 	}
 }

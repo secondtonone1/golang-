@@ -3,12 +3,13 @@ package logtailf
 import (
 	"context"
 	"fmt"
+	kafkaqueue "golang-/logcatchsys/kafka"
 	"time"
 
 	"github.com/hpcloud/tail"
 )
 
-func WatchLogFile(pathkey string, datapath string, ctx context.Context, keychan chan<- string) {
+func WatchLogFile(pathkey string, datapath string, ctx context.Context, keychan chan<- string, kafProducer *kafkaqueue.ProducerKaf) {
 	fmt.Println("begin goroutine watch log file ", pathkey)
 	tailFile, err := tail.TailFile(datapath, tail.Config{
 		//文件被移除或被打包，需要重新打开
@@ -50,7 +51,9 @@ func WatchLogFile(pathkey string, datapath string, ctx context.Context, keychan 
 			}
 			//fmt.Println("msg:", msg)
 			//只打印text
-			fmt.Println("msg:", msg.Text)
+			//fmt.Println("msg:", msg.Text)
+			//添加kafka逻辑
+			kafProducer.PutIntoKafka(pathkey, msg.Text)
 		case <-ctx.Done():
 			fmt.Println("receive main gouroutine exit msg")
 			fmt.Println("watch log file ", pathkey, " goroutine exited")
