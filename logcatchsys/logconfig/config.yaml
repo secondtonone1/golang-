@@ -1,6 +1,16 @@
-configpath: 
-  logdir1: "D:/golangwork/src/golang-/logcatchsys/logdir1/log.txt"
-  logdir2: "D:/golangwork/src/golang-/logcatchsys/logdir2/log.txt"
-  logdir3: "D:/golangwork/src/golang-/logcatchsys/logdir3/log.txt"
+#日志系统记录的日志
+catsyslog:
+  logpath: "D:/golangwork/src/golang-/logcatchsys/logdata"
+  loglevel: "debug" 
+
+#采集其他系统的日志目录
+collectlogs:
+  - logpath: "D:/golangwork/src/golang-/logcatchsys/logdir1/log.txt"
+    logtopic: "logdir1"
+  - logpath: "D:/golangwork/src/golang-/logcatchsys/logdir2/log.txt"
+    logtopic: "logdir2"
+  - logpath: "D:/golangwork/src/golang-/logcatchsys/logdir3/log.txt"
+    logtopic: "logdir3"
+
 
   

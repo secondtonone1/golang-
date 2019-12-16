@@ -34,7 +34,7 @@ type ProducerKaf struct {
 func (p *ProducerKaf) PutIntoKafka(keystr string, valstr string) {
 	//构建发送的消息，
 	msg := &sarama.ProducerMessage{
-		Topic: "logcatchsys",
+		Topic: keystr,
 		Key:   sarama.StringEncoder(keystr),
 		Value: sarama.StringEncoder(valstr),
 	}

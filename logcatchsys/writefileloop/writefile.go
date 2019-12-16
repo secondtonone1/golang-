@@ -40,9 +40,14 @@ func main() {
 	}
 	wg := &sync.WaitGroup{}
 
-	for _, confval := range configPaths.(map[string]interface{}) {
-		wg.Add(1)
-		go writeLog(confval.(string), wg)
+	for _, configData := range configPaths.([]interface{}) {
+		for ckey, cval := range configData.(map[interface{}]interface{}) {
+			if ckey == "logpath" && cval != "" {
+				wg.Add(1)
+				go writeLog(cval.(string), wg)
+				continue
+			}
+		}
 	}
 	wg.Wait()
 }

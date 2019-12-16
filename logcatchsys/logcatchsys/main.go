@@ -17,17 +17,33 @@ var configMgr map[string]*logconfig.ConfigData
 const KEYCHANSIZE = 20
 
 func ConstructMgr(configPaths interface{}, keyChan chan string, kafkaProducer *kafkaqueue.ProducerKaf) {
-	configDatas := configPaths.(map[string]interface{})
-	for conkey, confval := range configDatas {
+
+	for _, configData := range configPaths.([]interface{}) {
+		conKey := ""
+		conVal := ""
+		for ckey, cval := range configData.(map[interface{}]interface{}) {
+			if ckey == "logtopic" {
+				conKey = cval.(string)
+				continue
+			}
+			if ckey == "logpath" {
+				conVal = cval.(string)
+				continue
+			}
+		}
+		if conKey == "" || conVal == "" {
+			continue
+		}
 		configData := new(logconfig.ConfigData)
-		configData.ConfigKey = conkey
-		configData.ConfigValue = confval.(string)
+		configData.ConfigKey = conKey
+		configData.ConfigValue = conVal
 		ctx, cancel := context.WithCancel(context.Background())
 		configData.ConfigCancel = cancel
-		configMgr[conkey] = configData
+		configMgr[configData.ConfigKey] = configData
 		go logtailf.WatchLogFile(configData.ConfigKey, configData.ConfigValue,
 			ctx, keyChan, kafkaProducer)
 	}
+
 }
 
 func main() {
@@ -74,7 +90,25 @@ func main() {
 			}
 			//fmt.Println("main goroutine receive pathData")
 			//fmt.Println(pathData)
-			pathDataNew := pathData.(map[string]interface{})
+			pathDataNew := make(map[string]string)
+			for _, configData := range pathData.([]interface{}) {
+				conKey := ""
+				conVal := ""
+				for ckey, cval := range configData.(map[interface{}]interface{}) {
+					if ckey == "logtopic" {
+						conKey = cval.(string)
+						continue
+					}
+					if ckey == "logpath" {
+						conVal = cval.(string)
+						continue
+					}
+				}
+				if conKey == "" || conVal == "" {
+					continue
+				}
+				pathDataNew[conKey] = conVal
+			}
 
 			for oldkey, oldval := range configMgr {
 				_, ok := pathDataNew[oldkey]
@@ -90,22 +124,22 @@ func main() {
 				if !ok {
 					configData := new(logconfig.ConfigData)
 					configData.ConfigKey = conkey
-					configData.ConfigValue = conval.(string)
+					configData.ConfigValue = conval
 					ctx, cancel := context.WithCancel(context.Background())
 					configData.ConfigCancel = cancel
 					configMgr[conkey] = configData
-					fmt.Println(conval.(string))
+					fmt.Println(conval)
 					go logtailf.WatchLogFile(configData.ConfigKey, configData.ConfigValue,
 						ctx, keyChan, kafkaProducer)
 					continue
 				}
 
-				if oldval.ConfigValue != conval.(string) {
-					oldval.ConfigValue = conval.(string)
+				if oldval.ConfigValue != conval {
+					oldval.ConfigValue = conval
 					oldval.ConfigCancel()
 					ctx, cancel := context.WithCancel(context.Background())
 					oldval.ConfigCancel = cancel
-					go logtailf.WatchLogFile(conkey, conval.(string),
+					go logtailf.WatchLogFile(conkey, conval,
 						ctx, keyChan, kafkaProducer)
 					continue
 				}

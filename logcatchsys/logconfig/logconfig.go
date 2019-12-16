@@ -34,12 +34,12 @@ func ReadConfig(v *viper.Viper) (interface{}, bool) {
 		return nil, false
 	}
 
-	configPaths := v.Get("configpath")
-	if configPaths == nil {
+	collectlogs := v.Get("collectlogs")
+	if collectlogs == nil {
 		return nil, false
 	}
-
-	return configPaths, true
+	fmt.Println(collectlogs)
+	return collectlogs, true
 }
 
 func WatchConfig(ctx context.Context, v *viper.Viper, pathChan chan interface{}) {
@@ -57,11 +57,11 @@ func WatchConfig(ctx context.Context, v *viper.Viper, pathChan chan interface{})
 	//设置监听回调函数
 	v.OnConfigChange(func(e fsnotify.Event) {
 		//fmt.Printf("config is change :%s \n", e.String())
-		configPaths := v.Get("configpath")
-		if configPaths == nil {
+		collectlogs := v.Get("collectlogs")
+		if collectlogs == nil {
 			return
 		}
-		pathChan <- configPaths
+		pathChan <- collectlogs
 	})
 	//开始监听
 	v.WatchConfig()
