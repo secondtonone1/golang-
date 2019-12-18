@@ -49,9 +49,6 @@ func WatchLogFile(pathkey string, datapath string, ctx context.Context, keychan 
 				time.Sleep(100 * time.Millisecond)
 				continue
 			}
-			//fmt.Println("msg:", msg)
-			//只打印text
-			//fmt.Println("msg:", msg.Text)
 			//添加kafka逻辑
 			kafProducer.PutIntoKafka(pathkey, msg.Text)
 		case <-ctx.Done():

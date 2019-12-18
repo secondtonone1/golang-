@@ -19,30 +19,33 @@ type ConfigData struct {
 	ConfigCancel context.CancelFunc
 }
 
-func ReadConfig(v *viper.Viper) (interface{}, bool) {
+func InitVipper() *viper.Viper {
+	v := viper.New()
 	//设置读取的配置文件
 	v.SetConfigName("config")
 	//添加读取的配置文件路径
 	_, filename, _, _ := runtime.Caller(0)
-	//fmt.Println(filename)
-	//fmt.Println(path.Dir(filename))
 	v.AddConfigPath(path.Dir(filename))
 	//设置配置文件类型
 	v.SetConfigType("yaml")
 	if err := v.ReadInConfig(); err != nil {
 		fmt.Printf("err:%s\n", err)
-		return nil, false
+		return nil
 	}
-
-	collectlogs := v.Get("collectlogs")
-	if collectlogs == nil {
-		return nil, false
-	}
-	fmt.Println(collectlogs)
-	return collectlogs, true
+	return v
 }
 
-func WatchConfig(ctx context.Context, v *viper.Viper, pathChan chan interface{}) {
+func ReadConfig(v *viper.Viper, keystr string) (interface{}, bool) {
+
+	valuedata := v.Get("keystr")
+	if valuedata == nil {
+		return nil, false
+	}
+	fmt.Println(valuedata)
+	return valuedata, true
+}
+
+func WatchConfig(ctx context.Context, v *viper.Viper, pathChan chan interface{}, etcdChan chan interface{}) {
 
 	defer func() {
 		onceLogConf.Do(func() {
@@ -51,6 +54,7 @@ func WatchConfig(ctx context.Context, v *viper.Viper, pathChan chan interface{})
 				fmt.Println("watch config goroutine panic ", err)
 			}
 			close(pathChan)
+			close(etcdChan)
 		})
 	}()
 
@@ -58,10 +62,13 @@ func WatchConfig(ctx context.Context, v *viper.Viper, pathChan chan interface{})
 	v.OnConfigChange(func(e fsnotify.Event) {
 		//fmt.Printf("config is change :%s \n", e.String())
 		collectlogs := v.Get("collectlogs")
-		if collectlogs == nil {
-			return
+		if collectlogs != nil {
+			pathChan <- collectlogs
 		}
-		pathChan <- collectlogs
+		etcdlogs := v.Get("etcdlogs")
+		if etcdlogs != nil {
+			etcdChan <- etcdlogs
+		}
 	})
 	//开始监听
 	v.WatchConfig()

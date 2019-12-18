@@ -1,4 +1,7 @@
 ## 日志采集系统
+## 版本说明
+tag 为 v1.0vipper 版实现了基本的日至采集功能，通过哦vipper监控配置文件修改，从而达到动态控制协程监控日志。
+tag 为 v2.0etcd 版实现了基于etcd添加和删除监控日至的功能。
 ### golang 代理设置
 如果golang下载第三方库较慢，可以使用七牛云代理
 go env -w GOPROXY=https://goproxy.cn,direct
