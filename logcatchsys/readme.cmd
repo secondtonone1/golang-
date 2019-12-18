@@ -1,4 +1,9 @@
 ## 日志采集系统
+### golang 代理设置
+如果golang下载第三方库较慢，可以使用七牛云代理
+go env -w GOPROXY=https://goproxy.cn,direct
+go版本要求1.13以上
+
 ### 机器需要安装zookeeper和kafka安装包
 1 设置zookeeper配置文件，conf文件夹下新建zoo.cfg
 ``` cfg
@@ -19,6 +24,7 @@ dataLogDir=D:\\kafkazookeeper\\zookeeper-3.4.14\\log
 2 进入zookeeper文件夹，点击bin目录下的zkServer.cmd启动zookeeper
 3 设置kafka配置，修改config目录下server.properties文件，添加
 log.dirs=D:\\kafkazookeeper\\kafka_2.12-2.2.0\\logs
+### 启动和测试
 4 启动kafka，执行如下命令
 .\bin\windows\kafka-server-start.bat .\config\server.properties
 5 创建测试的topic
