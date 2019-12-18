@@ -1,0 +1,14 @@
+name: etcd03
+data-dir: /home/secondtonone/workspace/goProject/src/golang-/goetcd/server3/data/etcd03
+listen-client-urls: http://127.0.0.1:4379
+advertise-client-urls: http://127.0.0.1:4379
+listen-peer-urls: http://127.0.0.1:2382
+initial-advertise-peer-urls: http://127.0.0.1:2382
+initial-cluster: etcd01=http://127.0.0.1:2380,etcd02=http://127.0.0.1:2381,etcd03=http://127.0.0.1:2382
+initial-cluster-token: etcd-cluster-1
+initial-cluster-state: new
+
+
+
+#etcd --config-file=/home/secondtonone/workspace/goProject/src/lbaas/config-etcd-srv/config3.yml
+
