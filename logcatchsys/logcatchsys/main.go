@@ -7,13 +7,12 @@ import (
 	"golang-/logcatchsys/logconfig"
 	"golang-/logcatchsys/logtailf"
 	"sync"
-
-	"github.com/spf13/viper"
 )
 
 var mainOnce sync.Once
 var configMgr map[string]*logconfig.ConfigData
-var etcdData
+
+//var etcdData
 
 const KEYCHANSIZE = 20
 
@@ -56,7 +55,7 @@ func ConstructEtcd(etcdDatas interface{}, keyChan chan string, kafkaProducer *ka
 }
 
 //根据yaml文件修改后返回的配置信息，启动和关闭goroutine
-func updateConfigGoroutine(pathData interface{}) {
+func updateConfigGoroutine(pathData interface{}, keyChan chan string, kafkaProducer *kafkaqueue.ProducerKaf) {
 
 	pathDataNew := make(map[string]string)
 	for _, configData := range pathData.([]interface{}) {
@@ -125,7 +124,7 @@ func updateEtcdGoroutine(etcdlogData interface{}) {
 }
 
 func main() {
-	v := viper.New()
+	v := logconfig.InitVipper()
 	configPaths, confres := logconfig.ReadConfig(v, "collectlogs")
 	if configPaths == nil || !confres {
 		fmt.Println("read config failed")
@@ -167,7 +166,7 @@ func main() {
 			if !ok {
 				return
 			}
-			updateConfigGoroutine(pathData)
+			updateConfigGoroutine(pathData, keyChan, kafkaProducer)
 
 		case etcdLogData, ok := <-etcdChan:
 			if !ok {

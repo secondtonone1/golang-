@@ -8,8 +8,6 @@ import (
 	"path"
 	"sync"
 	"time"
-
-	"github.com/spf13/viper"
 )
 
 func writeLog(datapath string, wg *sync.WaitGroup) {
@@ -40,8 +38,8 @@ func writeLog(datapath string, wg *sync.WaitGroup) {
 }
 
 func main() {
-	v := viper.New()
-	configPaths, confres := logconfig.ReadConfig(v)
+	v := logconfig.InitVipper()
+	configPaths, confres := logconfig.ReadConfig(v, "collectlogs")
 	if !confres {
 		fmt.Println("config read failed")
 		return

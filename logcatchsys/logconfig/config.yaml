@@ -14,7 +14,7 @@ collectlogs:
 
 #etcd存储的监控日志的键值
 etcdlogs:
-  - "collectlogkey1"
+  - "collectlogkey3"
   - "collectlogkey2"
 
 

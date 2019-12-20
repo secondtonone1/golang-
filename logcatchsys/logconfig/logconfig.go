@@ -37,7 +37,7 @@ func InitVipper() *viper.Viper {
 
 func ReadConfig(v *viper.Viper, keystr string) (interface{}, bool) {
 
-	valuedata := v.Get("keystr")
+	valuedata := v.Get(keystr)
 	if valuedata == nil {
 		return nil, false
 	}
