@@ -38,9 +38,6 @@ func InitVipper() *viper.Viper {
 func ReadConfig(v *viper.Viper, keystr string) (interface{}, bool) {
 
 	valuedata := v.Get(keystr)
-	if valuedata == nil {
-		return nil, false
-	}
 	fmt.Println(valuedata)
 	return valuedata, true
 }
@@ -65,9 +62,9 @@ func WatchConfig(ctx context.Context, v *viper.Viper, pathChan chan interface{},
 		if collectlogs != nil {
 			pathChan <- collectlogs
 		}
-		etcdlogs := v.Get("etcdlogs")
-		if etcdlogs != nil {
-			etcdChan <- etcdlogs
+		etcdkeys := v.Get("etcdkeys")
+		if etcdkeys != nil {
+			etcdChan <- etcdkeys
 		}
 	})
 	//开始监听

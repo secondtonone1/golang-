@@ -46,13 +46,13 @@ func WatchLogFile(pathkey string, datapath string, ctx context.Context, keychan 
 		case msg, ok := <-tailFile.Lines:
 			if !ok {
 				fmt.Printf("tail file close reopen, filename: %s\n", tailFile.Filename)
-				time.Sleep(100 * time.Millisecond)
+				time.Sleep(10 * time.Second)
 				continue
 			}
 			//添加kafka逻辑
 			kafProducer.PutIntoKafka(pathkey, msg.Text)
 		case <-ctx.Done():
-			fmt.Println("receive main gouroutine exit msg")
+			fmt.Println("receive parent gouroutine exit msg")
 			fmt.Println("watch log file ", pathkey, " goroutine exited")
 			return
 		}

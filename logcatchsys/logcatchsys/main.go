@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	etcdlogconf "golang-/logcatchsys/etcdlogconf"
 	kafkaqueue "golang-/logcatchsys/kafka"
 	"golang-/logcatchsys/logconfig"
 	"golang-/logcatchsys/logtailf"
@@ -11,6 +12,7 @@ import (
 
 var mainOnce sync.Once
 var configMgr map[string]*logconfig.ConfigData
+var etcdMgr map[string]*etcdlogconf.EtcdLogMgr
 
 //var etcdData
 
@@ -18,6 +20,9 @@ const KEYCHANSIZE = 20
 
 func ConstructMgr(configPaths interface{}, keyChan chan string, kafkaProducer *kafkaqueue.ProducerKaf) {
 
+	if configPaths == nil {
+		return
+	}
 	for _, configData := range configPaths.([]interface{}) {
 		conKey := ""
 		conVal := ""
@@ -46,17 +51,11 @@ func ConstructMgr(configPaths interface{}, keyChan chan string, kafkaProducer *k
 
 }
 
-func ConstructEtcd(etcdDatas interface{}, keyChan chan string, kafkaProducer *kafkaqueue.ProducerKaf) {
-	logkeys := etcdDatas.([]interface{})
-	for _, logkey := range logkeys {
-		fmt.Println(logkey.(string))
-	}
-
-}
-
 //根据yaml文件修改后返回的配置信息，启动和关闭goroutine
 func updateConfigGoroutine(pathData interface{}, keyChan chan string, kafkaProducer *kafkaqueue.ProducerKaf) {
-
+	if pathData == nil {
+		return
+	}
 	pathDataNew := make(map[string]string)
 	for _, configData := range pathData.([]interface{}) {
 		conKey := ""
@@ -96,7 +95,7 @@ func updateConfigGoroutine(pathData interface{}, keyChan chan string, kafkaProdu
 			ctx, cancel := context.WithCancel(context.Background())
 			configData.ConfigCancel = cancel
 			configMgr[conkey] = configData
-			fmt.Println(conval)
+			//fmt.Println(conval)
 			go logtailf.WatchLogFile(configData.ConfigKey, configData.ConfigValue,
 				ctx, keyChan, kafkaProducer)
 			continue
@@ -115,19 +114,17 @@ func updateConfigGoroutine(pathData interface{}, keyChan chan string, kafkaProdu
 	}
 }
 
-//根据etcd中的日志监控信息启动和关闭协程
-func updateEtcdGoroutine(etcdlogData interface{}) {
-	logkeys := etcdlogData.([]interface{})
-	for _, logkey := range logkeys {
-		fmt.Println(logkey.(string))
-	}
-}
-
 func main() {
 	v := logconfig.InitVipper()
 	configPaths, confres := logconfig.ReadConfig(v, "collectlogs")
-	if configPaths == nil || !confres {
+	if !confres {
 		fmt.Println("read config failed")
+		return
+	}
+
+	etcdKeys, etcdres := logconfig.ReadConfig(v, "etcdkeys")
+	if !etcdres {
+		fmt.Println("read config etcdkeys failed")
 		return
 	}
 
@@ -141,11 +138,20 @@ func main() {
 	configMgr = make(map[string]*logconfig.ConfigData)
 	keyChan := make(chan string, KEYCHANSIZE)
 	ConstructMgr(configPaths, keyChan, kafkaProducer)
+
 	//监听配置文件
 	ctx, cancel := context.WithCancel(context.Background())
 	pathChan := make(chan interface{})
 	etcdChan := make(chan interface{})
 	go logconfig.WatchConfig(ctx, v, pathChan, etcdChan)
+
+	//构造协程监控配置中的etcd key
+	etcdKeyChan := make(chan string, KEYCHANSIZE)
+	etcdMgr := etcdlogconf.ConstructEtcd(etcdKeys, etcdKeyChan, kafkaProducer)
+	for _, etcdMgrVal := range etcdMgr {
+		go etcdlogconf.WatchEtcdKeys(etcdMgrVal)
+	}
+
 	defer func() {
 		mainOnce.Do(func() {
 			if err := recover(); err != nil {
@@ -156,6 +162,11 @@ func main() {
 				oldval.ConfigCancel()
 			}
 			configMgr = nil
+
+			for _, oldval := range etcdMgr {
+				oldval.Cancel()
+			}
+			etcdMgr = nil
 			kafkaProducer.Producer.Close()
 		})
 	}()
@@ -172,7 +183,7 @@ func main() {
 			if !ok {
 				return
 			}
-			updateEtcdGoroutine(etcdLogData)
+			etcdlogconf.UpdateEtcdGoroutine(etcdMgr, etcdLogData, kafkaProducer, etcdKeyChan)
 		case keystr := <-keyChan:
 			val, ok := configMgr[keystr]
 			if !ok {
@@ -183,6 +194,13 @@ func main() {
 			ctxcover, val.ConfigCancel = context.WithCancel(context.Background())
 			go logtailf.WatchLogFile(keystr, val.ConfigValue,
 				ctxcover, keyChan, kafkaProducer)
+		case keystr := <-etcdKeyChan:
+			val, ok := etcdMgr[keystr]
+			if !ok {
+				continue
+			}
+			fmt.Println("recover etcd watch ", keystr)
+			go etcdlogconf.WatchEtcdKeys(val)
 		}
 	}
 }

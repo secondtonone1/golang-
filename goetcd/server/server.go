@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	EtcdKey string = "name"
-	EtcdVal string = "zack"
+	EtcdKey string = "collectlogkey1"
+	EtcdVal string = "D:/golangwork/src/golang-/logcatchsys/logdir2/log.txt"
 )
 
 func main() {
@@ -34,7 +34,7 @@ func main() {
 	}
 
 	ctx, cancel = context.WithTimeout(context.Background(), time.Second)
-	resp, err := cli.Get(ctx, EtcdKey)
+	resp, err := cli.Get(ctx, "EtcdKey")
 	cancel()
 	if err != nil {
 		fmt.Println("get failed, err:", err)

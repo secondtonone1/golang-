@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	EtcdKey = "/logcatchsys/config/"
+	EtcdKey = "collectlogkey1"
 )
 
 type LogConf struct {
@@ -58,17 +58,19 @@ func main() {
 	defer etcdClient.ReleaseEtcd()
 
 	var logConfArr []LogConf
+
 	logConfArr = append(
 		logConfArr,
 		LogConf{
-			Path:  "D:/golangwork/src/golang-",
+			Path:  "D:/golangwork/src/golang-/logcatchsys/logdir1/log.txt",
 			Topic: "golang_log",
 		},
 	)
+
 	logConfArr = append(
 		logConfArr,
 		LogConf{
-			Path:  "D:/golangwork/src/go.etcd.io",
+			Path:  "D:/golangwork/src/golang-/logcatchsys/logdir2/log.txt",
 			Topic: "etcd_log",
 		},
 	)
