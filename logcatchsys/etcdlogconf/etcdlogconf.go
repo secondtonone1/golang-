@@ -41,14 +41,14 @@ type EtcdLogMgr struct {
 	EtcdConfMap   map[string]*EtcdLogConf
 }
 
-func ConstructEtcd(etcdDatas interface{}, keyChan chan string, kafkaProducer *kafkaqueue.ProducerKaf) map[string]*EtcdLogMgr {
+func ConstructEtcd(etcdDatas interface{}, keyChan chan string, kafkaProducer *kafkaqueue.ProducerKaf, etcdaddr interface{}) map[string]*EtcdLogMgr {
 	etcdMgr := make(map[string]*EtcdLogMgr)
 	if etcdDatas == nil {
 		return etcdMgr
 	}
 	logkeys := etcdDatas.([]interface{})
 	for _, logkey := range logkeys {
-		clientv3 := InitEtcdClient()
+		clientv3 := InitEtcdClient(etcdaddr)
 		if clientv3 == nil {
 			continue
 		}
@@ -67,7 +67,8 @@ func ConstructEtcd(etcdDatas interface{}, keyChan chan string, kafkaProducer *ka
 }
 
 //根据etcd中的日志监控信息启动和关闭协程
-func UpdateEtcdGoroutine(etcdMgr map[string]*EtcdLogMgr, etcdlogData interface{}, kafkaProducer *kafkaqueue.ProducerKaf, keyChan chan string) {
+func UpdateEtcdGoroutine(etcdMgr map[string]*EtcdLogMgr, etcdlogData interface{}, kafkaProducer *kafkaqueue.ProducerKaf,
+	keyChan chan string, etcdaddr interface{}) {
 	if etcdlogData == nil {
 		return
 	}
@@ -87,7 +88,7 @@ func UpdateEtcdGoroutine(etcdMgr map[string]*EtcdLogMgr, etcdlogData interface{}
 
 	for newkey, _ := range newkeyMap {
 		if _, ok := etcdMgr[newkey]; !ok {
-			clientv3 := InitEtcdClient()
+			clientv3 := InitEtcdClient(etcdaddr)
 			if clientv3 == nil {
 				continue
 			}
@@ -106,9 +107,13 @@ func UpdateEtcdGoroutine(etcdMgr map[string]*EtcdLogMgr, etcdlogData interface{}
 	}
 }
 
-func InitEtcdClient() *clientv3.Client {
+func InitEtcdClient(etcdaddr interface{}) *clientv3.Client {
+	endPoints := make([]string, 0, 20)
+	for _, addr := range etcdaddr.([]interface{}) {
+		endPoints = append(endPoints, addr.(string))
+	}
 	cli, err := clientv3.New(clientv3.Config{
-		Endpoints:   []string{"localhost:2379", "localhost:3379", "localhost:4379"},
+		Endpoints:   endPoints,
 		DialTimeout: 5 * time.Second,
 	})
 	if err != nil {

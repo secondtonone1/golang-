@@ -118,13 +118,19 @@ func main() {
 	v := logconfig.InitVipper()
 	configPaths, confres := logconfig.ReadConfig(v, "collectlogs")
 	if !confres {
-		fmt.Println("read config failed")
+		fmt.Println("read config collectlogs failed")
 		return
 	}
 
 	etcdKeys, etcdres := logconfig.ReadConfig(v, "etcdkeys")
 	if !etcdres {
 		fmt.Println("read config etcdkeys failed")
+		return
+	}
+
+	etcdconfig, etcdconfres := logconfig.ReadConfig(v, "etcdconfig")
+	if !etcdconfres {
+		fmt.Println("read config etcdconfig failed")
 		return
 	}
 
@@ -147,7 +153,7 @@ func main() {
 
 	//构造协程监控配置中的etcd key
 	etcdKeyChan := make(chan string, KEYCHANSIZE)
-	etcdMgr := etcdlogconf.ConstructEtcd(etcdKeys, etcdKeyChan, kafkaProducer)
+	etcdMgr := etcdlogconf.ConstructEtcd(etcdKeys, etcdKeyChan, kafkaProducer, etcdconfig)
 	for _, etcdMgrVal := range etcdMgr {
 		go etcdlogconf.WatchEtcdKeys(etcdMgrVal)
 	}
@@ -183,7 +189,7 @@ func main() {
 			if !ok {
 				return
 			}
-			etcdlogconf.UpdateEtcdGoroutine(etcdMgr, etcdLogData, kafkaProducer, etcdKeyChan)
+			etcdlogconf.UpdateEtcdGoroutine(etcdMgr, etcdLogData, kafkaProducer, etcdKeyChan, etcdconfig)
 		case keystr := <-keyChan:
 			val, ok := configMgr[keystr]
 			if !ok {

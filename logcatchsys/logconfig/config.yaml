@@ -17,6 +17,10 @@ collectlogs:
 etcdkeys:
   - "collectlogkey1"
   - "collectlogkey2"
+etcdconfig:
+  - "localhost:2379" 
+  - "localhost:3379"
+  - "localhost:4379"
 
 
 
