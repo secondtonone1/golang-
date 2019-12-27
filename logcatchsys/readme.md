@@ -43,7 +43,8 @@ log.dirs=D:\\kafkazookeeper\\kafka_2.12-2.2.0\\logs
 .\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic logdir3 --from-beginning
 ```
 7 启动etcd
-
+记得设置etcdctl版本为3
+set ETCDCTL_API=3
 8 启动主程序
 启动logcatchsys/logcatchsys/main.go监听文件
 9 启动writefileloop循环修改文件

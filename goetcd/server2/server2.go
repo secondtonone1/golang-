@@ -66,15 +66,15 @@ func main() {
 			Topic: "golang_log",
 		},
 	)
-
-	logConfArr = append(
-		logConfArr,
-		LogConf{
-			Path:  "D:/golangwork/src/golang-/logcatchsys/logdir2/log.txt",
-			Topic: "etcd_log",
-		},
-	)
-
+	/*
+		logConfArr = append(
+			logConfArr,
+			LogConf{
+				Path:  "D:/golangwork/src/golang-/logcatchsys/logdir2/log.txt",
+				Topic: "etcd_log",
+			},
+		)
+	*/
 	data, err := json.Marshal(logConfArr)
 	if err != nil {
 		fmt.Println("json failed, ", err)

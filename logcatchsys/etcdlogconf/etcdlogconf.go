@@ -41,7 +41,8 @@ type EtcdLogMgr struct {
 	EtcdConfMap   map[string]*EtcdLogConf
 }
 
-func ConstructEtcd(etcdDatas interface{}, keyChan chan string, kafkaProducer *kafkaqueue.ProducerKaf, etcdaddr interface{}) map[string]*EtcdLogMgr {
+func ConstructEtcd(etcdDatas interface{}, keyChan chan string,
+	kafkaProducer *kafkaqueue.ProducerKaf, etcdaddr interface{}) map[string]*EtcdLogMgr {
 	etcdMgr := make(map[string]*EtcdLogMgr)
 	if etcdDatas == nil {
 		return etcdMgr
@@ -125,7 +126,8 @@ func InitEtcdClient(etcdaddr interface{}) *clientv3.Client {
 }
 
 func WatchEtcdFile(etcdFile *EtcdLogConf) {
-	logtailf.WatchLogFile(etcdFile.Topic, etcdFile.Path, etcdFile.Ctx, etcdFile.KeyChan, etcdFile.KafkaProducer)
+	logtailf.WatchLogFile(etcdFile.Topic, etcdFile.Path, etcdFile.Ctx,
+		etcdFile.KeyChan, etcdFile.KafkaProducer)
 }
 
 func UpdateEtcdFile(etcdMgr *EtcdLogMgr, wresp *clientv3.WatchResponse) {
