@@ -43,12 +43,14 @@ log.dirs=D:\\kafkazookeeper\\kafka_2.12-2.2.0\\logs
 .\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic logdir3 --from-beginning
 ```
 7 启动etcd
-记得设置etcdctl版本为3
-set ETCDCTL_API=3
+记得设置etcdctl版本为3  set ETCDCTL_API=3
+
 8 启动主程序
 启动logcatchsys/logcatchsys/main.go监听文件
+
 9 启动writefileloop循环修改文件
 当循环写文件后，可以看到消费者不断打印消费日志。
+
 10 修改config.yaml中监听的日志topic或者日志路径
 当config.yaml修改后，日志采集系统动态启动协程监听新的日志路径。
 
