@@ -8,10 +8,10 @@ catsyslog:
 collectlogs:
 #  - logpath: "D:/golangwork/src/golang-/logcatchsys/logdir1/log.txt"
 #    logtopic: "logdir1"
-#  - logpath: "D:/golangwork/src/golang-/logcatchsys/logdir2/log.txt"
-#    logtopic: "logdir2"
-#  - logpath: "D:/golangwork/src/golang-/logcatchsys/logdir3/log.txt"
-#    logtopic: "logdir3"
+  - logpath: "D:/golangwork/src/golang-/logcatchsys/logdir2/log.txt"
+    logtopic: "logdir2"
+  - logpath: "D:/golangwork/src/golang-/logcatchsys/logdir3/log.txt"
+    logtopic: "logdir3"
 
 #etcd存储的监控日志的键值
 etcdkeys:
@@ -21,6 +21,8 @@ etcdconfig:
   - "localhost:2379" 
   - "localhost:3379"
   - "localhost:4379"
+kafkaconfig:
+  kafkaaddr: "localhost:9092"
 
 
 

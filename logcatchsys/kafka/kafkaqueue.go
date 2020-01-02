@@ -3,6 +3,8 @@ package kafkaqueue
 import (
 	"fmt"
 
+	"golang-/logcatchsys/logconfig"
+
 	"github.com/Shopify/sarama"
 )
 
@@ -17,7 +19,14 @@ func CreateKafkaProducer() (sarama.SyncProducer, error) {
 	config.Producer.Return.Successes = true
 
 	// 使用给定代理地址和配置创建一个同步生产者
-	producer, err := sarama.NewSyncProducer([]string{"localhost:9092"}, config)
+
+	var kafkaddr = "localhost:9092"
+	kafkaconf, _ := logconfig.ReadConfig(logconfig.InitVipper(), "kafkaconfig.kafkaaddr")
+	if kafkaconf != nil {
+		kafkaddr = kafkaconf.(string)
+	}
+
+	producer, err := sarama.NewSyncProducer([]string{kafkaddr}, config)
 	if err != nil {
 		fmt.Println("create producer failed, ", err.Error())
 		return nil, err

@@ -12,6 +12,8 @@ import (
 )
 
 var onceLogConf sync.Once
+var onceInitVipper sync.Once
+var v *viper.Viper = nil
 
 type ConfigData struct {
 	ConfigKey    string
@@ -20,18 +22,20 @@ type ConfigData struct {
 }
 
 func InitVipper() *viper.Viper {
-	v := viper.New()
-	//设置读取的配置文件
-	v.SetConfigName("config")
-	//添加读取的配置文件路径
-	_, filename, _, _ := runtime.Caller(0)
-	v.AddConfigPath(path.Dir(filename))
-	//设置配置文件类型
-	v.SetConfigType("yaml")
-	if err := v.ReadInConfig(); err != nil {
-		fmt.Printf("err:%s\n", err)
-		return nil
-	}
+	onceInitVipper.Do(func() {
+		v = viper.New()
+		//设置读取的配置文件
+		v.SetConfigName("config")
+		//添加读取的配置文件路径
+		_, filename, _, _ := runtime.Caller(0)
+		v.AddConfigPath(path.Dir(filename))
+		//设置配置文件类型
+		v.SetConfigType("yaml")
+		if err := v.ReadInConfig(); err != nil {
+			fmt.Printf("err:%s\n", err)
+		}
+	})
+
 	return v
 }
 

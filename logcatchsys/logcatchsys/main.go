@@ -116,6 +116,10 @@ func updateConfigGoroutine(pathData interface{}, keyChan chan string, kafkaProdu
 
 func main() {
 	v := logconfig.InitVipper()
+	if v == nil {
+		fmt.Println("init vipper failed")
+		return
+	}
 	configPaths, confres := logconfig.ReadConfig(v, "collectlogs")
 	if !confres {
 		fmt.Println("read config collectlogs failed")

@@ -54,4 +54,7 @@ log.dirs=D:\\kafkazookeeper\\kafka_2.12-2.2.0\\logs
 10 修改config.yaml中监听的日志topic或者日志路径
 当config.yaml修改后，日志采集系统动态启动协程监听新的日志路径。
 
+11 通过etcdwrite文件夹下etcdwrite.go可以更新etcd中键值为collectlogkey1的数据，从而观察我们的日志系统根据日志路径修改，动态启动和关闭协程监控。
+
+
 
