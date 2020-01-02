@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	kafkaqueue "golang-/logcatchsys/kafka"
+	kafkaproducer "golang-/logcatchsys/kafkaproducer"
 	logtailf "golang-/logcatchsys/logtailf"
 	"time"
 
@@ -23,26 +23,26 @@ func init() {
 }
 
 type EtcdLogConf struct {
-	Path          string                  `json:"path"`
-	Topic         string                  `json:"topic"`
-	Ctx           context.Context         `json:"-"`
-	Cancel        context.CancelFunc      `json:"-"`
-	KeyChan       chan string             `json:"-"`
-	KafkaProducer *kafkaqueue.ProducerKaf `json:"-"`
+	Path          string                     `json:"path"`
+	Topic         string                     `json:"topic"`
+	Ctx           context.Context            `json:"-"`
+	Cancel        context.CancelFunc         `json:"-"`
+	KeyChan       chan string                `json:"-"`
+	KafkaProducer *kafkaproducer.ProducerKaf `json:"-"`
 }
 
 type EtcdLogMgr struct {
 	Ctx           context.Context
 	Cancel        context.CancelFunc
 	KeyChan       chan string
-	KafkaProducer *kafkaqueue.ProducerKaf
+	KafkaProducer *kafkaproducer.ProducerKaf
 	EtcdKey       string
 	EtcdClient    *clientv3.Client
 	EtcdConfMap   map[string]*EtcdLogConf
 }
 
 func ConstructEtcd(etcdDatas interface{}, keyChan chan string,
-	kafkaProducer *kafkaqueue.ProducerKaf, etcdaddr interface{}) map[string]*EtcdLogMgr {
+	kafkaProducer *kafkaproducer.ProducerKaf, etcdaddr interface{}) map[string]*EtcdLogMgr {
 	etcdMgr := make(map[string]*EtcdLogMgr)
 	if etcdDatas == nil {
 		return etcdMgr
@@ -68,7 +68,7 @@ func ConstructEtcd(etcdDatas interface{}, keyChan chan string,
 }
 
 //根据etcd中的日志监控信息启动和关闭协程
-func UpdateEtcdGoroutine(etcdMgr map[string]*EtcdLogMgr, etcdlogData interface{}, kafkaProducer *kafkaqueue.ProducerKaf,
+func UpdateEtcdGoroutine(etcdMgr map[string]*EtcdLogMgr, etcdlogData interface{}, kafkaProducer *kafkaproducer.ProducerKaf,
 	keyChan chan string, etcdaddr interface{}) {
 	if etcdlogData == nil {
 		return

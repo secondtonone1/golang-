@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	etcdlogconf "golang-/logcatchsys/etcdlogconf"
-	kafkaqueue "golang-/logcatchsys/kafka"
+	kafkaproducer "golang-/logcatchsys/kafkaproducer"
 	"golang-/logcatchsys/logconfig"
 	"golang-/logcatchsys/logtailf"
 	"sync"
@@ -18,7 +18,7 @@ var etcdMgr map[string]*etcdlogconf.EtcdLogMgr
 
 const KEYCHANSIZE = 20
 
-func ConstructMgr(configPaths interface{}, keyChan chan string, kafkaProducer *kafkaqueue.ProducerKaf) {
+func ConstructMgr(configPaths interface{}, keyChan chan string, kafkaProducer *kafkaproducer.ProducerKaf) {
 
 	if configPaths == nil {
 		return
@@ -52,7 +52,7 @@ func ConstructMgr(configPaths interface{}, keyChan chan string, kafkaProducer *k
 }
 
 //根据yaml文件修改后返回的配置信息，启动和关闭goroutine
-func updateConfigGoroutine(pathData interface{}, keyChan chan string, kafkaProducer *kafkaqueue.ProducerKaf) {
+func updateConfigGoroutine(pathData interface{}, keyChan chan string, kafkaProducer *kafkaproducer.ProducerKaf) {
 	if pathData == nil {
 		return
 	}
@@ -138,13 +138,13 @@ func main() {
 		return
 	}
 
-	producer, err := kafkaqueue.CreateKafkaProducer()
+	producer, err := kafkaproducer.CreateKafkaProducer()
 	if err != nil {
 		fmt.Println("create producer failed ")
 		return
 	}
 	//构造协程监控配置中的日志
-	kafkaProducer := &kafkaqueue.ProducerKaf{Producer: producer}
+	kafkaProducer := &kafkaproducer.ProducerKaf{Producer: producer}
 	configMgr = make(map[string]*logconfig.ConfigData)
 	keyChan := make(chan string, KEYCHANSIZE)
 	ConstructMgr(configPaths, keyChan, kafkaProducer)

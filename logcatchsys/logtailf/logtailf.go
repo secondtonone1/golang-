@@ -3,13 +3,13 @@ package logtailf
 import (
 	"context"
 	"fmt"
-	kafkaqueue "golang-/logcatchsys/kafka"
+	kafkaproducer "golang-/logcatchsys/kafkaproducer"
 	"time"
 
 	"github.com/hpcloud/tail"
 )
 
-func WatchLogFile(pathkey string, datapath string, ctx context.Context, keychan chan<- string, kafProducer *kafkaqueue.ProducerKaf) {
+func WatchLogFile(pathkey string, datapath string, ctx context.Context, keychan chan<- string, kafProducer *kafkaproducer.ProducerKaf) {
 	fmt.Println("begin goroutine watch log file ", pathkey)
 	tailFile, err := tail.TailFile(datapath, tail.Config{
 		//文件被移除或被打包，需要重新打开

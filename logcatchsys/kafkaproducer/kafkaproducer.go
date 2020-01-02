@@ -1,4 +1,4 @@
-package kafkaqueue
+package kafkaproducer
 
 import (
 	"fmt"
