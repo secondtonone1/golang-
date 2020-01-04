@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"golang-/codetest/codetest"
+)
 
 /*
 type Bird interface {
@@ -114,10 +116,13 @@ func main() {
 		GetFlyType3(bf)
 		GetFlyType3(hu)
 	*/
-	emps := EmpStruct{num: 1}
-	var empi EmpInter
-	empi = emps
-	fmt.Println(empi)
-	fmt.Println(emps)
+	/*
+		emps := EmpStruct{num: 1}
+		var empi EmpInter
+		empi = emps
+		fmt.Println(empi)
+		fmt.Println(emps)
+	*/
+	codetest.CodeTest()
 
 }
