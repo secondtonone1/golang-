@@ -49,3 +49,19 @@ http.port: 9200
 之后/usr/local/elasticsearch-6.2.4/bin/elasticsearch 启动
 ## 代码测试增删改查
 测试增删改查的代码在goelesearch.go中
+
+## kibana 安装和配置启动
+kibana各版本下载地址
+[https://www.elastic.co/cn/downloads/past-releases#kibana](https://www.elastic.co/cn/downloads/past-releases#kibana)
+由于我的es版本为6.2.4，所以我下载kibana版本也为6.2.4
+下载后解压 tar zxvf kibana-6.4.2.tar.gz -C /usr/local
+修改/usr/local/kibana-6.4.2/config/kibana.yml
+
+``` cmd
+server.port: 5601
+server.host: "localhost"
+elasticsearch.url: "http://localhost:9200"
+```
+进入/usr/local/kibana-6.4.2/config/kibana启动即可
+
+可以在Mangement页面设置索引为logdir3，然后去Discover界面可以搜索Index为logdir3指定日志
