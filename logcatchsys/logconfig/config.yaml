@@ -23,6 +23,9 @@ etcdconfig:
   - "localhost:4379"
 kafkaconfig:
   kafkaaddr: "localhost:9092"
+elasticconfig:
+  elasticaddr: "localhost:9200"
+  typestr: "catlog"
 
 
 

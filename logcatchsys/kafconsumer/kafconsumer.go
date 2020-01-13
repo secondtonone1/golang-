@@ -5,13 +5,20 @@ import (
 	"fmt"
 	"golang-/logcatchsys/logconfig"
 	"sync"
-
+	"strconv"
 	"github.com/Shopify/sarama"
+	"github.com/olivere/elastic"
 )
 
 type TopicPart struct {
 	Topic     string
 	Partition int32
+}
+
+type LogData struct {
+	Topic string
+	Log   string
+	Id   int32 
 }
 
 type TopicData struct {
@@ -144,16 +151,57 @@ func ConsumeTopic(consumer sarama.Consumer) {
 }
 
 func ReadFromEtcd(topicData *TopicData) {
-	defer func() {
+	
+	fmt.Printf("kafka consumer begin to read message, topic is %s, part is %d\n", topicData.TPartition.Topic,
+		topicData.TPartition.Partition)
+
+	logger = log.New(os.Stdout, "LOGCAT", log.LstdFlags|log.Lshortfile)
+	elastiaddr, _ := logconfig.ReadConfig(logconfig.InitVipper(), "elasticconfig.elasticaddr")
+	if elastiaddr == nil{
+		elastiaddr = "localhost:9200"
+	}
+	var err error
+	esClient, err = elastic.NewClient(elastic.SetURL(elastiaddr.(string)),
+		elastic.SetErrorLog(logger))
+	if err != nil {
+			// Handle error
+		logger.Println("create elestic client error ", err.Error())
+		return
+	}
+		
+	info, code, err := esClient.Ping(host).Do(context.Background())
+	if err != nil {
+		logger.Println("elestic search ping error, ", err.Error())
+		esClient.Stop()
+		esClient = nil
+		return
+	}
+	fmt.Printf("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
+		
+	esversion, err := esClient.ElasticsearchVersion(host)
+	if err != nil {
+		fmt.Println("elestic search version get failed, ", err.Error())
+		esClient.Stop()
+		esClient = nil
+		return
+	}
+	fmt.Printf("Elasticsearch version %s\n", esversion)
+
+	defer func(esClient *elastic.Client) {
 		if err := recover(); err != nil {
 			fmt.Printf("consumer message panic %s, topic is %s, part is %d\n", err,
 				topicData.TPartition.Topic, topicData.TPartition.Partition)
 			topicChan <- topicData.TPartition
 		}
-	}()
-	fmt.Printf("kafka consumer begin to read message, topic is %s, part is %d\n", topicData.TPartition.Topic,
-		topicData.TPartition.Partition)
-	panic("test panic")
+		
+	}(esClient)
+
+	var typestr = "catlog"
+	typeconf, _ := logconfig.ReadConfig(logconfig.InitVipper(), "elasticconfig.typestr")
+	if typeconf != nil {
+		typestr = typeconf.(string)
+	}
+
 	for {
 		select {
 		case msg, ok := <-topicData.KafConsumer.Messages():
@@ -163,6 +211,16 @@ func ReadFromEtcd(topicData *TopicData) {
 			}
 			fmt.Printf("%s---Partition:%d, Offset:%d, Key:%s, Value:%s\n",
 				msg.Topic, msg.Partition, msg.Offset, string(msg.Key), string(msg.Value))
+						
+			createIndex, err := esClient.Index().Index(msg.Topic).Type(typestr).Id(strconv.Itoa(msg.Partition)+
+			strconv.Itoa(msg.Offset)).BodyJson(logdata).Do(context.Background())
+
+			if err != nil {
+				logger.Println("create index failed, ", err.Error())
+				continue
+			}
+			fmt.Println("create index success, ", createIndex)
+			
 		case <-topicData.Ctx.Done():
 			fmt.Println("receive exited from parent goroutine !")
 			return

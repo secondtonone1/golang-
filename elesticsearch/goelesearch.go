@@ -40,6 +40,7 @@ func GetEsClient() *elastic.Client {
 		info, code, err := esClient.Ping(host).Do(context.Background())
 		if err != nil {
 			logger.Println("elestic search ping error, ", err.Error())
+			esClient.Stop()
 			esClient = nil
 			return
 		}
@@ -48,6 +49,7 @@ func GetEsClient() *elastic.Client {
 		esversion, err := esClient.ElasticsearchVersion(host)
 		if err != nil {
 			fmt.Println("elestic search version get failed, ", err.Error())
+			esClient.Stop()
 			esClient = nil
 			return
 		}
