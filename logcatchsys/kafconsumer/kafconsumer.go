@@ -4,8 +4,11 @@ import (
 	"context"
 	"fmt"
 	"golang-/logcatchsys/logconfig"
-	"sync"
+	"log"
+	"os"
 	"strconv"
+	"sync"
+
 	"github.com/Shopify/sarama"
 	"github.com/olivere/elastic"
 )
@@ -18,7 +21,7 @@ type TopicPart struct {
 type LogData struct {
 	Topic string
 	Log   string
-	Id   int32 
+	Id    string
 }
 
 type TopicData struct {
@@ -151,25 +154,25 @@ func ConsumeTopic(consumer sarama.Consumer) {
 }
 
 func ReadFromEtcd(topicData *TopicData) {
-	
+
 	fmt.Printf("kafka consumer begin to read message, topic is %s, part is %d\n", topicData.TPartition.Topic,
 		topicData.TPartition.Partition)
 
-	logger = log.New(os.Stdout, "LOGCAT", log.LstdFlags|log.Lshortfile)
+	logger := log.New(os.Stdout, "LOGCAT", log.LstdFlags|log.Lshortfile)
 	elastiaddr, _ := logconfig.ReadConfig(logconfig.InitVipper(), "elasticconfig.elasticaddr")
-	if elastiaddr == nil{
+	if elastiaddr == nil {
 		elastiaddr = "localhost:9200"
 	}
-	var err error
-	esClient, err = elastic.NewClient(elastic.SetURL(elastiaddr.(string)),
+
+	esClient, err := elastic.NewClient(elastic.SetURL(elastiaddr.(string)),
 		elastic.SetErrorLog(logger))
 	if err != nil {
-			// Handle error
+		// Handle error
 		logger.Println("create elestic client error ", err.Error())
 		return
 	}
-		
-	info, code, err := esClient.Ping(host).Do(context.Background())
+
+	info, code, err := esClient.Ping(elastiaddr.(string)).Do(context.Background())
 	if err != nil {
 		logger.Println("elestic search ping error, ", err.Error())
 		esClient.Stop()
@@ -177,8 +180,8 @@ func ReadFromEtcd(topicData *TopicData) {
 		return
 	}
 	fmt.Printf("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
-		
-	esversion, err := esClient.ElasticsearchVersion(host)
+
+	esversion, err := esClient.ElasticsearchVersion(elastiaddr.(string))
 	if err != nil {
 		fmt.Println("elestic search version get failed, ", err.Error())
 		esClient.Stop()
@@ -193,7 +196,7 @@ func ReadFromEtcd(topicData *TopicData) {
 				topicData.TPartition.Topic, topicData.TPartition.Partition)
 			topicChan <- topicData.TPartition
 		}
-		
+
 	}(esClient)
 
 	var typestr = "catlog"
@@ -211,16 +214,16 @@ func ReadFromEtcd(topicData *TopicData) {
 			}
 			fmt.Printf("%s---Partition:%d, Offset:%d, Key:%s, Value:%s\n",
 				msg.Topic, msg.Partition, msg.Offset, string(msg.Key), string(msg.Value))
-						
-			createIndex, err := esClient.Index().Index(msg.Topic).Type(typestr).Id(strconv.Itoa(msg.Partition)+
-			strconv.Itoa(msg.Offset)).BodyJson(logdata).Do(context.Background())
+			idstr := strconv.FormatInt(int64(msg.Partition), 10) + strconv.FormatInt(msg.Offset, 10)
+			logdata := &LogData{Topic: msg.Topic, Log: string(msg.Value), Id: idstr}
+			createIndex, err := esClient.Index().Index(msg.Topic).Type(typestr).Id(idstr).BodyJson(logdata).Do(context.Background())
 
 			if err != nil {
 				logger.Println("create index failed, ", err.Error())
 				continue
 			}
 			fmt.Println("create index success, ", createIndex)
-			
+
 		case <-topicData.Ctx.Done():
 			fmt.Println("receive exited from parent goroutine !")
 			return

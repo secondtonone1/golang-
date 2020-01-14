@@ -89,6 +89,6 @@ zookeeper.connect=localhost:2181 #zookeeper地址和端口，单机配置部署�
 启动kafka
 /usr/local/kafka_2.13-2.4.0/bin/kafka-server-start.sh  /usr/local/kafka_2.13-2.4.0/config/server.properties
 
-
+### 配置elastic和启动
 
 
