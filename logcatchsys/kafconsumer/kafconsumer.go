@@ -164,7 +164,7 @@ func ReadFromEtcd(topicData *TopicData) {
 		elastiaddr = "localhost:9200"
 	}
 
-	esClient, err := elastic.NewClient(elastic.SetURL(elastiaddr.(string)),
+	esClient, err := elastic.NewClient(elastic.SetURL("http://"+elastiaddr.(string)),
 		elastic.SetErrorLog(logger))
 	if err != nil {
 		// Handle error
@@ -172,7 +172,7 @@ func ReadFromEtcd(topicData *TopicData) {
 		return
 	}
 
-	info, code, err := esClient.Ping(elastiaddr.(string)).Do(context.Background())
+	info, code, err := esClient.Ping("http://" + elastiaddr.(string)).Do(context.Background())
 	if err != nil {
 		logger.Println("elestic search ping error, ", err.Error())
 		esClient.Stop()
@@ -181,7 +181,7 @@ func ReadFromEtcd(topicData *TopicData) {
 	}
 	fmt.Printf("Elasticsearch returned with code %d and version %s\n", code, info.Version.Number)
 
-	esversion, err := esClient.ElasticsearchVersion(elastiaddr.(string))
+	esversion, err := esClient.ElasticsearchVersion("http://" + elastiaddr.(string))
 	if err != nil {
 		fmt.Println("elestic search version get failed, ", err.Error())
 		esClient.Stop()

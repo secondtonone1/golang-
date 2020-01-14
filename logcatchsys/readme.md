@@ -89,6 +89,35 @@ zookeeper.connect=localhost:2181 #zookeeper地址和端口，单机配置部署�
 启动kafka
 /usr/local/kafka_2.13-2.4.0/bin/kafka-server-start.sh  /usr/local/kafka_2.13-2.4.0/config/server.properties
 
-### 配置elastic和启动
+### 下载elastic并解压
+``` cmd
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.4.tar.gz
+tar -zxvf elasticsearch-6.2.4.tar.gz -C /usr/local/
+```
+这时如果执行
+``` cmd
+sh /usr/local/elasticsearch-6.2.4/bin/elasticsearch
+```
+执行上述命令回报错，因为elasticsearch增加了安全设置，不能通过root执行，所以我们创建一个账号
+并将该目录赋予给这个账号
+``` cmd
+groupadd secondtonone
+useradd secondtonone -g secondtonone
+chown -R secondtonone:secondtonone elasticsearch-6.2.4  
+```
+创建日志目录和数据目录
+``` cmd
+mkdir /home/secondtonone/eleticsearch/log
+mkdir /home/secondtonone/eleticsearch/data
+```
+### 修改es配置
+在/usr/local/elasticsearch-6.2.4/config/elasticsearch.yml设置数据目录，日志目录，地址和端口
+``` cmd
+path.data: /home/secondtonone/eleticsearch/data
+path.logs: /home/secondtonone/eleticsearch/log
+network.host: 127.0.0.1
+http.port: 9200
+```
+之后/usr/local/elasticsearch-6.2.4/bin/elasticsearch 启动
 
 

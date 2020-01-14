@@ -11,3 +11,6 @@ sleep 4
 echo "begin to start etcd"
 #启动etcd
 /home/secondtonone/workspace/goProject/src/golang-/logcatchsys/config-etcd-srv/etcd_start.sh &
+sleep 5
+#启动elastic
+/usr/local/elasticsearch-6.2.4/bin/elasticsearch &

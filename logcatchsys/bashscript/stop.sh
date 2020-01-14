@@ -12,3 +12,16 @@ sleep 3
 echo "begin to stop zookeeper"
 /usr/local/zookeeper-3.4.14/bin/zkServer.sh stop &
 sleep 3
+# 关闭elastic
+
+
+ID=`ps -ef | grep "elasticsearch" | grep -v "grep" | grep -v "stop"| awk '{print $2}'`
+echo $ID
+echo "---------------"
+for id in $ID
+do
+kill -9 $id
+echo "killed $id"
+sleep 2
+done
+echo "---------------"

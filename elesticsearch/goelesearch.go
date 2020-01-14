@@ -167,18 +167,20 @@ func main() {
 		return
 	}
 	defer esClient.Stop()
-	logdata := &LogData{Topic: "logdir3", Log: "logdir3log"}
-	Exists(logdata)
+	/*
+		logdata := &LogData{Topic: "logdir3", Log: "logdir3log"}
+		Exists(logdata)
 
-	Create(logdata, "2", "catlog")
-	Get(logdata, "2", "catlog")
-	changeMap := make(map[string]interface{})
-	changeMap["Log"] = "Change to be helloworld"
-	Update(logdata, "2", "catlog", changeMap)
-	Get(logdata, "2", "catlog")
+		Create(logdata, "2", "catlog")
+		Get(logdata, "2", "catlog")
+		changeMap := make(map[string]interface{})
+		changeMap["Log"] = "Change to be helloworld"
+		Update(logdata, "2", "catlog", changeMap)
+		Get(logdata, "2", "catlog")
 
-	logdata1 := &LogData{Topic: "logdir1", Log: "logdir1log"}
-	Create(logdata1, "1", "catlog")
+		logdata1 := &LogData{Topic: "logdir1", Log: "logdir1log"}
+		Create(logdata1, "1", "catlog")
+	*/
 	/*
 		Delete(logdata, "2", "catlog")
 		Delete(logdata, "1", "catlog")
