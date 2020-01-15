@@ -28,36 +28,6 @@ dataLogDir=D:\\kafkazookeeper\\zookeeper-3.4.14\\log
 3 设置kafka配置，修改config目录下server.properties文件，添加
 log.dirs=D:\\kafkazookeeper\\kafka_2.12-2.2.0\\logs
 
-### 启动和测试
-4 启动kafka，执行如下命令
-.\bin\windows\kafka-server-start.bat .\config\server.properties
-5 创建测试的topic
-``` cmd
-.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 16 --topic logdir1
-.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 16 --topic logdir2
-.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 16 --topic logdir3
-```
-6 启动消费者
-``` cmd
-.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic logdir1 --from-beginning
-.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic logdir2 --from-beginning
-.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic logdir3 --from-beginning
-```
-7 启动etcd
-记得设置etcdctl版本为3  set ETCDCTL_API=3
-
-8 启动主程序
-启动logcatchsys/logcatchsys/main.go监听文件
-
-9 启动writefileloop循环修改文件
-当循环写文件后，可以看到消费者不断打印消费日志。
-
-10 修改config.yaml中监听的日志topic或者日志路径
-当config.yaml修改后，日志采集系统动态启动协程监听新的日志路径。
-
-11 通过etcdwrite文件夹下etcdwrite.go可以更新etcd中键值为collectlogkey1的数据，从而观察我们的日志系统根据日志路径修改，动态启动和关闭协程监控。
-
-
 ### 补充下 Linux 环境安装Zookeeper
 同样是将压缩包解压至usr/local目录下
 tar zxvf zookeeper-3.4.14.tar.gz -C /usr/local
@@ -120,4 +90,36 @@ http.port: 9200
 ```
 之后/usr/local/elasticsearch-6.2.4/bin/elasticsearch 启动
 
+### 启动和测试kafka
+1 启动kafka，执行如下命令
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+2 创建测试的topic
+``` cmd
+.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 16 --topic logdir1
+.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 16 --topic logdir2
+.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 16 --topic logdir3
+```
+3 启动消费者
+``` cmd
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic logdir1 --from-beginning
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic logdir2 --from-beginning
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic logdir3 --from-beginning
+```
+4 启动etcd
+记得设置etcdctl版本为3  set ETCDCTL_API=3
+### 日志采集系统如何启动
+1 启动日志监控主程序
+启动logcatchsys/logcatchsys/main.go监听文件
+
+2 启动日志分析处理的主程序
+启动logcatchsys/logdealsys/main.go从kafka消费数据，并写入elastic
+
+3 启动writefileloop循环修改文件
+当循环写文件后，可以看到日志监控程序不断打印日志改变信息，并写入kafka。
+日志处理程序不断从kafka读取数据写入elastic
+
+4 该日志系统支持热更新配置和etcd数据
+修改config.yaml中监听的日志topic或者日志路径，或者修改etcd中日志的topic或者路径，日志采集系统动态启动协程监听新的日志路径。
+
+5 通过etcdwrite文件夹下etcdwrite.go可以更新etcd中topic的数据，从而观察我们的日志系统根据日志路径修改，动态启动和关闭协程监控。
 
