@@ -40,7 +40,9 @@ func InitVipper() *viper.Viper {
 }
 
 func ReadConfig(v *viper.Viper, keystr string) (interface{}, bool) {
-
+	if v == nil {
+		return nil, false
+	}
 	valuedata := v.Get(keystr)
 	fmt.Println(valuedata)
 	return valuedata, true
@@ -70,6 +72,7 @@ func WatchConfig(ctx context.Context, v *viper.Viper, pathChan chan interface{},
 		if etcdkeys != nil {
 			etcdChan <- etcdkeys
 		}
+
 	})
 	//开始监听
 	v.WatchConfig()

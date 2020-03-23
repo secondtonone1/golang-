@@ -183,12 +183,13 @@ func main() {
 
 	for {
 		select {
+		//vipper检测到config.yaml中路径配置修改
 		case pathData, ok := <-pathChan:
 			if !ok {
 				return
 			}
 			updateConfigGoroutine(pathData, keyChan, kafkaProducer)
-
+		//vipper检测到config.yaml中etcd配置修改
 		case etcdLogData, ok := <-etcdChan:
 			if !ok {
 				return
