@@ -89,6 +89,9 @@ network.host: 127.0.0.1
 http.port: 9200
 ```
 之后/usr/local/elasticsearch-6.2.4/bin/elasticsearch 启动
+### 启动kibana
+kibana是辅助elastic的日志查看工具，我们下载kibana后，解压然后启动即可。如果elastic的端口不是默认端口，
+那要修改kibana的配置，连接elastic的端口。
 
 ### 启动和测试kafka
 1 启动kafka，执行如下命令
@@ -140,3 +143,4 @@ http.port: 9200
 [https://www.limerence2017.com/2019/12/27/golang26/](https://www.limerence2017.com/2019/12/27/golang26/)
 将kafka消息放入elasticsearch
 [https://www.limerence2017.com/2020/01/15/golang27/#more](https://www.limerence2017.com/2020/01/15/golang27/#more)
+让消费者协程支持热启动，增加崩溃自启动，当配置信息更改时，动态启动和关闭消费者协程
