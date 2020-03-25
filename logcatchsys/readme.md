@@ -144,3 +144,4 @@ kibana是辅助elastic的日志查看工具，我们下载kibana后，解压然�
 将kafka消息放入elasticsearch
 [https://www.limerence2017.com/2020/01/15/golang27/#more](https://www.limerence2017.com/2020/01/15/golang27/#more)
 让消费者协程支持热启动，增加崩溃自启动，当配置信息更改时，动态启动和关闭消费者协程
+[https://www.limerence2017.com/2020/03/24/golang28/](https://www.limerence2017.com/2020/03/24/golang28/)
