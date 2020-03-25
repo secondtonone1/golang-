@@ -128,20 +128,37 @@ kibana是辅助elastic的日志查看工具，我们下载kibana后，解压然�
 
 ### 开发记录
 实现向kafka写入消息
+
 [https://www.limerence2017.com/2019/11/21/golang20/](https://www.limerence2017.com/2019/11/21/golang20/)
+
 从kafka中读取消息，并实现文件监控
+
 [https://www.limerence2017.com/2019/11/27/golang21/](https://www.limerence2017.com/2019/11/27/golang21/)
+
 利用vipper监控配置文件，且实现热更新
+
 [https://www.limerence2017.com/2019/12/02/golang22/](https://www.limerence2017.com/2019/12/02/golang22/)
+
 根据配置文件热更新，动态启动和关闭协程
+
 [https://www.limerence2017.com/2019/12/03/golang23/](https://www.limerence2017.com/2019/12/03/golang23/)
+
 借尸还魂，当子协程崩溃后，通知父协程启动死掉的协程
+
 [https://www.limerence2017.com/2019/12/04/golang24/](https://www.limerence2017.com/2019/12/04/golang24/)
+
 重构采集系统日志监控代码，整合kafka逻辑
+
 [https://www.limerence2017.com/2019/12/06/golang25/](https://www.limerence2017.com/2019/12/06/golang25/)
+
 扩充日志监控的模式，使其支持etcd配置监控文件
+
 [https://www.limerence2017.com/2019/12/27/golang26/](https://www.limerence2017.com/2019/12/27/golang26/)
+
 将kafka消息放入elasticsearch
+
 [https://www.limerence2017.com/2020/01/15/golang27/#more](https://www.limerence2017.com/2020/01/15/golang27/#more)
+
 让消费者协程支持热启动，增加崩溃自启动，当配置信息更改时，动态启动和关闭消费者协程
+
 [https://www.limerence2017.com/2020/03/24/golang28/](https://www.limerence2017.com/2020/03/24/golang28/)
