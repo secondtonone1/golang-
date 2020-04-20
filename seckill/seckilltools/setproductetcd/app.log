@@ -1,0 +1,32 @@
+2020/04/17 13:12:28.899 [D] [setproductetcd.go:157]  etcdkey prefix is limerence/seckill/
+2020/04/17 13:12:28.918 [D] [setproductetcd.go:157]  putres is &{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:4 raft_term:4  <nil>} 
+2020/04/17 13:13:41.881 [D] [setproductetcd.go:158]  set_product_etcd
+2020/04/17 13:13:41.885 [D] [setproductetcd.go:158]  etcdkey prefix is limerence/seckill/
+2020/04/17 13:13:41.888 [D] [setproductetcd.go:158]  putres is &{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:5 raft_term:4  <nil>} 
+2020/04/18 18:27:27.040 [D] [setproductetcd.go:157]  set_product_etcd
+2020/04/18 18:27:27.044 [D] [setproductetcd.go:157]  etcdkey prefix is limerence/seckill/
+2020/04/18 18:27:27.064 [D] [setproductetcd.go:157]  putres is &{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:6 raft_term:5  <nil>} 
+2020/04/18 18:29:42.615 [D] [setproductetcd.go:157]  set_product_etcd
+2020/04/18 18:29:42.619 [D] [setproductetcd.go:157]  etcdkey prefix is limerence/seckill/
+2020/04/18 18:29:42.622 [D] [setproductetcd.go:157]  putres is &{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:7 raft_term:5  <nil>} 
+2020/04/18 18:30:00.841 [D] [setproductetcd.go:157]  set_product_etcd
+2020/04/18 18:30:00.846 [D] [setproductetcd.go:157]  etcdkey prefix is limerence/seckill/
+2020/04/18 18:30:00.849 [D] [setproductetcd.go:157]  putres is &{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:8 raft_term:5  <nil>} 
+2020/04/18 18:34:57.446 [D] [setproductetcd.go:157]  set_product_etcd
+2020/04/18 18:34:57.450 [D] [setproductetcd.go:157]  etcdkey prefix is limerence/seckill/
+2020/04/18 18:34:57.452 [D] [setproductetcd.go:157]  putres is &{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:9 raft_term:5  <nil>} 
+2020/04/18 18:40:45.955 [D] [setproductetcd.go:157]  set_product_etcd
+2020/04/18 18:40:45.959 [D] [setproductetcd.go:157]  etcdkey prefix is limerence/seckill/
+2020/04/18 18:40:45.962 [D] [setproductetcd.go:157]  putres is &{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:10 raft_term:5  <nil>} 
+2020/04/20 10:49:05.796 [D] [setproductetcd.go:157]  set_product_etcd
+2020/04/20 10:49:05.800 [D] [setproductetcd.go:157]  etcdkey prefix is limerence/seckill/
+2020/04/20 10:49:06.001 [D] [setproductetcd.go:157]  putres is &{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:11 raft_term:6  <nil>} 
+2020/04/20 11:06:21.028 [D] [setproductetcd.go:157]  set_product_etcd
+2020/04/20 11:06:21.032 [D] [setproductetcd.go:157]  etcdkey prefix is limerence/seckill/
+2020/04/20 11:06:21.034 [D] [setproductetcd.go:157]  putres is &{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:12 raft_term:6  <nil>} 
+2020/04/20 11:06:49.506 [D] [setproductetcd.go:157]  set_product_etcd
+2020/04/20 11:06:49.510 [D] [setproductetcd.go:157]  etcdkey prefix is limerence/seckill/
+2020/04/20 11:06:49.512 [D] [setproductetcd.go:157]  putres is &{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:13 raft_term:6  <nil>} 
+2020/04/20 11:52:11.733 [D] [setproductetcd.go:157]  set_product_etcd
+2020/04/20 11:52:11.736 [D] [setproductetcd.go:157]  etcdkey prefix is limerence/seckill/
+2020/04/20 11:52:11.739 [D] [setproductetcd.go:157]  putres is &{cluster_id:14841639068965178418 member_id:10276657743932975437 revision:14 raft_term:6  <nil>} 

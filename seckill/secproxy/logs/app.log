@@ -1,0 +1,236 @@
+2020/04/18 18:34:48.043 [D] [components.go:49]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:8 version:7 value:"[{\"ProductId\":1001,\"StartTime\":1992,\"EndTime\":2048,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1001,\"StartTime\":1992,\"EndTime\":2048,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/04/18 18:34:48.044 [D] [components.go:49]  secinfo.EndTime: 2048
+
+2020/04/18 18:34:48.044 [D] [components.go:49]  secinfo.ProductId: 1001
+
+2020/04/18 18:34:48.049 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/18 18:34:48.050 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/18 18:34:48.051 [D] [components.go:49]  secinfo.EndTime: 2048
+
+2020/04/18 18:34:48.052 [D] [components.go:49]  secinfo.ProductId: 1001
+
+2020/04/18 18:34:48.054 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/18 18:34:48.055 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/18 18:34:48.136 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/04/18 18:34:57.452 [D] [components.go:231]  key is 1001
+2020/04/18 18:34:57.453 [D] [components.go:231]  secinfo.EndTime: 2048
+
+2020/04/18 18:34:57.454 [D] [components.go:231]  secinfo.ProductId: 1001
+
+2020/04/18 18:34:57.455 [D] [components.go:231]  secinfo.Total: 100
+
+2020/04/18 18:34:57.456 [D] [components.go:231]  secinfo.Status: 0
+
+2020/04/18 18:40:01.557 [D] [components.go:49]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:9 version:8 value:"[{\"ProductId\":1001,\"StartTime\":1992,\"EndTime\":2048,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1001,\"StartTime\":1992,\"EndTime\":2048,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/04/18 18:40:01.558 [D] [components.go:49]  secinfo.EndTime: 2048
+
+2020/04/18 18:40:01.559 [D] [components.go:49]  secinfo.ProductId: 1001
+
+2020/04/18 18:40:01.563 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/18 18:40:01.564 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/18 18:40:01.566 [D] [components.go:49]  secinfo.EndTime: 2048
+
+2020/04/18 18:40:01.567 [D] [components.go:49]  secinfo.ProductId: 1001
+
+2020/04/18 18:40:01.569 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/18 18:40:01.570 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/18 18:40:01.643 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/04/18 18:40:45.991 [D] [components.go:231]  key is 1001
+2020/04/18 18:40:45.992 [D] [components.go:231]  secinfo.EndTime: 2048
+
+2020/04/18 18:40:45.992 [D] [components.go:231]  secinfo.ProductId: 1001
+
+2020/04/18 18:40:45.993 [D] [components.go:231]  secinfo.Total: 100
+
+2020/04/18 18:40:45.995 [D] [components.go:231]  secinfo.Status: 0
+
+2020/04/18 18:40:45.996 [D] [components.go:231]  key is 1002
+2020/04/18 18:40:45.998 [D] [components.go:231]  secinfo.EndTime: 2048
+
+2020/04/18 18:40:45.999 [D] [components.go:231]  secinfo.ProductId: 1002
+
+2020/04/18 18:40:46.000 [D] [components.go:231]  secinfo.Total: 100
+
+2020/04/18 18:40:46.001 [D] [components.go:231]  secinfo.Status: 0
+
+2020/04/20 10:49:37.978 [D] [components.go:49]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:11 version:10 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587354382,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587354382,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/04/20 10:49:37.979 [D] [components.go:49]  secinfo.EndTime: 1587354382
+
+2020/04/20 10:49:37.980 [D] [components.go:49]  secinfo.ProductId: 1001
+
+2020/04/20 10:49:37.980 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/20 10:49:37.981 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/20 10:49:37.981 [D] [components.go:49]  secinfo.EndTime: 1587354382
+
+2020/04/20 10:49:37.981 [D] [components.go:49]  secinfo.ProductId: 1002
+
+2020/04/20 10:49:37.982 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/20 10:49:37.982 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/20 10:49:38.074 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/04/20 10:49:49.230 [D] [value.go:460]  receive SecInfo 
+2020/04/20 10:49:49.231 [D] [value.go:460]  productid not found, we get product list
+2020/04/20 10:49:49.232 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     2.0002ms|   match|[44m GET     [0m /secinfo   r:/secinfo
+2020/04/20 10:54:27.791 [D] [value.go:460]  receive SecInfo 
+2020/04/20 10:54:27.793 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     2.0001ms|   match|[44m GET     [0m /secinfo   r:/secinfo
+2020/04/20 10:59:29.803 [D] [components.go:49]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:11 version:10 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587354382,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587354382,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/04/20 10:59:29.804 [D] [components.go:49]  secinfo.EndTime: 1587354382
+
+2020/04/20 10:59:29.804 [D] [components.go:49]  secinfo.ProductId: 1001
+
+2020/04/20 10:59:29.804 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/20 10:59:29.804 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/20 10:59:29.805 [D] [components.go:49]  secinfo.EndTime: 1587354382
+
+2020/04/20 10:59:29.807 [D] [components.go:49]  secinfo.ProductId: 1002
+
+2020/04/20 10:59:29.808 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/20 10:59:29.810 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/20 10:59:29.882 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/04/20 10:59:35.624 [D] [value.go:460]  receive SecInfo 
+2020/04/20 10:59:35.627 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     4.0002ms|   match|[44m GET     [0m /secinfo   r:/secinfo
+2020/04/20 11:02:02.827 [D] [components.go:49]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:11 version:10 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587354382,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587354382,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/04/20 11:02:02.828 [D] [components.go:49]  secinfo.EndTime: 1587354382
+
+2020/04/20 11:02:02.828 [D] [components.go:49]  secinfo.ProductId: 1001
+
+2020/04/20 11:02:02.833 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/20 11:02:02.834 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/20 11:02:02.837 [D] [components.go:49]  secinfo.EndTime: 1587354382
+
+2020/04/20 11:02:02.838 [D] [components.go:49]  secinfo.ProductId: 1002
+
+2020/04/20 11:02:02.840 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/20 11:02:02.841 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/20 11:02:02.909 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/04/20 11:02:07.641 [D] [value.go:460]  receive SecInfo 
+2020/04/20 11:02:07.643 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     2.0002ms|   match|[44m GET     [0m /secinfo   r:/secinfo
+2020/04/20 11:06:21.034 [D] [components.go:231]  key is 1002
+2020/04/20 11:06:21.035 [D] [components.go:231]  secinfo.EndTime: 1587350782
+
+2020/04/20 11:06:21.036 [D] [components.go:231]  secinfo.ProductId: 1002
+
+2020/04/20 11:06:21.037 [D] [components.go:231]  secinfo.Total: 100
+
+2020/04/20 11:06:21.038 [D] [components.go:231]  secinfo.Status: 0
+
+2020/04/20 11:06:21.040 [D] [components.go:231]  key is 1001
+2020/04/20 11:06:21.041 [D] [components.go:231]  secinfo.EndTime: 1587350782
+
+2020/04/20 11:06:21.043 [D] [components.go:231]  secinfo.ProductId: 1001
+
+2020/04/20 11:06:21.044 [D] [components.go:231]  secinfo.Total: 100
+
+2020/04/20 11:06:21.046 [D] [components.go:231]  secinfo.Status: 0
+
+2020/04/20 11:06:32.730 [D] [value.go:460]  receive SecInfo 
+2020/04/20 11:06:32.732 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     2.0001ms|   match|[44m GET     [0m /secinfo   r:/secinfo
+2020/04/20 11:06:49.512 [D] [components.go:231]  key is 1001
+2020/04/20 11:06:49.513 [D] [components.go:231]  secinfo.EndTime: 1587350781
+
+2020/04/20 11:06:49.514 [D] [components.go:231]  secinfo.ProductId: 1001
+
+2020/04/20 11:06:49.515 [D] [components.go:231]  secinfo.Total: 100
+
+2020/04/20 11:06:49.517 [D] [components.go:231]  secinfo.Status: 0
+
+2020/04/20 11:06:49.517 [D] [components.go:231]  key is 1002
+2020/04/20 11:06:49.519 [D] [components.go:231]  secinfo.EndTime: 1587350781
+
+2020/04/20 11:06:49.520 [D] [components.go:231]  secinfo.ProductId: 1002
+
+2020/04/20 11:06:49.521 [D] [components.go:231]  secinfo.Total: 100
+
+2020/04/20 11:06:49.522 [D] [components.go:231]  secinfo.Status: 0
+
+2020/04/20 11:06:56.167 [D] [value.go:460]  receive SecInfo 
+2020/04/20 11:06:56.169 [D] [value.go:460]  get product faild , error code is 1007
+2020/04/20 11:06:56.173 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     6.0003ms|   match|[44m GET     [0m /secinfo   r:/secinfo
+2020/04/20 11:52:11.739 [D] [components.go:231]  key is 1001
+2020/04/20 11:52:11.740 [D] [components.go:231]  secinfo.EndTime: 1587353781
+
+2020/04/20 11:52:11.741 [D] [components.go:231]  secinfo.ProductId: 1001
+
+2020/04/20 11:52:11.742 [D] [components.go:231]  secinfo.Total: 100
+
+2020/04/20 11:52:11.743 [D] [components.go:231]  secinfo.Status: 0
+
+2020/04/20 11:52:11.744 [D] [components.go:231]  key is 1002
+2020/04/20 11:52:11.746 [D] [components.go:231]  secinfo.EndTime: 1587353781
+
+2020/04/20 11:52:11.747 [D] [components.go:231]  secinfo.ProductId: 1002
+
+2020/04/20 11:52:11.748 [D] [components.go:231]  secinfo.Total: 100
+
+2020/04/20 11:52:11.749 [D] [components.go:231]  secinfo.Status: 0
+
+2020/04/20 11:52:20.695 [D] [components.go:49]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/04/20 11:52:20.697 [D] [components.go:49]  secinfo.EndTime: 1587353781
+
+2020/04/20 11:52:20.697 [D] [components.go:49]  secinfo.ProductId: 1001
+
+2020/04/20 11:52:20.701 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/20 11:52:20.702 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/20 11:52:20.704 [D] [components.go:49]  secinfo.EndTime: 1587353781
+
+2020/04/20 11:52:20.707 [D] [components.go:49]  secinfo.ProductId: 1002
+
+2020/04/20 11:52:20.708 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/20 11:52:20.710 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/20 11:52:20.781 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/04/20 11:52:27.042 [D] [value.go:460]  receive SecInfo 
+2020/04/20 11:52:27.044 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     2.0001ms|   match|[44m GET     [0m /secinfo   r:/secinfo
+2020/04/20 11:52:41.112 [D] [value.go:460]  receive SecInfo 
+2020/04/20 11:52:41.114 [D] [value.go:460]  productid not found, we get product list
+2020/04/20 11:52:41.118 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     6.0004ms|   match|[44m GET     [0m /secinfo   r:/secinfo
+2020/04/20 11:55:00.086 [D] [components.go:49]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/04/20 11:55:00.087 [D] [components.go:49]  secinfo.EndTime: 1587353781
+
+2020/04/20 11:55:00.087 [D] [components.go:49]  secinfo.ProductId: 1001
+
+2020/04/20 11:55:00.092 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/20 11:55:00.093 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/20 11:55:00.096 [D] [components.go:49]  secinfo.EndTime: 1587353781
+
+2020/04/20 11:55:00.097 [D] [components.go:49]  secinfo.ProductId: 1002
+
+2020/04/20 11:55:00.099 [D] [components.go:49]  secinfo.Total: 100
+
+2020/04/20 11:55:00.100 [D] [components.go:49]  secinfo.Status: 0
+
+2020/04/20 11:55:00.169 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/04/20 11:55:04.946 [D] [value.go:460]  receive SecInfo 
+2020/04/20 11:55:04.949 [D] [value.go:460]  productid not found, we get product list
+2020/04/20 11:55:04.952 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     6.0003ms|   match|[44m GET     [0m /secinfo   r:/secinfo
