@@ -1,6 +1,7 @@
 package service
 
 import (
+	"crypto/md5"
 	"errors"
 	"fmt"
 	"golang-/seckill/config"
@@ -44,7 +45,7 @@ func convertProduct(data map[string]interface{}, product *config.SecInfoConf) er
 		return nil
 	}
 
-	data["status"] = config.STATUS_SELL_NORMAL
+	data["status"] = config.STATUS_SEC_SUCCESS
 	data["message"] = "get secinfo success"
 
 	return nil
@@ -52,7 +53,7 @@ func convertProduct(data map[string]interface{}, product *config.SecInfoConf) er
 
 func GetProductById(productid int) (data map[string]interface{}, err error) {
 	data = make(map[string]interface{}, components.INIT_INFO_SIZE)
-	components.SKConfData.SecInfoRLock.RLock()
+	components.SKConfData.SecInfoRWLock.RLock()
 	product, ok := components.SKConfData.SecInfoData[productid]
 
 	if !ok {
@@ -69,7 +70,7 @@ func GetProductById(productid int) (data map[string]interface{}, err error) {
 		data["status"] = config.STATUS_PRODUCT_TIME_ERR
 		return data, err
 	}
-	components.SKConfData.SecInfoRLock.RUnlock()
+	components.SKConfData.SecInfoRWLock.RUnlock()
 
 	err = convertProduct(data, product)
 	if err != nil {
@@ -87,8 +88,8 @@ func GetProductById(productid int) (data map[string]interface{}, err error) {
 //为了避免隐患，这里内部不调用getproductbyid，虽然嵌套调用rlock不会出问题
 func GetProductList() (data []map[string]interface{}, err error) {
 	data = make([]map[string]interface{}, 0)
-	components.SKConfData.SecInfoRLock.RLock()
-	defer components.SKConfData.SecInfoRLock.RUnlock()
+	components.SKConfData.SecInfoRWLock.RLock()
+	defer components.SKConfData.SecInfoRWLock.RUnlock()
 	for _, secval := range components.SKConfData.SecInfoData {
 		infomap := make(map[string]interface{}, components.INIT_INFO_SIZE)
 		err := convertProduct(infomap, secval)
@@ -97,5 +98,65 @@ func GetProductList() (data []map[string]interface{}, err error) {
 		}
 		data = append(data, infomap)
 	}
+	return
+}
+
+func userCheck(req *config.SecRequest) (err error) {
+	//检测跳转
+	/*
+		found := false
+		for _, refer := range components.SKConfData.ReferWhitelist {
+			if refer == req.ReferAddr {
+				found = true
+			}
+		}
+
+		if found == false {
+			return errors.New("refer addr is invalid ")
+		}
+	*/
+	authData := fmt.Sprintf("%d:%s", req.UserId, components.SKConfData.CookieSecretKey)
+	authSign := fmt.Sprintf("%x", md5.Sum([]byte(authData)))
+	if authSign != req.UserAuthSign {
+		return errors.New("user auth sign dosen't match ")
+	}
+
+	return nil
+}
+
+//抢购接口
+func SecKill(req *config.SecRequest) (data map[string]interface{}, err error) {
+	components.SKConfData.SecInfoRWLock.RLock()
+	data = make(map[string]interface{}, components.INIT_INFO_SIZE)
+	defer func() {
+		components.SKConfData.SecInfoRWLock.RUnlock()
+	}()
+
+	//用户cookie校验先屏蔽
+	/*
+		if err = userCheck(req); err != nil {
+			data["code"] = config.AUTH_SIGN_CHECK_FAILED
+			data["message"] = "user auth sign check failed "
+			return
+		}
+	*/
+
+	frequency := FrequencyMgrInst.CalFrequency(req.UserId, req.SecTimeStamp)
+	if frequency > components.SKConfData.FrequencyLimit {
+		data["status"] = config.FREQUENCY_LIMIT
+		data["message"] = "user sec visit frequency limit "
+		return
+	}
+
+	ipfrequency := FrequencyMgrInst.CalIPFrequency(req.ClientAddr, req.SecTimeStamp)
+	if ipfrequency > components.SKConfData.IpLimit {
+		data["status"] = config.FREQUENCY_LIMIT
+		data["message"] = "ip sec visit frequency limit "
+		return
+	}
+
+	data["status"] = config.STATUS_SEC_SUCCESS
+	data["message"] = "seckill success"
+	data["data"] = nil
 	return
 }

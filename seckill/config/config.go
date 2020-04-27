@@ -3,7 +3,7 @@ package config
 import "sync"
 
 const (
-	STATUS_SELL_NORMAL       = 1000
+	STATUS_SEC_SUCCESS       = 1000
 	STATUS_SELL_FORBID       = 1001 //禁止销售
 	STATUS_SELL_OUT          = 1002 //售罄
 	STATUS_SELL_NOT_BEGIN    = 1003 //活动未开始
@@ -14,14 +14,27 @@ const (
 	JSON_MARSHAL_ERR         = 1008 //JSON序列化失败
 	CONVERT_PRODUCT_INFO_ERR = 1009 //PRODUCT 信息生成失败
 	STATUS_PRODUCT_LIST_ERR  = 1010 //product list 获取失败
+	STATUS_PRODUCTID_INVALID = 1011 //商品id参数不对
+	STRING_CONVERT_FAILED    = 1012 //字符串转换失败
+	AUTH_SIGN_CHECK_FAILED   = 1013 //user auth sign check failed
+	USER_ID_INVALID          = 1014 //user id 错误
+	FREQUENCY_LIMIT          = 1015 //每秒限流，用户抢购次数过多
+	IP_LIMIT                 = 1016 //每秒同一个ip抢购太多
 )
 
 type SecKillConf struct {
-	EtcdConfData EtcdConf
-	RdisConfData RedisConf
-	LogConfData  LogConf
-	SecInfoData  map[int]*SecInfoConf
-	SecInfoRLock sync.RWMutex
+	EtcdConfData    EtcdConf
+	RedisBlacklist  RedisConf
+	LogConfData     LogConf
+	SecInfoData     map[int]*SecInfoConf
+	SecInfoRWLock   sync.RWMutex
+	CookieSecretKey string          //抢购认证秘钥
+	FrequencyLimit  int             //用户访问每秒频率限制
+	IpLimit         int             //ip访问每秒频率限制
+	ReferWhitelist  []string        //refer跳转白名单
+	IDBlacklist     map[int]bool    //usr id 黑名单
+	IPBlacklist     map[string]bool // ip 黑名单
+	BlacklistRWLock sync.RWMutex
 }
 
 type SecInfoConf struct {
@@ -31,6 +44,19 @@ type SecInfoConf struct {
 	Status    int
 	Total     int
 	Left      int
+}
+
+type SecRequest struct {
+	ProductId    int
+	Source       string //来源
+	AuthCode     string //校验码
+	SecTime      string //抢购时间
+	Nance        string //随机数
+	UserId       int    // 用户id
+	UserAuthSign string //用户cookie
+	SecTimeStamp int64  // 访问时间戳
+	ClientAddr   string //客户端ip
+	ReferAddr    string //哪个地址跳转的
 }
 
 type RedisConf struct {

@@ -3,8 +3,10 @@ package components
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"golang-/seckill/config"
+	"strconv"
 	"strings"
 	"time"
 
@@ -23,8 +25,8 @@ var (
 	SKConfData config.SecKillConf = config.SecKillConf{
 		SecInfoData: make(map[int]*config.SecInfoConf, INIT_INFO_SIZE),
 	}
-	RedisPool  *redis.Pool
-	EtcdClient *etcdclient.Client
+	BlacklistPool *redis.Pool
+	EtcdClient    *etcdclient.Client
 )
 
 func init() {
@@ -34,10 +36,16 @@ func init() {
 		panic("load config failed")
 	}
 
-	err = initRedis()
+	err = initRedisBlacklist()
 	if err != nil {
 		logs.Debug("initRedis failed")
 		panic("initRedis failed")
+	}
+
+	err = loadBlacklist()
+	if err != nil {
+		logs.Debug("load black list failed")
+		panic("laod redis black list failed ")
 	}
 
 	err = initEtcds()
@@ -69,13 +77,14 @@ func convertLogLv(lvstr string) (lvint int) {
 }
 
 func loadConfig() (err error) {
-	RedisAddr := beego.AppConfig.String("redis_addr")
+	logs.Debug("begin read redis_blacklist_addr config")
+	RedisAddr := beego.AppConfig.String("redis_blacklist_addr")
 	EtcdAddr := beego.AppConfig.String("etcd_addr")
 	if len(RedisAddr) == 0 || len(EtcdAddr) == 0 {
 		err = fmt.Errorf("read redisaddr[%s] or etcdaddr[%s] failed", RedisAddr, EtcdAddr)
 		return
 	}
-
+	logs.Debug("begin read etcd_sec_prefix config")
 	EtcdSecPrefix := beego.AppConfig.String("etcd_sec_prefix")
 	if len(EtcdSecPrefix) == 0 {
 		err = fmt.Errorf("read etcd_sec_prefix[%s] failed", EtcdSecPrefix)
@@ -87,25 +96,25 @@ func loadConfig() (err error) {
 		err = fmt.Errorf("read etcd_sec_product[%s] failed", EtcdSecProduct)
 		return
 	}
-
-	RMaxIdle, err := beego.AppConfig.Int("redis_max_idle")
+	logs.Debug("begin read redis_blacklist_max_idle config")
+	RMaxIdle, err := beego.AppConfig.Int("redis_blacklist_max_idle")
 	if err != nil {
 		err = fmt.Errorf("read redis_max_idle failed, error is [%v]", err)
 		return
 	}
 
-	RMaxActive, err := beego.AppConfig.Int("redis_max_active")
+	RMaxActive, err := beego.AppConfig.Int("redis_blacklist_max_active")
 	if err != nil {
 		err = fmt.Errorf("read redis_max_active failed, error is [%v]", err)
 		return
 	}
 
-	RIdleTimeout, err := beego.AppConfig.Int("redis_idle_timeout")
+	RIdleTimeout, err := beego.AppConfig.Int("redis_blacklist_idle_timeout")
 	if err != nil {
 		err = fmt.Errorf("read redis_idle_timeout failed, error is [%v]", err)
 		return
 	}
-
+	logs.Debug("begin read etcd time out config")
 	EtcdTimeout, err := beego.AppConfig.Int("etcd_timeout")
 	if err != nil {
 		err = fmt.Errorf("read etcd_time_out failed, error is [%v]", err)
@@ -130,13 +139,36 @@ func loadConfig() (err error) {
 		return
 	}
 
+	CookieSecretKey := beego.AppConfig.String("cookie_secretkey")
+	if len(CookieSecretKey) == 0 {
+		err = fmt.Errorf("cookie secret key read failed")
+		return
+	}
+
+	FrequencyLimit, err := beego.AppConfig.Int("frequency_limit")
+	if err != nil {
+		err = fmt.Errorf("frequency limit read failed")
+		return
+	}
 	//logs.Debug("RedisAddr is %s", RedisAddr)
 	//logs.Debug("EtcdAddr is %s", EtcdAddr)
 
-	SKConfData.RdisConfData.RedisAddr = RedisAddr
-	SKConfData.RdisConfData.RedisIdleTime = RIdleTimeout
-	SKConfData.RdisConfData.RedisMaxActive = RMaxActive
-	SKConfData.RdisConfData.RedisMaxIdle = RMaxIdle
+	ReferList := beego.AppConfig.String("refer_whitelist")
+	if len(ReferList) == 0 {
+		err = fmt.Errorf("refer list read failed ")
+		return
+	}
+
+	IpLimit, err := beego.AppConfig.Int("ip_limit")
+	if err != nil {
+		err = fmt.Errorf("read ip limit config failed ")
+		return
+	}
+
+	SKConfData.RedisBlacklist.RedisAddr = RedisAddr
+	SKConfData.RedisBlacklist.RedisIdleTime = RIdleTimeout
+	SKConfData.RedisBlacklist.RedisMaxActive = RMaxActive
+	SKConfData.RedisBlacklist.RedisMaxIdle = RMaxIdle
 	SKConfData.EtcdConfData.EtcdAddr = EtcdAddr
 	SKConfData.EtcdConfData.EtcdTimeout = EtcdTimeout
 	SKConfData.EtcdConfData.EtcdSecPrefix = EtcdSecPrefix
@@ -144,6 +176,10 @@ func loadConfig() (err error) {
 	SKConfData.LogConfData.LogLv = convertLogLv(LogLv)
 	SKConfData.LogConfData.LogPath = LogPath
 	SKConfData.LogConfData.MaxLines = LogLines
+	SKConfData.CookieSecretKey = CookieSecretKey
+	SKConfData.FrequencyLimit = FrequencyLimit
+	SKConfData.ReferWhitelist = strings.Split(ReferList, ",")
+	SKConfData.IpLimit = IpLimit
 	logs.Debug("begin marshal log")
 	logjson, err := json.Marshal(SKConfData.LogConfData)
 	if err != nil {
@@ -156,17 +192,17 @@ func loadConfig() (err error) {
 	return nil
 }
 
-func initRedis() (err error) {
-	RedisPool = &redis.Pool{
-		MaxIdle:     SKConfData.RdisConfData.RedisMaxIdle,
-		MaxActive:   SKConfData.RdisConfData.RedisMaxActive,
-		IdleTimeout: time.Second * time.Duration(SKConfData.RdisConfData.RedisIdleTime),
+func initRedisBlacklist() (err error) {
+	BlacklistPool = &redis.Pool{
+		MaxIdle:     SKConfData.RedisBlacklist.RedisMaxIdle,
+		MaxActive:   SKConfData.RedisBlacklist.RedisMaxActive,
+		IdleTimeout: time.Second * time.Duration(SKConfData.RedisBlacklist.RedisIdleTime),
 		Dial: func() (redis.Conn, error) {
-			return redis.Dial("tcp", SKConfData.RdisConfData.RedisAddr)
+			return redis.Dial("tcp", SKConfData.RedisBlacklist.RedisAddr)
 		},
 	}
 
-	conn := RedisPool.Get()
+	conn := BlacklistPool.Get()
 	defer conn.Close()
 	_, err = conn.Do("ping")
 	if err != nil {
@@ -177,9 +213,57 @@ func initRedis() (err error) {
 	return nil
 }
 
+func loadBlacklist() error {
+	conn := BlacklistPool.Get()
+	SKConfData.BlacklistRWLock.Lock()
+	defer func() {
+		conn.Close()
+		SKConfData.BlacklistRWLock.Unlock()
+	}()
+
+	replyres, err := conn.Do("hgetall", "idblacklist")
+	if err != nil {
+		logs.Warn("redis get id black list failed ")
+		return errors.New("redis get id black list failed ")
+	}
+
+	idblacklist, err := redis.Strings(replyres, err)
+	if err != nil {
+		logs.Warn("redis convert command res to string slice error")
+		return errors.New("redis convert command res to string slice error")
+	}
+
+	for _, blackid := range idblacklist {
+		nid, err := strconv.Atoi(blackid)
+		if err != nil {
+			logs.Warn("id str convert int failed ,id is %v", nid)
+			continue
+		}
+		SKConfData.IDBlacklist[nid] = true
+	}
+
+	iplist, err := conn.Do("hgetall", "ipblacklist")
+	if err != nil {
+		logs.Warn("redis get ip black list failed ")
+		return errors.New("redis get ip black list failed ")
+	}
+
+	ipblacklist, err := redis.Strings(iplist, err)
+	if err != nil {
+		logs.Warn("redis convert command res to string slice error")
+		return errors.New("redis convert command res to string slice error")
+	}
+
+	for _, blackip := range ipblacklist {
+		SKConfData.IPBlacklist[blackip] = true
+	}
+
+	return nil
+}
+
 func ReleaseRsc() {
-	if RedisPool != nil {
-		err := RedisPool.Close()
+	if BlacklistPool != nil {
+		err := BlacklistPool.Close()
 		if err != nil {
 			logs.Error("Redis Pool release failed, err is %v", err)
 		}
@@ -240,8 +324,8 @@ func updateSecInfoData(secinfolist []config.SecInfoConf) {
 		secinfomap[secinfo.ProductId] = &sectmp
 	}
 
-	SKConfData.SecInfoRLock.Lock()
-	defer SKConfData.SecInfoRLock.Unlock()
+	SKConfData.SecInfoRWLock.Lock()
+	defer SKConfData.SecInfoRWLock.Unlock()
 	SKConfData.SecInfoData = secinfomap
 	for key, val := range SKConfData.SecInfoData {
 		logs.Debug("key is %d", key)
@@ -289,8 +373,8 @@ func initSecInfo() (err error) {
 			logs.Error("json unmarshal failed, error is %v ", err)
 			return
 		}
-		SKConfData.SecInfoRLock.Lock()
-		defer SKConfData.SecInfoRLock.Unlock()
+		SKConfData.SecInfoRWLock.Lock()
+		defer SKConfData.SecInfoRWLock.Unlock()
 		for _, secinfo := range secinfolist {
 			logs.Debug("secinfo.EndTime: %v\n", secinfo.EndTime)
 			logs.Debug("secinfo.ProductId: %v\n", secinfo.ProductId)
