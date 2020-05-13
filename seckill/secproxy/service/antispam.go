@@ -1,8 +1,14 @@
 package service
 
 import (
+	"crypto/md5"
+	"errors"
+	"fmt"
+	"golang-/seckill/config"
 	"golang-/seckill/secproxy/components"
 	"sync"
+
+	"github.com/astaxie/beego/logs"
 )
 
 var (
@@ -71,4 +77,45 @@ func (fm *FrequencyMgr) CalIPFrequency(ip string, visitTime int64) (frequency in
 
 	frequencylm.Frequency++
 	return frequencylm.Frequency
+}
+
+func isInblacklist(userid int, ip string) bool {
+	//判断是否在黑名单中
+	components.SKConfData.BlacklistRWLock.RLock()
+	defer components.SKConfData.BlacklistRWLock.RUnlock()
+	_, bok := components.SKConfData.IDBlacklist[userid]
+	if bok {
+		logs.Debug("user id[%v] in black list", userid)
+		return true
+	}
+
+	_, bok = components.SKConfData.IPBlacklist[ip]
+	if bok {
+		logs.Debug("ip[%v] in black list", ip)
+		return true
+	}
+	return false
+}
+
+func userCheck(req *config.SecRequest) (err error) {
+	//检测跳转
+	/*
+		found := false
+		for _, refer := range components.SKConfData.ReferWhitelist {
+			if refer == req.ReferAddr {
+				found = true
+			}
+		}
+
+		if found == false {
+			return errors.New("refer addr is invalid ")
+		}
+	*/
+	authData := fmt.Sprintf("%d:%s", req.UserId, components.SKConfData.CookieSecretKey)
+	authSign := fmt.Sprintf("%x", md5.Sum([]byte(authData)))
+	if authSign != req.UserAuthSign {
+		return errors.New("user auth sign dosen't match ")
+	}
+
+	return nil
 }

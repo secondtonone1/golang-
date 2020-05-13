@@ -3,10 +3,8 @@ package components
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"golang-/seckill/config"
-	"strconv"
 	"strings"
 	"time"
 
@@ -49,12 +47,6 @@ func init() {
 	if err != nil {
 		logs.Debug("init Msg Req Redis Pool failed")
 		panic("init Msg Req Redis Pool failed")
-	}
-
-	err = loadBlacklist()
-	if err != nil {
-		logs.Debug("load black list failed")
-		panic("laod redis black list failed ")
 	}
 
 	err = initEtcds()
@@ -247,144 +239,6 @@ func initMsgReqPool() (err error) {
 		},
 	}
 	return nil
-}
-
-func loadBlacklist() error {
-	conn := BlacklistPool.Get()
-	SKConfData.BlacklistRWLock.Lock()
-	defer func() {
-		conn.Close()
-		SKConfData.BlacklistRWLock.Unlock()
-	}()
-
-	/*
-		replyres, err := conn.Do("hgetall", "idblacklist")
-		if err != nil {
-			logs.Warn("redis get id black list failed ")
-			return errors.New("redis get id black list failed ")
-		}
-	*/
-
-	replyres, err := conn.Do("hkeys", "idblacklist")
-	if err != nil {
-		logs.Warn("redis get id black list failed ")
-		return errors.New("redis get id black list failed ")
-	}
-
-	idblacklist, err := redis.Strings(replyres, err)
-	if err != nil {
-		logs.Warn("redis convert command res to string slice error")
-		return errors.New("redis convert command res to string slice error")
-	}
-	logs.Debug("load idblack list is %v", idblacklist)
-	for _, blackid := range idblacklist {
-		nid, err := strconv.Atoi(blackid)
-		if err != nil {
-			logs.Warn("id str convert int failed ,id is %v", nid)
-			continue
-		}
-		SKConfData.IDBlacklist[nid] = true
-	}
-	/*
-		iplist, err := conn.Do("hgetall", "ipblacklist")
-		if err != nil {
-			logs.Warn("redis get ip black list failed ")
-			return errors.New("redis get ip black list failed ")
-		}
-	*/
-
-	iplist, err := conn.Do("hkeys", "ipblacklist")
-	if err != nil {
-		logs.Warn("redis get ip black list failed ")
-		return errors.New("redis get ip black list failed ")
-	}
-
-	ipblacklist, err := redis.Strings(iplist, err)
-	if err != nil {
-		logs.Warn("redis convert command res to string slice error")
-		return errors.New("redis convert command res to string slice error")
-	}
-	logs.Debug("load ipblack list is %v", ipblacklist)
-	for _, blackip := range ipblacklist {
-		SKConfData.IPBlacklist[blackip] = true
-	}
-
-	go SyncBlackIdlist()
-	go SyncBlackIplist()
-	return nil
-}
-
-func SyncBlackIplist() {
-	conn := BlacklistPool.Get()
-	defer conn.Close()
-	ipblacks := make(map[string]bool, 10)
-	for {
-		reply, err := conn.Do("blpop", "ipblackqueue", 0)
-		if err != nil {
-			logs.Debug("pop from ipblackqueue failed ...%s", err.Error())
-			continue
-		}
-		kvarray, err := redis.Strings(reply, err)
-		if err != nil {
-			logs.Debug("ip black redis string convert failed, %v", err.Error())
-			continue
-		}
-		logs.Debug("read from redis ipblackqueue , ip is %v", kvarray)
-		ipblacks[kvarray[1]] = true
-		/*
-			if len(ipblacks) < 10 {
-				continue
-			}
-		*/
-		SKConfData.BlacklistRWLock.Lock()
-		for ipkey, _ := range ipblacks {
-			SKConfData.IPBlacklist[ipkey] = true
-		}
-		SKConfData.BlacklistRWLock.Unlock()
-		for ipkey, _ := range ipblacks {
-			conn.Do("hset", "ipblacklist", ipkey, ipkey)
-		}
-		ipblacks = make(map[string]bool, 10)
-	}
-}
-
-func SyncBlackIdlist() {
-	conn := BlacklistPool.Get()
-	defer conn.Close()
-	idblacks := make(map[string]bool, 10)
-	for {
-		reply, err := conn.Do("blpop", "idblackqueue", 0)
-		if err != nil {
-			logs.Debug("pop from idblackqueue failed  ...%s", err.Error())
-			continue
-		}
-		kvarray, err := redis.Strings(reply, err)
-		if err != nil {
-			logs.Debug("id black redis string convert failed, %v", err.Error())
-			continue
-		}
-		logs.Debug("read from redis idblackqueue , id is %v", kvarray)
-		idblacks[kvarray[1]] = true
-		/*
-			if len(idblacks) < 10 {
-				continue
-			}
-		*/
-		SKConfData.BlacklistRWLock.Lock()
-		for idkey, _ := range idblacks {
-			nid, err := strconv.Atoi(idkey)
-			if err != nil {
-				logs.Debug("type convert failed ")
-				continue
-			}
-			SKConfData.IDBlacklist[nid] = true
-		}
-		SKConfData.BlacklistRWLock.Unlock()
-		for idkey, _ := range idblacks {
-			conn.Do("hset", "idblacklist", idkey, idkey)
-		}
-		idblacks = make(map[string]bool, 10)
-	}
 }
 
 func ReleaseRsc() {

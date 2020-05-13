@@ -30,35 +30,3 @@
 2020/05/13 11:47:24.971 [D] [asm_amd64.s:1373]  service main goroutine notify closed
 2020/05/13 11:47:24.971 [D] [asm_amd64.s:1373]  service main goroutine notify closed
 2020/05/13 11:47:24.971 [D] [server.go:2807]  |            ::1|[42m 200 [0m|  10.0045722s|   match|[44m GET     [0m /seckill   r:/seckill
-2020/05/13 17:22:27.360 [D] [components.go:54]  load idblack list is []
-2020/05/13 17:22:27.362 [D] [components.go:54]  load ipblack list is []
-2020/05/13 17:22:27.367 [D] [components.go:66]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
-
-2020/05/13 17:22:27.368 [D] [components.go:66]  secinfo.EndTime: 1587353781
-
-2020/05/13 17:22:27.368 [D] [components.go:66]  secinfo.ProductId: 1001
-
-2020/05/13 17:22:27.369 [D] [components.go:66]  secinfo.Total: 100
-
-2020/05/13 17:22:27.369 [D] [components.go:66]  secinfo.Status: 0
-
-2020/05/13 17:22:27.369 [D] [components.go:66]  secinfo.EndTime: 1587353781
-
-2020/05/13 17:22:27.369 [D] [components.go:66]  secinfo.ProductId: 1002
-
-2020/05/13 17:22:27.369 [D] [components.go:66]  secinfo.Total: 100
-
-2020/05/13 17:22:27.369 [D] [components.go:66]  secinfo.Status: 0
-
-2020/05/13 17:22:27.453 [I] [asm_amd64.s:1373]  http server Running on http://:9091
-2020/05/13 17:22:45.597 [D] [value.go:460]  receive SecKill 
-2020/05/13 17:22:45.600 [D] [value.go:460]  client addr is [::1]
-2020/05/13 17:22:45.602 [D] [value.go:460]  refer addr is 
-2020/05/13 17:22:45.605 [D] [value.go:460]  secreq is [&{12     14  1589361765 [::1] }]
-2020/05/13 17:22:45.605 [D] [controller.go:72]  msg chan to redis success
-2020/05/13 17:22:55.606 [D] [asm_amd64.s:1373]  service main goroutine notify closed
-2020/05/13 17:22:55.606 [D] [asm_amd64.s:1373]  service main goroutine notify closed
-2020/05/13 17:22:55.606 [D] [asm_amd64.s:1373]  service main goroutine notify closed
-2020/05/13 17:22:55.606 [D] [asm_amd64.s:1373]  service main goroutine notify closed
-2020/05/13 17:22:55.606 [D] [asm_amd64.s:1373]  service main goroutine notify closed
-2020/05/13 17:22:55.606 [D] [server.go:2807]  |            ::1|[42m 200 [0m|  10.0105726s|   match|[44m GET     [0m /seckill   r:/seckill

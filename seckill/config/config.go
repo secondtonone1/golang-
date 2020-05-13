@@ -20,30 +20,35 @@ const (
 	USER_ID_INVALID          = 1014 //user id 错误
 	FREQUENCY_LIMIT          = 1015 //每秒限流，用户抢购次数过多
 	IP_LIMIT                 = 1016 //每秒同一个ip抢购太多
+	MSG_CHAN_CLOSED          = 1017 //msg chan 关闭
+	STATUS_REQ_TIMEOUT       = 1018 //超时
+	FROM_REDIS_CHAN_CLOSED   = 1019 //from redis chan 关闭
 )
 
 type SecKillConf struct {
-	EtcdConfData    EtcdConf
-	RedisBlacklist  RedisConf
-	LogConfData     LogConf
-	SecInfoData     map[int]*SecInfoConf
-	SecInfoRWLock   sync.RWMutex
-	CookieSecretKey string          //抢购认证秘钥
-	FrequencyLimit  int             //用户访问每秒频率限制
-	IpLimit         int             //ip访问每秒频率限制
-	ReferWhitelist  []string        //refer跳转白名单
-	IDBlacklist     map[int]bool    //usr id 黑名单
-	IPBlacklist     map[string]bool // ip 黑名单
-	BlacklistRWLock sync.RWMutex
+	EtcdConfData      EtcdConf
+	RedisBlacklist    RedisConf
+	LogConfData       LogConf
+	SecInfoData       map[int]*SecInfoConf
+	SecInfoRWLock     sync.RWMutex    //secinfodata的读写锁
+	CookieSecretKey   string          //抢购认证秘钥
+	FrequencyLimit    int             //用户访问每秒频率限制
+	IpLimit           int             //ip访问每秒频率限制
+	ReferWhitelist    []string        //refer跳转白名单
+	IDBlacklist       map[int]bool    //usr id 黑名单
+	IPBlacklist       map[string]bool // ip 黑名单
+	BlacklistRWLock   sync.RWMutex    //黑名单的读写锁
+	RedisReadGoCount  int             //读取redis goroutine 数量
+	RedisWriteGoCount int             //写入redis goroutine 数量
 }
 
 type SecInfoConf struct {
-	ProductId int
-	StartTime int64
-	EndTime   int64
-	Status    int
-	Total     int
-	Left      int
+	ProductId int   `json:"productid" db:"productid"`
+	StartTime int64 `json:"starttime" db:"starttime"`
+	EndTime   int64 `json:"endtime" db:"endtime"`
+	Status    int   `json:"status" db:"status"`
+	Total     int   `json:"total" db:"total"`
+	Left      int   `json:"_" db:"left"`
 }
 
 type SecRequest struct {
@@ -77,4 +82,9 @@ type LogConf struct {
 	LogLv    int    `json:"level"`
 	LogPath  string `json:"filename"`
 	MaxLines int    `json:"maxlines"`
+}
+
+type RedisMgrConf struct {
+	ReadFromRedisGrtCount int
+	WrtieToRedisGrtCount  int
 }
