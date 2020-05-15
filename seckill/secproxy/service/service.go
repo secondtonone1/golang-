@@ -73,7 +73,6 @@ func SecKill(req *config.SecRequest) (data map[string]interface{}, err error) {
 	ticker := time.NewTicker(time.Duration(10) * time.Second)
 	defer func() {
 		ticker.Stop()
-		close(MsgRdMgr.NotifyMainClose)
 	}()
 	select {
 	case msgrsp, ok := <-MsgRdMgr.MsgChanFromRedis:
@@ -107,9 +106,13 @@ func SecKill(req *config.SecRequest) (data map[string]interface{}, err error) {
 		data["status"] = config.STATUS_REQ_TIMEOUT
 		data["message"] = "seckill timeout"
 		return
+	case <-MsgRdMgr.FromRedisGrClose:
+		data["status"] = config.FROM_REDIS_GR_CLOSED
+		data["message"] = "from redis chan group closed"
+		return
 	case <-MsgRdMgr.ToRedisGrClose:
-		data["status"] = config.FROM_REDIS_CHAN_CLOSED
-		data["message"] = "from redis chan closed"
+		data["status"] = config.TO_REDIS_GR_CLOSED
+		data["message"] = "to redis chan group closed"
 		return
 	}
 

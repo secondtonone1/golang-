@@ -298,15 +298,16 @@ func watchEtcd() {
 }
 
 func updateSecInfoData(secinfolist []config.SecInfoConf) {
-	secinfomap := make(map[int]*config.SecInfoConf, INIT_INFO_SIZE)
-	for _, secinfo := range secinfolist {
-		sectmp := secinfo
-		secinfomap[secinfo.ProductId] = &sectmp
-	}
-
 	SKConfData.SecInfoRWLock.Lock()
 	defer SKConfData.SecInfoRWLock.Unlock()
-	SKConfData.SecInfoData = secinfomap
+	for _, secinfo := range secinfolist {
+		if _, ok := SKConfData.SecInfoData[secinfo.ProductId]; ok {
+			continue
+		}
+		sectmp := secinfo
+		SKConfData.SecInfoData[secinfo.ProductId] = &sectmp
+	}
+
 	for key, val := range SKConfData.SecInfoData {
 		logs.Debug("key is %d", key)
 		logs.Debug("secinfo.EndTime: %v\n", val.EndTime)
@@ -361,6 +362,8 @@ func initSecInfo() (err error) {
 			logs.Debug("secinfo.Total: %v\n", secinfo.Total)
 			logs.Debug("secinfo.Status: %v\n", secinfo.Status)
 			secinfocp := secinfo
+			//以后改为读数据库，这里先做测试
+			secinfocp.Left = secinfocp.Total
 			SKConfData.SecInfoData[secinfo.ProductId] = &secinfocp
 		}
 	}

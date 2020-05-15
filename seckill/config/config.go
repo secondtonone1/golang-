@@ -23,6 +23,9 @@ const (
 	MSG_CHAN_CLOSED          = 1017 //msg chan 关闭
 	STATUS_REQ_TIMEOUT       = 1018 //超时
 	FROM_REDIS_CHAN_CLOSED   = 1019 //from redis chan 关闭
+	FROM_REDIS_GR_CLOSED     = 1020 //from redis 组关闭
+	TO_REDIS_GR_CLOSED       = 1020 //to redis 组关闭
+	PRODUCT_ID_INVALID       = 1021 //product id 无效
 )
 
 type SecKillConf struct {

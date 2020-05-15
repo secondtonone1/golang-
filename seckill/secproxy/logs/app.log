@@ -62,3 +62,306 @@
 2020/05/13 17:22:55.606 [D] [asm_amd64.s:1373]  service main goroutine notify closed
 2020/05/13 17:22:55.606 [D] [asm_amd64.s:1373]  service main goroutine notify closed
 2020/05/13 17:22:55.606 [D] [server.go:2807]  |            ::1|[42m 200 [0m|  10.0105726s|   match|[44m GET     [0m /seckill   r:/seckill
+2020/05/14 19:23:06.948 [D] [components.go:54]  load idblack list is []
+2020/05/14 19:23:06.948 [D] [components.go:54]  load ipblack list is []
+2020/05/14 19:23:06.956 [D] [components.go:66]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/05/14 19:23:06.957 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/14 19:23:06.957 [D] [components.go:66]  secinfo.ProductId: 1001
+
+2020/05/14 19:23:06.958 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/14 19:23:06.958 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/14 19:23:06.958 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/14 19:23:06.958 [D] [components.go:66]  secinfo.ProductId: 1002
+
+2020/05/14 19:23:06.958 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/14 19:23:06.958 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/14 19:23:07.041 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/05/14 19:23:43.386 [D] [value.go:460]  receive SecKill 
+2020/05/14 19:23:43.388 [D] [value.go:460]  client addr is [::1]
+2020/05/14 19:23:43.389 [D] [value.go:460]  refer addr is 
+2020/05/14 19:23:43.391 [D] [value.go:460]  secreq is [&{12     14  1589455423 [::1] }]
+2020/05/14 19:23:43.392 [D] [controller.go:72]  msg chan to redis success
+2020/05/14 19:23:53.392 [D] [asm_amd64.s:1373]  service main goroutine notify closed
+2020/05/14 19:23:53.392 [D] [asm_amd64.s:1373]  service main goroutine notify closed
+2020/05/14 19:23:53.392 [D] [asm_amd64.s:1373]  service main goroutine notify closed
+2020/05/14 19:23:53.392 [D] [asm_amd64.s:1373]  service main goroutine notify closed
+2020/05/14 19:23:53.392 [D] [asm_amd64.s:1373]  service main goroutine notify closed
+2020/05/14 19:23:53.392 [D] [server.go:2807]  |            ::1|[42m 200 [0m|  10.0065724s|   match|[44m GET     [0m /seckill   r:/seckill
+2020/05/15 08:23:30.704 [D] [components.go:54]  load idblack list is []
+2020/05/15 08:23:30.704 [D] [components.go:54]  load ipblack list is []
+2020/05/15 08:23:30.736 [D] [components.go:66]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/05/15 08:23:30.737 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:23:30.737 [D] [components.go:66]  secinfo.ProductId: 1001
+
+2020/05/15 08:23:30.738 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:23:30.738 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:23:30.738 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:23:30.738 [D] [components.go:66]  secinfo.ProductId: 1002
+
+2020/05/15 08:23:30.738 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:23:30.738 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:23:30.812 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/05/15 08:24:59.646 [D] [value.go:460]  receive SecKill 
+2020/05/15 08:24:59.649 [D] [value.go:460]  client addr is [::1]
+2020/05/15 08:24:59.650 [D] [value.go:460]  refer addr is 
+2020/05/15 08:24:59.651 [D] [value.go:460]  secreq is [&{12     14  1589502299 [::1] }]
+2020/05/15 08:24:59.652 [D] [controller.go:72]  msg chan to redis success
+2020/05/15 08:25:09.652 [D] [asm_amd64.s:1373]  service main goroutine notify closed
+2020/05/15 08:25:09.652 [D] [asm_amd64.s:1373]  service main goroutine notify closed
+2020/05/15 08:25:09.652 [D] [asm_amd64.s:1373]  service main goroutine notify closed
+2020/05/15 08:25:09.652 [D] [asm_amd64.s:1373]  service main goroutine notify closed
+2020/05/15 08:25:09.652 [D] [asm_amd64.s:1373]  service main goroutine notify closed
+2020/05/15 08:25:09.652 [D] [server.go:2807]  |            ::1|[42m 200 [0m|  10.0065723s|   match|[44m GET     [0m /seckill   r:/seckill
+2020/05/15 08:27:04.176 [D] [components.go:54]  load idblack list is []
+2020/05/15 08:27:04.177 [D] [components.go:54]  load ipblack list is []
+2020/05/15 08:27:04.183 [D] [components.go:66]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/05/15 08:27:04.184 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:27:04.185 [D] [components.go:66]  secinfo.ProductId: 1001
+
+2020/05/15 08:27:04.190 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:27:04.191 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:27:04.193 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:27:04.194 [D] [components.go:66]  secinfo.ProductId: 1002
+
+2020/05/15 08:27:04.196 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:27:04.197 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:27:04.277 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/05/15 08:27:09.699 [D] [value.go:460]  receive SecKill 
+2020/05/15 08:27:09.699 [D] [value.go:460]  client addr is [::1]
+2020/05/15 08:27:09.700 [D] [value.go:460]  refer addr is 
+2020/05/15 08:27:09.702 [D] [value.go:460]  secreq is [&{12     14  1589502429 [::1] }]
+2020/05/15 08:27:09.703 [D] [controller.go:72]  msg chan to redis success
+2020/05/15 08:27:19.708 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:27:19.708 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:27:19.708 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:27:19.708 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:27:19.708 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:27:19.708 [D] [server.go:2807]  |            ::1|[42m 200 [0m|  10.0095725s|   match|[44m GET     [0m /seckill   r:/seckill
+2020/05/15 08:29:47.200 [D] [components.go:54]  load idblack list is []
+2020/05/15 08:29:47.200 [D] [components.go:54]  load ipblack list is []
+2020/05/15 08:29:47.206 [D] [components.go:66]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/05/15 08:29:47.207 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:29:47.207 [D] [components.go:66]  secinfo.ProductId: 1001
+
+2020/05/15 08:29:47.212 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:29:47.213 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:29:47.215 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:29:47.216 [D] [components.go:66]  secinfo.ProductId: 1002
+
+2020/05/15 08:29:47.217 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:29:47.219 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:29:47.288 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/05/15 08:29:57.832 [D] [value.go:460]  receive SecKill 
+2020/05/15 08:29:57.834 [D] [value.go:460]  client addr is [::1]
+2020/05/15 08:29:57.835 [D] [value.go:460]  refer addr is 
+2020/05/15 08:29:57.837 [D] [value.go:460]  secreq is [&{12     14  1589502597 [::1] }]
+2020/05/15 08:29:57.838 [D] [controller.go:72]  msg chan to redis success
+2020/05/15 08:30:07.839 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:30:07.839 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:30:07.839 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:30:07.839 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:30:07.839 [D] [server.go:2807]  |            ::1|[42m 200 [0m|  10.0085725s|   match|[44m GET     [0m /seckill   r:/seckill
+2020/05/15 08:30:07.839 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:31:46.802 [D] [components.go:54]  load idblack list is []
+2020/05/15 08:31:46.802 [D] [components.go:54]  load ipblack list is []
+2020/05/15 08:31:46.808 [D] [components.go:66]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/05/15 08:31:46.808 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:31:46.809 [D] [components.go:66]  secinfo.ProductId: 1001
+
+2020/05/15 08:31:46.814 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:31:46.815 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:31:46.817 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:31:46.819 [D] [components.go:66]  secinfo.ProductId: 1002
+
+2020/05/15 08:31:46.820 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:31:46.822 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:31:46.823 [D] [asm_amd64.s:1373]  begin read goroutine 
+2020/05/15 08:31:46.823 [D] [asm_amd64.s:1373]  begin read goroutine 
+2020/05/15 08:31:46.823 [D] [asm_amd64.s:1373]  begin read goroutine 
+2020/05/15 08:31:46.823 [D] [asm_amd64.s:1373]  begin read goroutine 
+2020/05/15 08:31:46.823 [D] [asm_amd64.s:1373]  begin read goroutine 
+2020/05/15 08:31:46.899 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/05/15 08:31:50.281 [D] [value.go:460]  receive SecKill 
+2020/05/15 08:31:50.283 [D] [value.go:460]  client addr is [::1]
+2020/05/15 08:31:50.286 [D] [value.go:460]  refer addr is 
+2020/05/15 08:31:50.288 [D] [value.go:460]  secreq is [&{12     14  1589502710 [::1] }]
+2020/05/15 08:31:50.291 [D] [controller.go:72]  msg chan to redis success
+2020/05/15 08:32:00.294 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:32:00.294 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:32:00.294 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:32:00.294 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:32:00.294 [D] [server.go:2807]  |            ::1|[42m 200 [0m|  10.0135728s|   match|[44m GET     [0m /seckill   r:/seckill
+2020/05/15 08:32:00.294 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:37:41.056 [D] [components.go:54]  load idblack list is []
+2020/05/15 08:37:41.056 [D] [components.go:54]  load ipblack list is []
+2020/05/15 08:37:41.062 [D] [components.go:66]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/05/15 08:37:41.064 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:37:41.064 [D] [components.go:66]  secinfo.ProductId: 1001
+
+2020/05/15 08:37:41.068 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:37:41.069 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:37:41.071 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:37:41.072 [D] [components.go:66]  secinfo.ProductId: 1002
+
+2020/05/15 08:37:41.074 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:37:41.076 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:37:41.156 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/05/15 08:37:44.465 [D] [value.go:460]  receive SecKill 
+2020/05/15 08:37:44.467 [D] [value.go:460]  client addr is [::1]
+2020/05/15 08:37:44.470 [D] [value.go:460]  refer addr is 
+2020/05/15 08:37:44.472 [D] [value.go:460]  secreq is [&{12     14  1589503064 [::1] }]
+2020/05/15 08:37:44.474 [D] [controller.go:72]  msg chan to redis success
+2020/05/15 08:37:46.097 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:46.099 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:46.099 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:46.197 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:46.199 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:51.197 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:51.199 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:51.199 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:51.297 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:51.299 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:54.476 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:37:54.476 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:37:54.476 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:37:54.476 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:37:54.476 [D] [asm_amd64.s:1373]  write goroutine service main goroutine notify closed
+2020/05/15 08:37:54.476 [D] [server.go:2807]  |            ::1|[42m 200 [0m|  10.0125726s|   match|[44m GET     [0m /seckill   r:/seckill
+2020/05/15 08:37:56.297 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:56.299 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:56.397 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:56.399 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:37:56.399 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:38:01.398 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:38:01.498 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:38:01.500 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:38:01.500 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:38:01.598 [D] [asm_amd64.s:1373]  msgfromredis string convert failed, redigo: nil returned
+2020/05/15 08:57:25.802 [D] [components.go:54]  load idblack list is []
+2020/05/15 08:57:25.803 [D] [components.go:54]  load ipblack list is []
+2020/05/15 08:57:25.809 [D] [components.go:66]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/05/15 08:57:25.810 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:57:25.810 [D] [components.go:66]  secinfo.ProductId: 1001
+
+2020/05/15 08:57:25.810 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:57:25.810 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:57:25.811 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 08:57:25.811 [D] [components.go:66]  secinfo.ProductId: 1002
+
+2020/05/15 08:57:25.811 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 08:57:25.811 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 08:57:25.893 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/05/15 08:57:34.425 [D] [value.go:460]  receive SecKill 
+2020/05/15 08:57:34.427 [D] [value.go:460]  client addr is [::1]
+2020/05/15 08:57:34.429 [D] [value.go:460]  refer addr is 
+2020/05/15 08:57:34.430 [D] [value.go:460]  secreq is [&{12     14  1589504254 [::1] }]
+2020/05/15 08:57:34.432 [D] [controller.go:72]  msg chan to redis success
+2020/05/15 08:57:44.433 [D] [server.go:2807]  |            ::1|[42m 200 [0m|  10.0095725s|   match|[44m GET     [0m /seckill   r:/seckill
+2020/05/15 09:12:40.028 [D] [asm_amd64.s:1373]  read from redis msgfromredis , ip is [msgfromredis {"ProductId":12,"Status":1021,"UserId":14,"Token":"","Message":"product id not found ","Left":0}]
+2020/05/15 09:12:40.030 [D] [asm_amd64.s:1373]  read from redis success, put data intto read redis chan
+2020/05/15 09:13:05.486 [D] [components.go:54]  load idblack list is []
+2020/05/15 09:13:05.486 [D] [components.go:54]  load ipblack list is []
+2020/05/15 09:13:05.492 [D] [components.go:66]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/05/15 09:13:05.493 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 09:13:05.493 [D] [components.go:66]  secinfo.ProductId: 1001
+
+2020/05/15 09:13:05.493 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 09:13:05.493 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 09:13:05.493 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 09:13:05.494 [D] [components.go:66]  secinfo.ProductId: 1002
+
+2020/05/15 09:13:05.494 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 09:13:05.494 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 09:13:05.576 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/05/15 09:13:10.818 [D] [value.go:460]  receive SecKill 
+2020/05/15 09:13:10.820 [D] [value.go:460]  client addr is [::1]
+2020/05/15 09:13:10.822 [D] [value.go:460]  refer addr is 
+2020/05/15 09:13:10.824 [D] [value.go:460]  secreq is [&{12     14  1589505190 [::1] }]
+2020/05/15 09:13:10.825 [D] [controller.go:72]  msg chan to redis success
+2020/05/15 09:13:20.828 [D] [server.go:2807]  |            ::1|[42m 200 [0m|  10.0095725s|   match|[44m GET     [0m /seckill   r:/seckill
+2020/05/15 09:21:26.892 [D] [components.go:54]  load idblack list is []
+2020/05/15 09:21:26.892 [D] [components.go:54]  load ipblack list is []
+2020/05/15 09:21:26.898 [D] [components.go:66]  prok is %!s(int=0), prov is key:"limerence/seckill/product" create_revision:2 mod_revision:14 version:13 value:"[{\"ProductId\":1001,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100},{\"ProductId\":1002,\"StartTime\":1587350782,\"EndTime\":1587353781,\"Status\":0,\"Total\":100,\"Left\":100}]" 
+
+2020/05/15 09:21:26.899 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 09:21:26.899 [D] [components.go:66]  secinfo.ProductId: 1001
+
+2020/05/15 09:21:26.899 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 09:21:26.900 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 09:21:26.900 [D] [components.go:66]  secinfo.EndTime: 1587353781
+
+2020/05/15 09:21:26.900 [D] [components.go:66]  secinfo.ProductId: 1002
+
+2020/05/15 09:21:26.900 [D] [components.go:66]  secinfo.Total: 100
+
+2020/05/15 09:21:26.901 [D] [components.go:66]  secinfo.Status: 0
+
+2020/05/15 09:21:26.982 [I] [asm_amd64.s:1373]  http server Running on http://:9091
+2020/05/15 09:21:37.443 [D] [value.go:460]  receive SecKill 
+2020/05/15 09:21:37.445 [D] [value.go:460]  client addr is [::1]
+2020/05/15 09:21:37.447 [D] [value.go:460]  refer addr is 
+2020/05/15 09:21:37.448 [D] [value.go:460]  secreq is [&{12     14  1589505697 [::1] }]
+2020/05/15 09:21:37.449 [D] [controller.go:72]  msg chan to redis success
+2020/05/15 09:21:37.454 [D] [asm_amd64.s:1373]  read from redis msgfromredis , ip is [msgfromredis {"ProductId":12,"Status":1021,"UserId":14,"Token":"","Message":"product id not found ","Left":0}]
+2020/05/15 09:21:37.459 [D] [asm_amd64.s:1373]  read from redis success, put data intto read redis chan
+2020/05/15 09:21:37.459 [D] [controller.go:72]  product id not found 
+2020/05/15 09:21:37.460 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     17.001ms|   match|[44m GET     [0m /seckill   r:/seckill

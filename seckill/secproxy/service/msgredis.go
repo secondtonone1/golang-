@@ -23,7 +23,6 @@ func init() {
 		ToRedisWait:      new(sync.WaitGroup),
 		FromRedisWait:    new(sync.WaitGroup),
 		FromRedisGrClose: make(chan struct{}),
-		NotifyMainClose:  make(chan struct{}),
 	}
 
 	initRedisRWGoroutine()
@@ -31,7 +30,7 @@ func init() {
 
 func initRedisRWGoroutine() {
 	go WatchWriteGo()
-	//go WatchReadGo()
+	go WatchReadGo()
 }
 
 type MsgRedisMgr struct {
@@ -41,7 +40,6 @@ type MsgRedisMgr struct {
 	ToRedisWait      *sync.WaitGroup //wait 管理写redis携程组
 	FromRedisWait    *sync.WaitGroup //wait 管理读redis协程组
 	FromRedisGrClose chan struct{}   //读redis协程组退出
-	NotifyMainClose  chan struct{}   //service主协程通知读写携程退出
 }
 
 type MsgReqToRedis struct {
@@ -88,22 +86,20 @@ func WriteToRedis(wg *sync.WaitGroup) {
 				logs.Debug("msg chan to redis closed")
 				return
 			}
-			_, err := json.Marshal(msgtoredis)
+			jsmal, err := json.Marshal(msgtoredis)
 			if err != nil {
 				logs.Debug("json marshal failed")
 				continue
 			}
 			conn := components.MsgReqPool.Get()
 			defer conn.Close()
-			_, err = conn.Do("rpush", "msgtoredis", 0)
+			_, err = conn.Do("rpush", "msgtoredis", string(jsmal))
 
 			if err != nil {
 				logs.Debug("rpush to msgtoredis failed  ...%s", err.Error())
 				continue
 			}
-		case <-MsgRdMgr.NotifyMainClose:
-			logs.Debug("service main goroutine notify closed")
-			return
+
 		}
 	}
 }
@@ -120,6 +116,11 @@ func ReadFromRedis(wg *sync.WaitGroup) {
 			logs.Debug("pop from msgfromredis failed ...%s", err.Error())
 			continue
 		}
+
+		if reply == nil {
+			logs.Debug("msg read from redis ,data is nil")
+			continue
+		}
 		kvarray, err := redis.Strings(reply, err)
 		if err != nil {
 			logs.Debug("msgfromredis string convert failed, %v", err.Error())
@@ -132,12 +133,11 @@ func ReadFromRedis(wg *sync.WaitGroup) {
 			logs.Warn("json unmarshal failed , err is : %v", err.Error())
 			continue
 		}
+
 		select {
 		case MsgRdMgr.MsgChanFromRedis <- msgfromrd:
+			logs.Debug("read from redis success, put data intto read redis chan")
 			continue
-		case <-MsgRdMgr.NotifyMainClose:
-			logs.Debug("receive service main routine notify close")
-			return
 		}
 
 	}
