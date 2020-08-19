@@ -3,7 +3,7 @@ package main
 //client.go
 
 import (
-	pb "day08/helloworld"
+	pb "golang-/day09/helloworld"
 	"log"
 	"os"
 

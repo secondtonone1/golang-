@@ -1,0 +1,48 @@
+2020/04/02 13:02:57.785 [I] [asm_amd64.s:1373]  http server Running on http://:8080
+2020/04/02 13:12:25.442 [D] [server.go:2807]  |            ::1|[43m 404 [0m|      998.2µs| nomatch|[44m GET     [0m /  
+2020/04/02 13:12:35.218 [D] [value.go:460]  enter index controller
+2020/04/02 13:12:35.221 [D] [value.go:460]  get app list succ, data:[]
+2020/04/02 13:12:35.226 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     7.9712ms|   match|[44m GET     [0m /index   r:/index
+2020/04/02 13:12:35.289 [D] [server.go:2807]  |            ::1|[42m 200 [0m|      994.1µs|   match|[44m GET     [0m /static/image/favicon.ico
+2020/04/02 13:25:34.083 [D] [value.go:460]  enter index controller
+2020/04/02 13:25:34.228 [D] [server.go:2807]  |            ::1|[42m 200 [0m|   144.6135ms|   match|[44m GET     [0m /app/apply   r:/app/apply
+2020/04/02 13:25:34.338 [D] [server.go:2807]  |            ::1|[42m 200 [0m|      997.4µs|   match|[44m GET     [0m /static/image/favicon.ico
+2020/04/02 13:28:06.750 [D] [value.go:460]  enter index controller
+2020/04/02 13:28:06.886 [D] [server.go:2807]  |            ::1|[47m 302 [0m|   135.6368ms|   match|[44m GET     [0m /app/create   r:/app/create
+2020/04/02 13:28:06.888 [D] [value.go:460]  enter index controller
+2020/04/02 13:28:06.889 [D] [value.go:460]  get app list succ, data:[{1 gameapp apptype  D:/gameapp/datas/ []}]
+2020/04/02 13:28:06.900 [D] [server.go:2807]  |            ::1|[42m 200 [0m|    12.9647ms|   match|[44m GET     [0m /app/list   r:/app/list
+2020/04/02 13:28:06.968 [D] [server.go:2807]  |            ::1|[42m 200 [0m|           0s|   match|[44m GET     [0m /static/image/favicon.ico
+2020/04/02 13:28:33.414 [D] [value.go:460]  enter index controller
+2020/04/02 13:28:33.478 [D] [value.go:460]  get app list succ, data:[]
+2020/04/02 13:28:33.492 [D] [server.go:2807]  |            ::1|[42m 200 [0m|    78.7724ms|   match|[44m GET     [0m /log/list   r:/log/list
+2020/04/02 13:28:33.533 [D] [server.go:2807]  |            ::1|[42m 200 [0m|           0s|   match|[44m GET     [0m /static/image/favicon.ico
+2020/04/02 13:28:37.558 [D] [value.go:460]  enter index controller
+2020/04/02 13:28:37.581 [D] [server.go:2807]  |            ::1|[42m 200 [0m|    22.9317ms|   match|[44m GET     [0m /log/apply   r:/log/apply
+2020/04/02 13:28:37.642 [D] [server.go:2807]  |            ::1|[42m 200 [0m|      1.995ms|   match|[44m GET     [0m /static/image/favicon.ico
+2020/04/02 13:28:42.266 [D] [value.go:460]  enter index controller
+2020/04/02 13:28:42.266 [D] [value.go:460]  get app list succ, data:[{1 gameapp apptype  D:/gameapp/datas/ []}]
+2020/04/02 13:28:42.330 [D] [server.go:2807]  |            ::1|[42m 200 [0m|    63.3715ms|   match|[44m GET     [0m /app/list   r:/app/list
+2020/04/02 13:28:42.394 [D] [server.go:2807]  |            ::1|[42m 200 [0m|     2.9917ms|   match|[44m GET     [0m /static/image/favicon.ico
+2020/04/02 13:28:48.364 [D] [value.go:460]  enter index controller
+2020/04/02 13:28:48.380 [D] [server.go:2807]  |            ::1|[42m 200 [0m|    15.9552ms|   match|[44m GET     [0m /log/apply   r:/log/apply
+2020/04/02 13:28:48.441 [D] [server.go:2807]  |            ::1|[42m 200 [0m|           0s|   match|[44m GET     [0m /static/image/favicon.ico
+2020/04/02 13:28:54.076 [D] [value.go:460]  enter index controller
+2020/04/02 13:28:54.078 [D] [value.go:460]  get app list succ, data:[{1 gameapp apptype  D:/gameapp/datas/ []}]
+2020/04/02 13:28:54.090 [D] [server.go:2807]  |            ::1|[42m 200 [0m|    13.9626ms|   match|[44m GET     [0m /app/list   r:/app/list
+2020/04/02 13:28:54.163 [D] [server.go:2807]  |            ::1|[42m 200 [0m|           0s|   match|[44m GET     [0m /static/image/favicon.ico
+2020/04/02 13:29:26.593 [D] [value.go:460]  enter index controller
+2020/04/02 13:29:26.607 [D] [server.go:2807]  |            ::1|[42m 200 [0m|    13.9627ms|   match|[44m GET     [0m /log/apply   r:/log/apply
+2020/04/02 13:29:26.668 [D] [server.go:2807]  |            ::1|[42m 200 [0m|           0s|   match|[44m GET     [0m /static/image/favicon.ico
+2020/04/02 13:30:23.352 [D] [value.go:460]  enter index controller
+2020/04/02 13:30:24.434 [W] [log.go:85]  Put failed, err:context deadline exceeded
+2020/04/02 13:30:24.434 [W] [value.go:460]  Set log conf to etcd failed, err:context deadline exceeded
+2020/04/02 13:30:25.435 [W] [log.go:85]  Put failed, err:context deadline exceeded
+2020/04/02 13:30:25.435 [W] [value.go:460]  Set log conf to etcd failed, err:context deadline exceeded
+2020/04/02 13:30:26.435 [W] [log.go:85]  Put failed, err:context deadline exceeded
+2020/04/02 13:30:26.435 [W] [value.go:460]  Set log conf to etcd failed, err:context deadline exceeded
+2020/04/02 13:30:26.435 [D] [server.go:2807]  |            ::1|[47m 302 [0m|   3.0827186s|   match|[44m GET     [0m /log/create   r:/log/create
+2020/04/02 13:30:26.443 [D] [value.go:460]  enter index controller
+2020/04/02 13:30:26.445 [D] [value.go:460]  get app list succ, data:[{1 gameapp 1 0 2020-04-02 13:30:23 D:/gameapp/logs/ gameapp_tp}]
+2020/04/02 13:30:26.466 [D] [server.go:2807]  |            ::1|[42m 200 [0m|    22.8813ms|   match|[44m GET     [0m /log/list   r:/log/list
+2020/04/02 13:30:26.553 [D] [server.go:2807]  |            ::1|[42m 200 [0m|           0s|   match|[44m GET     [0m /static/image/favicon.ico

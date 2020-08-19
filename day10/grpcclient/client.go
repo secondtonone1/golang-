@@ -2,7 +2,7 @@ package main
 
 //client.go
 import (
-	pb "day10/customer"
+	pb "golang-/day10/customer"
 	"io"
 	"log"
 

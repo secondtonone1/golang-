@@ -3,7 +3,7 @@ package main
 // server.go
 import (
 	"context"
-	pb "day10/customer"
+	pb "golang-/day10/customer"
 	"log"
 	"net"
 	"strings"

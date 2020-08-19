@@ -2,9 +2,9 @@ package main
 
 import (
 	"bufio"
-	"day11/mlib"
-	"day11/mp"
 	"fmt"
+	"golang-/day11/mlib"
+	"golang-/day11/mp"
 	"os"
 	"strconv"
 	"strings"
